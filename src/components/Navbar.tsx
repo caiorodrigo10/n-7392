@@ -14,7 +14,8 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronDown,
-  Workflow
+  Workflow,
+  Calendar
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -117,7 +118,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           <NavLink to="/quick-actions" icon={FileText}>Quick actions</NavLink>
           <NavLink to="/notifications" icon={Bell}>Notifications</NavLink>
           <NavLink to="/tasks" icon={CheckSquare}>Tasks</NavLink>
-          <NavLink to="/notes" icon={NotepadText}>Notepad</NavLink>
+          <NavLink to="/calendar" icon={Calendar}>Calendar</NavLink>
           <NavLink to="/emails" icon={Mail}>Emails</NavLink>
           <NavLink to="/reports" icon={BarChart2}>Reports</NavLink>
 
@@ -141,7 +142,6 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
       </nav>
       
       <div className="mt-auto">
-        {/* Trial notification at the bottom */}
         <div className={cn(
           "p-3 border-t border-neutral-200 w-full",
           isCollapsed ? "text-center" : ""
