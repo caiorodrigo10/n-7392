@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Draggable } from "@hello-pangea/dnd";
 import { formatDistanceToNow } from "date-fns";
+import { AlertTriangle } from "lucide-react";
 import { Deal } from "@/types/deals";
 
 interface DealCardProps {
@@ -13,6 +14,7 @@ interface DealCardProps {
 
 const DealCard = ({ deal, index, columnId }: DealCardProps) => {
   const showMeetingBadge = ["meet", "negotiation", "closed"].includes(columnId);
+  const needsAttention = deal.value.replace(/[^0-9]/g, '') > "50000";
 
   return (
     <Draggable key={deal.id} draggableId={deal.id} index={index}>
@@ -27,9 +29,14 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
         >
           <div className="flex justify-between items-start">
             <div className="flex-1">
-              <h3 className="font-medium text-sm">{deal.title}</h3>
-              <p className="text-xs text-gray-600 mt-1">{deal.company}</p>
-              <p className="text-sm font-semibold text-primary mt-2">
+              <div className="flex items-center gap-2">
+                <h3 className="font-semibold text-sm text-secondary">{deal.title}</h3>
+                {needsAttention && (
+                  <AlertTriangle className="w-4 h-4 text-yellow-500" />
+                )}
+              </div>
+              <p className="text-xs text-secondary/60 mt-0.5">{deal.company}</p>
+              <p className="text-sm font-semibold text-[#F97316] mt-2">
                 {deal.value}
               </p>
             </div>
@@ -39,15 +46,15 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
             </Avatar>
           </div>
           <div className="flex justify-between items-center mt-2">
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-secondary/60">
               {formatDistanceToNow(deal.stageEnteredAt, { addSuffix: true })}
             </p>
             {showMeetingBadge && deal.scheduledMeeting && (
               <Badge 
                 variant="secondary" 
-                className="bg-[#333333] text-white hover:bg-[#333333]"
+                className="bg-[#333333] text-white hover:bg-[#333333] text-xs px-2 py-0.5"
               >
-                📅 {deal.scheduledMeeting.date} at {deal.scheduledMeeting.time}
+                📅 {deal.scheduledMeeting.date} {deal.scheduledMeeting.time}
               </Badge>
             )}
           </div>
