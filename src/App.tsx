@@ -10,6 +10,7 @@ import ContactDetails from "./pages/ContactDetails";
 import Companies from "./pages/Companies";
 import Deals from "./pages/Deals";
 import Calendar from "./pages/Calendar";
+import Goals from "./pages/Goals";
 import { AiChat } from "./components/AiChat";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/companies" element={<Companies isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
             <Route path="/deals" element={<Deals isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
             <Route path="/calendar" element={<Calendar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
+            <Route path="/goals" element={<Goals isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
           </Routes>
           <AiChat />
         </BrowserRouter>

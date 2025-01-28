@@ -15,7 +15,8 @@ import {
   ChevronRight,
   ChevronDown,
   Workflow,
-  Calendar
+  Calendar,
+  Target
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -120,6 +121,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           <NavLink to="/tasks" icon={CheckSquare}>Tasks</NavLink>
           <NavLink to="/calendar" icon={Calendar}>Calendar</NavLink>
           <NavLink to="/emails" icon={Mail}>Emails</NavLink>
+          <NavLink to="/goals" icon={Target}>Goals</NavLink>
           <NavLink to="/reports" icon={BarChart2}>Reports</NavLink>
 
           <NavSection title="Automations" isOpen={automationsOpen} onToggle={setAutomationsOpen}>
