@@ -2,7 +2,6 @@ import { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Card } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
-import { ChevronRight } from "lucide-react";
 
 interface Deal {
   id: string;
@@ -76,8 +75,8 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
 
   const columns = [
     { id: "lead", title: "Lead" },
-    { id: "negotiation", title: "Negotiation" },
-    { id: "closed", title: "Closed Won" },
+    { id: "negotiation", title: "Meet & Negotiation" },
+    { id: "closed", title: "Won" },
   ];
 
   return (
@@ -91,18 +90,6 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Deals Pipeline</h1>
           <p className="text-gray-600 mt-1 text-sm">Track and manage your deals</p>
-        </div>
-
-        <div className="flex items-center justify-between mb-8 bg-gray-50 p-4 rounded-lg">
-          <div className="flex items-center space-x-2 text-sm">
-            <span className="text-primary font-medium">Lead</span>
-            <ChevronRight className="h-4 w-4 text-gray-400" />
-            <span className="text-gray-600">Qualification</span>
-            <ChevronRight className="h-4 w-4 text-gray-400" />
-            <span className="text-gray-600">Meet</span>
-            <ChevronRight className="h-4 w-4 text-gray-400" />
-            <span className="text-gray-600">Negotiation</span>
-          </div>
         </div>
 
         <DragDropContext onDragEnd={onDragEnd}>
