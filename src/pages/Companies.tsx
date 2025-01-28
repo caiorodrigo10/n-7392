@@ -23,7 +23,7 @@ const Companies = ({ isCollapsed, setIsCollapsed }: CompaniesProps) => {
 
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
-      <div className="h-screen flex flex-col">
+      <div className="h-full flex flex-col">
         <PageHeader
           title="Companies"
           subtitle="Manage your companies and business relationships"
@@ -32,14 +32,14 @@ const Companies = ({ isCollapsed, setIsCollapsed }: CompaniesProps) => {
           onAddClick={handleAddCompany}
         />
 
-        <div className="flex-1 flex flex-col px-6 pb-6">
+        <div className="flex-1 flex flex-col px-6">
           <SearchBar
             value={search}
             onChange={setSearch}
             placeholder="Search companies..."
           />
 
-          <div className="flex-1 flex flex-col mt-4">
+          <div className="flex-1 overflow-auto">
             <DataTable
               columns={companyColumns}
               data={companies}
