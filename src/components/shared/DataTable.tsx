@@ -36,6 +36,7 @@ export function DataTable<T>({
   const table = useReactTable({
     data,
     columns,
+    columnResizeMode: "onChange",
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
@@ -70,6 +71,7 @@ export function DataTable<T>({
                     "relative h-10 select-none border-t [&>.cursor-col-resize]:last:opacity-0",
                     header.id === "select" && "w-[40px] px-2"
                   )}
+                  style={{ width: header.getSize() }}
                 >
                   <div
                     className={cn(
@@ -86,6 +88,16 @@ export function DataTable<T>({
                       desc: <ChevronDown className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
                     }[header.column.getIsSorted() as string] ?? null}
                   </div>
+                  {header.column.getCanResize() && (
+                    <div
+                      onDoubleClick={() => header.column.resetSize()}
+                      onMouseDown={header.getResizeHandler()}
+                      onTouchStart={header.getResizeHandler()}
+                      className="absolute top-0 right-0 h-full w-4 cursor-col-resize select-none touch-none z-10"
+                    >
+                      <div className="absolute right-0 h-full w-px bg-gray-300 opacity-0 transition-opacity hover:opacity-100" />
+                    </div>
+                  )}
                 </TableHead>
               ))}
             </TableRow>
@@ -106,6 +118,7 @@ export function DataTable<T>({
                       "truncate",
                       cell.column.id === "select" && "w-[40px] px-2"
                     )}
+                    style={{ width: cell.column.getSize() }}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
