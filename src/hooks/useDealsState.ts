@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Deal, DealsState } from "@/types/deals";
 import { DropResult } from "@hello-pangea/dnd";
 import { calculateColumnTotal, formatCurrency } from "@/utils/dealCalculations";
-import { triggerWinConfetti } from "@/utils/confetti";
-import { toast } from "@/hooks/use-toast";
+import { handleDealStatusChange } from "@/utils/dealStatusHandler";
 
 const initialDeals: DealsState = {
   lead: [
@@ -111,41 +110,6 @@ export const useDealsState = () => {
     setIsDragging(true);
   };
 
-  const handleStatusChange = (dealId: string, status: string) => {
-    let sourceColumn: keyof DealsState | null = null;
-    let dealToMove: Deal | null = null;
-
-    // Find the deal and its source column
-    Object.entries(deals).forEach(([column, columnDeals]) => {
-      const deal = columnDeals.find(d => d.id === dealId);
-      if (deal) {
-        sourceColumn = column as keyof DealsState;
-        dealToMove = deal;
-      }
-    });
-
-    if (!sourceColumn || !dealToMove) return false;
-
-    // Remove deal from source column
-    const updatedDeals = {
-      ...deals,
-      [sourceColumn]: deals[sourceColumn].filter(d => d.id !== dealId)
-    };
-
-    setDeals(updatedDeals);
-
-    // Handle specific statuses
-    if (status === 'won') {
-      triggerWinConfetti();
-      toast({
-        title: "🎉 Deal Won!",
-        description: `Congratulations! ${dealToMove.title} has been won!`,
-      });
-    }
-
-    return true;
-  };
-
   const onDragEnd = (result: DropResult) => {
     setIsDragging(false);
 
@@ -156,18 +120,19 @@ export const useDealsState = () => {
     // Handle dropping to status zones
     if (result.destination.droppableId.startsWith('status-')) {
       const status = result.destination.droppableId.replace('status-', '');
-      const success = handleStatusChange(result.draggableId, status);
-      if (success) return;
+      const success = handleDealStatusChange(deals, setDeals, result.draggableId, status);
+      if (success) {
+        return;
+      }
     }
 
     const { source, destination } = result;
 
-    // Skip if dropped in the same position
+    // Handle moving between columns
     if (source.droppableId === destination.droppableId && source.index === destination.index) {
       return;
     }
 
-    // Handle moving between columns
     if (source.droppableId === destination.droppableId) {
       const column = Array.from(deals[source.droppableId as keyof DealsState]);
       const [removed] = column.splice(source.index, 1);
@@ -180,7 +145,6 @@ export const useDealsState = () => {
       return;
     }
 
-    // Move between different columns
     const sourceColumn = Array.from(deals[source.droppableId as keyof DealsState]);
     const destColumn = Array.from(deals[destination.droppableId as keyof DealsState]);
     const [removed] = sourceColumn.splice(source.index, 1);
