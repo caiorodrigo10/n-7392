@@ -83,10 +83,10 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
 
   return (
     <div className={cn(
-      "fixed left-0 top-0 h-full flex flex-col justify-between transition-all duration-300 z-50 bg-[#F9F9F9]",
+      "fixed left-0 top-0 h-full flex flex-col transition-all duration-300 z-50 bg-[#F9F9F9]",
       isCollapsed ? "w-[60px]" : "w-full sm:w-64"
     )}>
-      <nav className="w-full p-3 relative">
+      <nav className="w-full p-3 relative flex-1">
         <div className={cn(
           "mb-6 flex items-center",
           isCollapsed ? "justify-center" : "justify-between"
@@ -142,7 +142,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
       
       {/* Trial notification at the bottom */}
       <div className={cn(
-        "mt-auto p-3 border-t border-neutral-200",
+        "p-3 border-t border-neutral-200 w-full",
         isCollapsed ? "text-center" : ""
       )}>
         <div className={cn(
