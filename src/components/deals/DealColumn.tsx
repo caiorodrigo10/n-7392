@@ -16,16 +16,21 @@ const getColumnBackground = (id: string) => {
     qualification: "bg-gradient-to-b from-[#B2FC6C]/20 to-[#B2FC6C]/5",
     meet: "bg-gradient-to-b from-[#0EA5E9]/20 to-[#0EA5E9]/5",
     negotiation: "bg-gradient-to-b from-[#8B5CF6]/20 to-[#8B5CF6]/5",
-    closed: "bg-gradient-to-b from-[#D946EF]/20 to-[#D946EF]/5"
+    closed: "bg-gradient-to-b from-[#D946EF]/20 to-[#D946EF]/5",
+    won: "bg-white border-2 border-[#22C55E]/20"
   };
   return backgrounds[id as keyof typeof backgrounds] || "bg-gray-100/50";
 };
 
 const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
+  const isWonColumn = id === 'won';
+  
   return (
     <div className="w-[250px] shrink-0">
-      <h2 className="font-medium text-sm mb-2 flex items-center gap-1 text-secondary/80">
-        {title} <span className="text-secondary/60">({deals.length})</span> - <span className="text-primary">{total}</span>
+      <h2 className={`font-medium text-sm mb-2 flex items-center gap-1 ${
+        isWonColumn ? 'text-[#22C55E]' : 'text-secondary/80'
+      }`}>
+        {title} <span className={isWonColumn ? 'text-[#22C55E]/60' : 'text-secondary/60'}>({deals.length})</span> - <span className="text-primary">{total}</span>
       </h2>
       <Droppable droppableId={id} type="DEAL">
         {(provided, snapshot) => (

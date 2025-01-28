@@ -100,6 +100,19 @@ const initialDeals: DealsState = {
       stageEnteredAt: new Date(2024, 2, 28)
     },
   ],
+  won: [
+    { 
+      id: "8", 
+      title: "Enterprise Software", 
+      value: "$75,000", 
+      company: "Big Corp Ltd",
+      assignee: {
+        name: "Sarah Wilson",
+        avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+      },
+      stageEnteredAt: new Date(2024, 2, 25)
+    },
+  ],
 };
 
 export const useDealsState = () => {

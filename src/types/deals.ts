@@ -20,4 +20,5 @@ export interface DealsState {
   meet: Deal[];
   negotiation: Deal[];
   closed: Deal[];
+  won: Deal[];
 }

@@ -27,6 +27,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
     { id: "meet", title: "Meet" },
     { id: "negotiation", title: "Negotiation" },
     { id: "closed", title: "Closing" },
+    { id: "won", title: "Won" },
   ];
 
   return (
