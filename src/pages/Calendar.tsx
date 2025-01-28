@@ -83,16 +83,20 @@ const CalendarPage = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
                 </div>
                 <div className="flex items-center gap-2">
                   <Button 
-                    variant="ghost" 
+                    variant="outline" 
                     size="sm" 
-                    className="text-gray-600 font-normal"
+                    className="text-gray-700 hover:text-gray-900 font-normal border-gray-200"
                   >
                     <X className="h-4 w-4 mr-2" />
                     Cancelar este evento
                   </Button>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="font-normal">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="text-gray-700 hover:text-gray-900 font-normal border-gray-200"
+                      >
                         Editar
                         <ChevronDown className="h-4 w-4 ml-2" />
                       </Button>
