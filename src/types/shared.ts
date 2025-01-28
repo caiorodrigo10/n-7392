@@ -20,11 +20,14 @@ export interface Contact extends BaseEntity {
 
 export interface Company extends BaseEntity {
   name: string;
-  industry: string;
-  location: string;
+  website: string;
+  lastActivity: string;
+  linkedContacts: number;
+  score: number;
+  linkedin: string;
+  instagram: string;
+  twitter: string;
   employees: number;
-  revenue: number;
-  status: "Active" | "Inactive";
 }
 
 export interface Deal extends BaseEntity {
