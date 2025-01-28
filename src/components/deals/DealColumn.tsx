@@ -2,7 +2,7 @@ import { Droppable } from "@hello-pangea/dnd";
 import { Deal } from "@/types/deals";
 import DealCard from "./DealCard";
 import { EmptyColumn } from "./EmptyColumn";
-import { Trophy } from "lucide-react";
+import { Trophy, MoreVertical } from "lucide-react";
 
 interface DealColumnProps {
   id: string;
@@ -18,7 +18,7 @@ const getColumnBackground = (id: string) => {
     meet: "bg-[#F1F1F1]/60",
     negotiation: "bg-[#8E9196]/0",
     closed: "bg-[#F1F1F1]/60",
-    won: "bg-white"
+    won: "bg-white/60 rounded-lg"
   };
   return backgrounds[id as keyof typeof backgrounds] || "bg-gray-100";
 };
@@ -29,10 +29,16 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
   return (
     <div className="w-[280px] shrink-0 h-full">
       {isWonColumn ? (
-        <div className="flex items-center justify-between mb-2">
-          <h2 className="font-medium text-sm text-secondary/80">
-            Finalizadas em Janeiro
-          </h2>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <h2 className="font-medium text-sm text-secondary/80">
+              Completed in January
+            </h2>
+            <button className="text-secondary/60 hover:text-secondary">▼</button>
+          </div>
+          <button className="p-1 hover:bg-gray-100 rounded">
+            <MoreVertical className="w-4 h-4 text-secondary/60" />
+          </button>
         </div>
       ) : (
         <h2 className="font-medium text-sm mb-2 flex items-center gap-1 text-secondary/80">
@@ -52,18 +58,25 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
             }`}
           >
             {isWonColumn && (
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <input type="checkbox" className="rounded border-gray-300" checked readOnly />
-                  <span className="text-sm">Ganha</span>
+              <>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <input 
+                      type="checkbox" 
+                      className="rounded border-gray-300 text-[#22C55E] focus:ring-[#22C55E]" 
+                      checked 
+                      readOnly 
+                    />
+                    <span className="text-sm text-secondary/80">Won</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Trophy className="w-4 h-4 text-[#22C55E]" />
+                    <span className="text-sm text-secondary/80">{deals.length}</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Trophy className="w-4 h-4 text-[#22C55E]" />
-                  <span className="text-sm">{deals.length}</span>
-                </div>
-              </div>
+                <div className="text-[#22C55E] font-medium mb-4">{total}</div>
+              </>
             )}
-            {isWonColumn && <div className="text-[#22C55E] font-medium mb-4">{total}</div>}
             {deals.length > 0 ? (
               deals.map((deal, index) => (
                 <DealCard 

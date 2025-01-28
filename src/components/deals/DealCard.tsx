@@ -15,6 +15,7 @@ interface DealCardProps {
 const DealCard = ({ deal, index, columnId }: DealCardProps) => {
   const showMeetingBadge = ["meet", "negotiation", "closed"].includes(columnId);
   const needsAttention = deal.value.replace(/[^0-9]/g, '') > "50000";
+  const isWonDeal = columnId === "won";
 
   return (
     <Draggable key={deal.id} draggableId={deal.id} index={index}>
@@ -23,20 +24,26 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className={`p-3 cursor-move bg-white transition-all duration-300 animate-enter ${
+          className={`p-3 cursor-move transition-all duration-300 animate-enter ${
+            isWonDeal ? "bg-[#F0FDF4] border-[#22C55E]/20" : "bg-white"
+          } ${
             snapshot.isDragging ? "shadow-lg scale-105" : "hover:shadow-md"
           }`}
         >
           <div className="flex justify-between items-start">
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <h3 className="font-semibold text-sm text-secondary">{deal.title}</h3>
-                {needsAttention && (
+                <h3 className={`font-semibold text-sm ${isWonDeal ? "text-[#22C55E]" : "text-secondary"}`}>
+                  {deal.title}
+                </h3>
+                {needsAttention && !isWonDeal && (
                   <AlertTriangle className="w-4 h-4 text-yellow-500" />
                 )}
               </div>
-              <p className="text-xs text-secondary/60 mt-0.5">{deal.company}</p>
-              <p className="text-sm font-semibold text-[#F97316] mt-2">
+              <p className={`text-xs ${isWonDeal ? "text-[#22C55E]/60" : "text-secondary/60"} mt-0.5`}>
+                {deal.company}
+              </p>
+              <p className={`text-sm font-semibold mt-2 ${isWonDeal ? "text-[#22C55E]" : "text-[#F97316]"}`}>
                 {deal.value}
               </p>
             </div>
@@ -46,7 +53,7 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
             </Avatar>
           </div>
           <div className="flex justify-between items-center mt-2">
-            <p className="text-xs text-secondary/60">
+            <p className={`text-xs ${isWonDeal ? "text-[#22C55E]/60" : "text-secondary/60"}`}>
               {formatDistanceToNow(deal.stageEnteredAt, { addSuffix: true })}
             </p>
             {showMeetingBadge && deal.scheduledMeeting && (
