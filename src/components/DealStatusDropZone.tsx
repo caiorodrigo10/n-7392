@@ -1,4 +1,4 @@
-import { Droppable } from "@hello-pangea/dnd";
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
 interface DealStatusDropZoneProps {
   isVisible: boolean;
