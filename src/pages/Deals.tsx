@@ -179,12 +179,13 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
   };
 
   const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result;
-    
-    // Always reset dragging state first
     setIsDragging(false);
     
-    if (!destination) return;
+    if (!result.destination) {
+      return;
+    }
+
+    const { source, destination } = result;
 
     if (destination.droppableId.startsWith('status-')) {
       const status = destination.droppableId.replace('status-', '');
@@ -193,7 +194,9 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
       return;
     }
 
-    if (source.droppableId === destination.droppableId && source.index === destination.index) return;
+    if (source.droppableId === destination.droppableId && source.index === destination.index) {
+      return;
+    }
 
     if (source.droppableId === destination.droppableId) {
       const column = Array.from(deals[source.droppableId as keyof DealsState]);
@@ -254,7 +257,11 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                   <h2 className="font-medium text-sm mb-3">
                     {column.title} ({deals[column.id as keyof DealsState].length}) - {formatCurrency(calculateColumnTotal(deals[column.id as keyof DealsState]))}
                   </h2>
-                  <Droppable droppableId={column.id}>
+                  <Droppable 
+                    droppableId={column.id}
+                    mode="standard"
+                    type="DEAL"
+                  >
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
@@ -264,14 +271,18 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                         }`}
                       >
                         {deals[column.id as keyof DealsState].map((deal, index) => (
-                          <Draggable key={deal.id} draggableId={deal.id} index={index}>
+                          <Draggable 
+                            key={deal.id} 
+                            draggableId={deal.id} 
+                            index={index}
+                          >
                             {(provided, snapshot) => (
                               <Card
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 className={`p-3 cursor-move bg-white ${
-                                  snapshot.draggingOver ? "shadow-lg" : "hover:shadow-md"
+                                  snapshot.isDragging ? "shadow-lg" : "hover:shadow-md"
                                 } transition-shadow`}
                               >
                                 <div className="flex justify-between items-start">
