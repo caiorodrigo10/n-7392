@@ -4,4 +4,5 @@ export interface Event {
   time: string;
   title: string;
   participants: string;
+  meetLink?: string;
 }

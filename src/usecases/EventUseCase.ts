@@ -9,7 +9,6 @@ export interface IEventUseCase {
 
 export class EventUseCase implements IEventUseCase {
   async getUpcomingEvents(): Promise<Event[]> {
-    // Simulando chamada à API
     return [
       {
         id: "1",
@@ -17,6 +16,7 @@ export class EventUseCase implements IEventUseCase {
         time: "12:00pm - 1:00pm",
         title: "Fase 2 - 1h - Caio Apfelbaum between Caio Apfelbaum and Caio Apfelbaum",
         participants: "Você e Caio Apfelbaum",
+        meetLink: "https://meet.google.com/abc-defg-hij"
       },
       {
         id: "2",
@@ -24,12 +24,12 @@ export class EventUseCase implements IEventUseCase {
         time: "10:00am - 11:00am",
         title: "Fase 2 - 1h - Caio Apfelbaum between Caio Apfelbaum and Caio Apfelbaum",
         participants: "Você e Caio Apfelbaum",
+        meetLink: "https://meet.google.com/abc-defg-hij"
       },
     ];
   }
 
   async getPreviousEvents(): Promise<Event[]> {
-    // Simulando chamada à API
     return [
       {
         id: "3",
@@ -37,6 +37,7 @@ export class EventUseCase implements IEventUseCase {
         time: "10:00am - 10:20am",
         title: "Café com Caio between Caio Apfelbaum and Caio Apfelbaum5",
         participants: "Você e Caio Apfelbaum5",
+        meetLink: "https://meet.google.com/abc-defg-hij"
       },
       {
         id: "4",
@@ -44,6 +45,7 @@ export class EventUseCase implements IEventUseCase {
         time: "10:20am - 10:40am",
         title: "Café com Caio between Caio Apfelbaum and Caio Apfelbaum4",
         participants: "Você e Caio Apfelbaum4",
+        meetLink: "https://meet.google.com/abc-defg-hij"
       },
     ];
   }
