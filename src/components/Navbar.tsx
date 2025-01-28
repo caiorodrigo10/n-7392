@@ -46,7 +46,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
       className={cn(
         "flex items-center py-1.5 px-2 rounded-lg transition-colors text-white text-[13px]",
         isCollapsed ? "justify-center" : "space-x-3",
-        isActive(to) ? "bg-[#EC6C04]" : "hover:bg-[#B2FC6C]/20"
+        isActive(to) ? "bg-[#B2FC6C] text-[#1A1A1A]" : "hover:bg-[#B2FC6C]/20"
       )}
     >
       <Icon className="h-4 w-4 flex-shrink-0" />
