@@ -1,12 +1,11 @@
 import { Card } from "@/components/ui/card";
-import { Video, X } from "lucide-react";
+import { Video } from "lucide-react";
 import { Event } from "@/entities/Event";
 import { EventAdapter } from "@/adapters/EventAdapter";
 import { EventUseCase } from "@/usecases/EventUseCase";
 import { useToast } from "@/components/ui/use-toast";
 import { EventActions } from "./EventActions";
 import { AttendanceStatus } from "./AttendanceStatus";
-import { Button } from "@/components/ui/button";
 
 interface EventCardProps {
   event: Event;
@@ -55,18 +54,7 @@ export const EventCard = ({ event, onEventCancelled, isPreviousEvent = false }: 
             <div className="text-gray-600">{event.time}</div>
           </div>
           <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="text-gray-700 hover:text-gray-900 font-normal"
-              onClick={handleCancel}
-            >
-              <X className="h-4 w-4 mr-2" />
-              Cancelar este evento
-            </Button>
-            
             <AttendanceStatus isPreviousEvent={isPreviousEvent} />
-            
             <EventActions 
               onCancel={handleCancel}
               onReschedule={handleReschedule}
