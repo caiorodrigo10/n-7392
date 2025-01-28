@@ -9,7 +9,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     id: "select",
     size: 40,
     header: ({ table }) => (
-      <div className="flex justify-center ml-[3px]">
+      <div className="flex justify-center items-center h-10 ml-[3px]">
         <Checkbox
           checked={table.getIsAllPageRowsSelected()}
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
