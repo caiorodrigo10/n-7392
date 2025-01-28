@@ -13,9 +13,9 @@ interface DealColumnProps {
 const getColumnBackground = (id: string) => {
   const backgrounds = {
     lead: "bg-[#F1F1F1]",
-    qualification: "bg-[#8E9196]/20",
+    qualification: "bg-[#8E9196]/0",
     meet: "bg-[#F1F1F1]",
-    negotiation: "bg-[#8E9196]/20",
+    negotiation: "bg-[#8E9196]/0",
     closed: "bg-[#F1F1F1]",
     won: "bg-white border border-[#22C55E]/20"
   };
