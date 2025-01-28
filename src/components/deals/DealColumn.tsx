@@ -61,23 +61,21 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
             }`}
           >
             {isWonColumn && (
-              <>
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <input 
-                      type="checkbox" 
-                      className="rounded border-gray-300 text-[#22C55E] focus:ring-[#22C55E]" 
-                      checked 
-                      readOnly 
-                    />
-                    <span className="text-sm text-secondary/80">Won</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <Trophy className="w-4 h-4 text-[#22C55E]" />
-                    <span className="text-sm text-secondary/80">{deals.length}</span>
-                  </div>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <input 
+                    type="checkbox" 
+                    className="rounded border-gray-300 text-[#22C55E] focus:ring-[#22C55E]" 
+                    checked 
+                    readOnly 
+                  />
+                  <span className="text-sm text-secondary/80">Won</span>
                 </div>
-              </>
+                <div className="flex items-center gap-1.5">
+                  <Trophy className="w-4 h-4 text-[#22C55E]" />
+                  <span className="text-sm text-secondary/80">{deals.length}</span>
+                </div>
+              </div>
             )}
             {deals.length > 0 ? (
               deals.map((deal, index) => (
