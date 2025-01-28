@@ -55,11 +55,22 @@ export const EventCard = ({ event, onEventCancelled, isPreviousEvent = false }: 
             <div className="text-gray-600">{event.time}</div>
           </div>
           <div className="flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-gray-700 hover:text-gray-900 font-normal"
+              onClick={handleCancel}
+            >
+              <X className="h-4 w-4 mr-2" />
+              Cancelar este evento
+            </Button>
+            
+            <AttendanceStatus isPreviousEvent={isPreviousEvent} />
+            
             <EventActions 
               onCancel={handleCancel}
               onReschedule={handleReschedule}
             />
-            <AttendanceStatus isPreviousEvent={isPreviousEvent} />
           </div>
         </div>
         
