@@ -178,47 +178,57 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
     }
   };
 
+  const onDragStart = () => {
+    setIsDragging(true);
+  };
+
   const onDragEnd = (result: DropResult) => {
+    // Reset dragging state immediately
     setIsDragging(false);
-    
+
+    // Early return if no destination
     if (!result.destination) {
       return;
     }
 
     const { source, destination } = result;
 
+    // Handle dropping to status zone
     if (destination.droppableId.startsWith('status-')) {
       const status = destination.droppableId.replace('status-', '');
-      const dealId = result.draggableId;
-      handleDealStatusChange(dealId, status);
+      handleDealStatusChange(result.draggableId, status);
       return;
     }
 
+    // Skip if dropped in same position
     if (source.droppableId === destination.droppableId && source.index === destination.index) {
       return;
     }
 
+    // Handle same column reordering
     if (source.droppableId === destination.droppableId) {
       const column = Array.from(deals[source.droppableId as keyof DealsState]);
       const [removed] = column.splice(source.index, 1);
       column.splice(destination.index, 0, removed);
-      setDeals({ ...deals, [source.droppableId]: column });
+      
+      setDeals({
+        ...deals,
+        [source.droppableId]: column
+      });
       return;
     }
 
+    // Handle moving between columns
     const sourceColumn = Array.from(deals[source.droppableId as keyof DealsState]);
     const destColumn = Array.from(deals[destination.droppableId as keyof DealsState]);
     const [removed] = sourceColumn.splice(source.index, 1);
     destColumn.splice(destination.index, 0, removed);
+
     setDeals({
       ...deals,
       [source.droppableId]: sourceColumn,
       [destination.droppableId]: destColumn,
     });
-  };
-
-  const onDragStart = () => {
-    setIsDragging(true);
   };
 
   const columns = [
@@ -247,8 +257,8 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
         </div>
 
         <DragDropContext 
-          onDragEnd={onDragEnd} 
           onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
         >
           <div className="overflow-x-auto">
             <div className="flex gap-4 min-w-max pb-4">
@@ -259,7 +269,6 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                   </h2>
                   <Droppable 
                     droppableId={column.id}
-                    mode="standard"
                     type="DEAL"
                   >
                     {(provided, snapshot) => (
