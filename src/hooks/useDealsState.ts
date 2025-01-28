@@ -134,29 +134,25 @@ export const useDealsState = () => {
     });
 
     if (foundDeal && sourceColumn) {
-      // Remove the deal from its source column
+      // Remove the deal from its source column immediately
       setDeals((prevDeals) => ({
         ...prevDeals,
         [sourceColumn!]: prevDeals[sourceColumn!].filter((d) => d.id !== dealId),
       }));
 
-      // Show appropriate notification and animation
-      setTimeout(() => {
-        if (status === 'won') {
-          triggerWinConfetti();
-          toast({
-            title: "🎉 Deal Won!",
-            description: `Congratulations! ${foundDeal!.title} has been won!`,
-            className: "animate-enter",
-          });
-        } else {
-          toast({
-            title: `Deal marked as ${status}`,
-            description: `${foundDeal!.title} has been marked as ${status}`,
-            className: "animate-enter",
-          });
-        }
-      }, 100);
+      // Show appropriate notification and trigger confetti for won deals
+      if (status === 'won') {
+        triggerWinConfetti();
+        toast({
+          title: "🎉 Deal Won!",
+          description: `Congratulations! ${foundDeal.title} has been won!`,
+        });
+      } else {
+        toast({
+          title: `Deal marked as ${status}`,
+          description: `${foundDeal.title} has been marked as ${status}`,
+        });
+      }
 
       return true;
     }
@@ -178,10 +174,8 @@ export const useDealsState = () => {
     // Handle dropping to status zones
     if (result.destination.droppableId.startsWith('status-')) {
       const status = result.destination.droppableId.replace('status-', '');
-      const success = handleDealStatusChange(result.draggableId, status);
-      if (success) {
-        return;
-      }
+      handleDealStatusChange(result.draggableId, status);
+      return; // Important: return here to prevent further processing
     }
 
     const { source, destination } = result;
@@ -209,9 +203,9 @@ export const useDealsState = () => {
     destColumn.splice(destination.index, 0, removed);
 
     setDeals({
-        ...deals,
-        [source.droppableId]: sourceColumn,
-        [destination.droppableId]: destColumn,
+      ...deals,
+      [source.droppableId]: sourceColumn,
+      [destination.droppableId]: destColumn,
     });
   };
 
