@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Plus, ChevronDown, ChevronUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Layout } from "@/components/Layout";
@@ -29,10 +29,15 @@ type Contact = {
   id: string;
   name: string;
   email: string;
-  company: string;
+  location: string;
+  flag: string;
+  status: "Active" | "Inactive" | "Pending";
+  balance: number;
+  department: string;
   role: string;
-  status: "Active" | "Inactive";
-  lastContact: string;
+  joinDate: string;
+  lastActive: string;
+  performance: "Excellent" | "Good" | "Average" | "Poor";
 };
 
 const columns: ColumnDef<Contact>[] = [
@@ -48,12 +53,13 @@ const columns: ColumnDef<Contact>[] = [
     accessorKey: "email",
   },
   {
-    header: "Company",
-    accessorKey: "company",
-  },
-  {
-    header: "Role",
-    accessorKey: "role",
+    header: "Location",
+    accessorKey: "location",
+    cell: ({ row }) => (
+      <div className="truncate">
+        <span className="text-lg leading-none">{row.original.flag}</span> {row.getValue("location")}
+      </div>
+    ),
   },
   {
     header: "Status",
@@ -63,6 +69,8 @@ const columns: ColumnDef<Contact>[] = [
         "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
         row.getValue("status") === "Active" 
           ? "bg-green-100 text-green-700" 
+          : row.getValue("status") === "Pending"
+          ? "bg-yellow-100 text-yellow-700"
           : "bg-red-100 text-red-700"
       )}>
         {row.getValue("status")}
@@ -70,8 +78,49 @@ const columns: ColumnDef<Contact>[] = [
     ),
   },
   {
-    header: "Last Contact",
-    accessorKey: "lastContact",
+    header: "Balance",
+    accessorKey: "balance",
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("balance"));
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(amount);
+      return formatted;
+    },
+  },
+  {
+    header: "Department",
+    accessorKey: "department",
+  },
+  {
+    header: "Role",
+    accessorKey: "role",
+  },
+  {
+    header: "Join Date",
+    accessorKey: "joinDate",
+  },
+  {
+    header: "Last Active",
+    accessorKey: "lastActive",
+  },
+  {
+    header: "Performance",
+    accessorKey: "performance",
+    cell: ({ row }) => (
+      <div className={cn(
+        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+        {
+          "bg-green-100 text-green-700": row.getValue("performance") === "Excellent",
+          "bg-blue-100 text-blue-700": row.getValue("performance") === "Good",
+          "bg-yellow-100 text-yellow-700": row.getValue("performance") === "Average",
+          "bg-red-100 text-red-700": row.getValue("performance") === "Poor",
+        }
+      )}>
+        {row.getValue("performance")}
+      </div>
+    ),
   },
 ];
 
@@ -80,47 +129,58 @@ const mockData: Contact[] = [
     id: "1",
     name: "John Doe",
     email: "john@company.com",
-    company: "Tech Corp",
-    role: "CEO",
+    location: "New York",
+    flag: "🇺🇸",
     status: "Active",
-    lastContact: "2024-03-15",
+    balance: 5000,
+    department: "Sales",
+    role: "Manager",
+    joinDate: "2023-01-15",
+    lastActive: "2024-03-15",
+    performance: "Excellent"
   },
   {
     id: "2",
     name: "Jane Smith",
-    email: "jane@design.co",
-    company: "Design Co",
-    role: "Designer",
+    email: "jane@company.com",
+    location: "London",
+    flag: "🇬🇧",
     status: "Active",
-    lastContact: "2024-03-14",
+    balance: 4500,
+    department: "Marketing",
+    role: "Director",
+    joinDate: "2023-02-01",
+    lastActive: "2024-03-14",
+    performance: "Good"
   },
   {
     id: "3",
     name: "Mike Johnson",
-    email: "mike@startup.io",
-    company: "Startup.io",
+    email: "mike@company.com",
+    location: "Toronto",
+    flag: "🇨🇦",
+    status: "Pending",
+    balance: 3500,
+    department: "Engineering",
     role: "Developer",
-    status: "Inactive",
-    lastContact: "2024-03-10",
+    joinDate: "2023-03-10",
+    lastActive: "2024-03-10",
+    performance: "Average"
   },
   {
     id: "4",
     name: "Sarah Wilson",
-    email: "sarah@agency.com",
-    company: "Creative Agency",
-    role: "Director",
-    status: "Active",
-    lastContact: "2024-03-13",
-  },
-  {
-    id: "5",
-    name: "Tom Brown",
-    email: "tom@consulting.com",
-    company: "Consulting Ltd",
-    role: "Consultant",
+    email: "sarah@company.com",
+    location: "Sydney",
+    flag: "🇦🇺",
     status: "Inactive",
-    lastContact: "2024-03-08",
-  },
+    balance: 2000,
+    department: "Support",
+    role: "Agent",
+    joinDate: "2023-04-20",
+    lastActive: "2024-02-28",
+    performance: "Poor"
+  }
 ];
 
 const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
@@ -131,6 +191,7 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
   const table = useReactTable({
     data,
     columns,
+    columnResizeMode: "onChange",
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
@@ -165,14 +226,14 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
         </div>
 
         <div className="rounded-md border">
-          <Table>
+          <Table className="table-fixed">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id} className="bg-muted/50">
                   {headerGroup.headers.map((header) => (
                     <TableHead
                       key={header.id}
-                      className="relative h-10 select-none border-t"
+                      className="relative h-10 select-none border-t [&>.cursor-col-resize]:last:opacity-0"
                       aria-sort={
                         header.column.getIsSorted() === "asc"
                           ? "ascending"
@@ -180,22 +241,45 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
                             ? "descending"
                             : "none"
                       }
+                      {...{
+                        colSpan: header.colSpan,
+                        style: {
+                          width: header.getSize(),
+                        },
+                      }}
                     >
-                      <div
-                        className={cn(
-                          "flex h-full cursor-pointer select-none items-center justify-between gap-2",
-                          !header.column.getCanSort() && "cursor-default"
-                        )}
-                        onClick={header.column.getToggleSortingHandler()}
-                      >
-                        <span className="truncate">
-                          {flexRender(header.column.columnDef.header, header.getContext())}
-                        </span>
-                        {{
-                          asc: <ChevronUp className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
-                          desc: <ChevronDown className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
-                        }[header.column.getIsSorted() as string] ?? null}
-                      </div>
+                      {header.isPlaceholder ? null : (
+                        <div
+                          className={cn(
+                            "flex h-full cursor-pointer select-none items-center justify-between gap-2",
+                            !header.column.getCanSort() && "cursor-default"
+                          )}
+                          onClick={header.column.getToggleSortingHandler()}
+                          onKeyDown={(e) => {
+                            if (header.column.getCanSort() && (e.key === "Enter" || e.key === " ")) {
+                              e.preventDefault();
+                              header.column.getToggleSortingHandler()?.(e);
+                            }
+                          }}
+                          tabIndex={header.column.getCanSort() ? 0 : undefined}
+                        >
+                          <span className="truncate">
+                            {flexRender(header.column.columnDef.header, header.getContext())}
+                          </span>
+                          {{
+                            asc: <ChevronUp className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
+                            desc: <ChevronDown className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
+                          }[header.column.getIsSorted() as string] ?? null}
+                        </div>
+                      )}
+                      {header.column.getCanResize() && (
+                        <div
+                          onDoubleClick={() => header.column.resetSize()}
+                          onMouseDown={header.getResizeHandler()}
+                          onTouchStart={header.getResizeHandler()}
+                          className="absolute top-0 h-full w-4 cursor-col-resize user-select-none touch-none -right-2 z-10 flex justify-center before:absolute before:w-px before:inset-y-0 before:bg-border before:translate-x-px"
+                        />
+                      )}
                     </TableHead>
                   ))}
                 </TableRow>
@@ -204,12 +288,9 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
             <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
+                  <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell key={cell.id} className="truncate">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
