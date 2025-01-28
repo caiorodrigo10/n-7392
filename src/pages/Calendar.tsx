@@ -1,7 +1,7 @@
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ChevronDown, X, Filter as FilterIcon } from "lucide-react";
+import { ChevronDown, X, Filter as FilterIcon, Clock, Send, MapPin, Users } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -97,8 +97,23 @@ const CalendarPage = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
                         <ChevronDown className="h-4 w-4 ml-2" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>Editar evento</DropdownMenuItem>
+                    <DropdownMenuContent align="end" className="w-56">
+                      <DropdownMenuItem>
+                        <Clock className="h-4 w-4 mr-2" />
+                        Reagendar reserva
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Send className="h-4 w-4 mr-2" />
+                        Solicitar reagendamento
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <MapPin className="h-4 w-4 mr-2" />
+                        Editar Localização
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Users className="h-4 w-4 mr-2" />
+                        + Participantes Adicionais
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
