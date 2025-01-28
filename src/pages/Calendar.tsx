@@ -5,6 +5,7 @@ import { EventUseCase } from "@/usecases/EventUseCase";
 import { EventAdapter } from "@/adapters/EventAdapter";
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { PageHeader } from "@/components/shared/PageHeader";
 
 interface CalendarProps {
   isCollapsed: boolean;
