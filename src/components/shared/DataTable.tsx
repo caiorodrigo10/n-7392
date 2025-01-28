@@ -60,11 +60,11 @@ export function DataTable<T>({
   });
 
   return (
-    <div className="rounded-md border w-full overflow-auto">
+    <div className="rounded-md border w-full overflow-auto bg-white">
       <Table className="table-fixed" style={{ width: table.getCenterTotalSize() }}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="bg-muted/50">
+            <TableRow key={headerGroup.id} className="bg-white">
               {headerGroup.headers.map((header) => (
                 <TableHead
                   key={header.id}
