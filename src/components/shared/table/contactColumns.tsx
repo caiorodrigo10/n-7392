@@ -2,14 +2,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Contact } from "@/types/shared";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import { Mail, Phone, Building2, Calendar } from "lucide-react";
 
 export const contactColumns: ColumnDef<Contact>[] = [
   {
     id: "select",
     size: 40,
     header: ({ table }) => (
-      <div className="flex justify-center items-center h-full ml-[3px]">
+      <div className="flex justify-center ml-[3px]">
         <Checkbox
           checked={table.getIsAllPageRowsSelected()}
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
