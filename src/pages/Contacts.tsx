@@ -23,7 +23,7 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
 
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
-      <div className="p-8">
+      <div className="max-w-[1400px] mx-auto px-8 py-8">
         <PageHeader
           title="Contacts"
           subtitle="Manage your contacts and leads"

@@ -23,7 +23,7 @@ const Companies = ({ isCollapsed, setIsCollapsed }: CompaniesProps) => {
 
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
-      <div className="p-8">
+      <div className="max-w-[1400px] mx-auto px-8 py-8">
         <PageHeader
           title="Companies"
           subtitle="Manage your companies and business relationships"

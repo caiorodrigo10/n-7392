@@ -32,24 +32,26 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
   return (
     <div className="min-h-screen bg-white flex relative">
       <Navbar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
-      <main 
-        className={`flex-1 p-4 sm:p-8 transition-all duration-300 ${
+      <div 
+        className={`flex-1 transition-all duration-300 ${
           isCollapsed ? 'ml-[60px]' : 'ml-64'
         }`}
       >
-        <PageHeader
-          title="Deals Pipeline"
-          subtitle="Track and manage your deals"
-          buttonLabel="Add Deal"
-          onAddClick={handleAddDeal}
-        />
+        <div className="max-w-[1400px] mx-auto px-8 py-8">
+          <PageHeader
+            title="Deals Pipeline"
+            subtitle="Track and manage your deals"
+            buttonLabel="Add Deal"
+            onAddClick={handleAddDeal}
+          />
+        </div>
 
-        <DragDropContext 
-          onDragStart={onDragStart}
-          onDragEnd={onDragEnd}
-        >
-          <div className="overflow-x-auto">
-            <div className="flex gap-4 min-w-max pb-4">
+        <div className="w-full overflow-x-auto">
+          <DragDropContext 
+            onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
+          >
+            <div className="flex gap-4 min-w-max p-4">
               {columns.map((column) => (
                 <DealColumn
                   key={column.id}
@@ -60,10 +62,10 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                 />
               ))}
             </div>
-          </div>
+          </DragDropContext>
           {isDragging && <DealStatusDropZone isDropDisabled={!isDragging} isCollapsed={isCollapsed} />}
-        </DragDropContext>
-      </main>
+        </div>
+      </div>
     </div>
   );
 };
