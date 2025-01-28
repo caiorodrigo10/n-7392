@@ -61,7 +61,7 @@ export function DataTable<T>({
 
   return (
     <div className="flex-1 bg-white rounded-lg shadow-sm flex flex-col">
-      <div className="w-full overflow-auto flex-1 px-6 pt-6">
+      <div className="w-full overflow-auto flex-1 px-6">
         <Table className="table-fixed" style={{ width: table.getCenterTotalSize() }}>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
