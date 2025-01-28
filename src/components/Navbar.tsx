@@ -44,9 +44,9 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
     <Link
       to={to}
       className={cn(
-        "flex items-center py-1.5 px-2 rounded-lg transition-colors text-neutral-100 text-[13px]",
+        "flex items-center py-1.5 px-2 rounded-lg transition-colors text-neutral-600 text-sm",
         isCollapsed ? "justify-center" : "space-x-3",
-        isActive(to) ? "bg-tertiary text-secondary" : "hover:bg-primary/20"
+        isActive(to) ? "bg-[#E5DEFF] text-[#9b87f5]" : "hover:bg-[#F1F0FB]"
       )}
     >
       <Icon className="h-4 w-4 flex-shrink-0" />
@@ -67,7 +67,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
   }) => (
     <Collapsible open={isOpen} onOpenChange={onToggle}>
       <CollapsibleTrigger className={cn(
-        "flex items-center w-full py-1.5 px-2 text-neutral-100 hover:bg-primary/20 rounded-lg text-[13px]",
+        "flex items-center w-full py-1.5 px-2 text-neutral-500 hover:bg-[#F1F0FB] rounded-lg text-sm",
         isCollapsed ? "justify-center" : "justify-between"
       )}>
         {!isCollapsed && <span>{title}</span>}
@@ -84,7 +84,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
 
   return (
     <div className={cn(
-      "fixed left-0 top-0 h-full flex flex-col transition-all duration-300 z-50 bg-secondary",
+      "fixed left-0 top-0 h-full flex flex-col transition-all duration-300 z-50 bg-[#F9F9F9]",
       isCollapsed ? "w-[60px]" : "w-full sm:w-64"
     )}>
       <nav className="w-full p-3">
@@ -97,13 +97,13 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
               <div className="w-8 h-8 bg-primary rounded-lg overflow-hidden flex items-center justify-center text-white font-semibold">
                 A
               </div>
-              <div className="font-semibold text-xl text-neutral-100">Avantto</div>
+              <div className="font-semibold text-xl text-neutral-800">Avantto</div>
             </div>
           )}
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7 text-neutral-100 hover:bg-primary/20"
+            className="h-7 w-7 text-neutral-600 hover:bg-[#F1F0FB]"
             onClick={() => setIsCollapsed(!isCollapsed)}
           >
             {isCollapsed ? (
@@ -143,11 +143,11 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
       
       <div className="mt-auto">
         <div className={cn(
-          "p-3 border-t border-neutral-700 w-full",
+          "p-3 border-t border-neutral-200 w-full",
           isCollapsed ? "text-center" : ""
         )}>
           <div className={cn(
-            "flex items-center gap-2 text-[13px] text-neutral-100",
+            "flex items-center gap-2 text-sm text-neutral-600",
             isCollapsed ? "justify-center" : "justify-between"
           )}>
             {!isCollapsed ? (
