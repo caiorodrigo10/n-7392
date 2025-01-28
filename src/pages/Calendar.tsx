@@ -139,7 +139,14 @@ const CalendarPage = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
           </p>
         </div>
 
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-end">
+            <Button variant="outline" size="sm" className="text-sm font-normal">
+              <FilterIcon className="h-4 w-4 mr-2 rotate-90" />
+              Filtros
+            </Button>
+          </div>
+
           <Tabs defaultValue="proximos" className="w-full">
             <TabsList className="bg-gray-100 p-1">
               <TabsTrigger value="proximos" className="px-4">Próximos</TabsTrigger>
@@ -157,10 +164,6 @@ const CalendarPage = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
               {previousEvents.map(renderEventCard)}
             </TabsContent>
           </Tabs>
-          <Button variant="outline" size="sm" className="ml-4 text-sm font-normal">
-            <FilterIcon className="h-4 w-4 mr-2 rotate-90" />
-            Filtros
-          </Button>
         </div>
       </div>
     </Layout>
