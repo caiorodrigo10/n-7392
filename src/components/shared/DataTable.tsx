@@ -61,7 +61,7 @@ export function DataTable<T>({
 
   return (
     <div className="flex-1 bg-white rounded-lg shadow-sm flex flex-col">
-      <div className="w-full overflow-auto flex-1 px-6">
+      <div className="w-full overflow-auto flex-1">
         <Table className="table-fixed" style={{ width: table.getCenterTotalSize() }}>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -70,7 +70,7 @@ export function DataTable<T>({
                   <TableHead
                     key={header.id}
                     className={cn(
-                      "relative h-10 select-none [&>.cursor-col-resize]:last:opacity-0",
+                      "relative h-10 select-none",
                       header.id === "select" && "w-[32px] px-0"
                     )}
                     style={{ width: header.getSize() }}
@@ -78,7 +78,7 @@ export function DataTable<T>({
                     {header.isPlaceholder ? null : (
                       <div
                         className={cn(
-                          "flex h-full select-none items-center gap-2",
+                          "flex h-full select-none items-center gap-2 px-4",
                           header.column.getCanSort() && "cursor-pointer justify-between"
                         )}
                         onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
@@ -91,14 +91,6 @@ export function DataTable<T>({
                           desc: <ChevronDown className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
-                    )}
-                    {header.column.getCanResize() && header.id !== "select" && (
-                      <div
-                        onDoubleClick={() => header.column.resetSize()}
-                        onMouseDown={header.getResizeHandler()}
-                        onTouchStart={header.getResizeHandler()}
-                        className="absolute top-0 h-full w-4 cursor-col-resize user-select-none touch-none -right-2 z-10 flex justify-center before:absolute before:w-px before:inset-y-0 before:bg-border before:translate-x-px"
-                      />
                     )}
                   </TableHead>
                 ))}
@@ -117,7 +109,7 @@ export function DataTable<T>({
                     <TableCell
                       key={cell.id}
                       className={cn(
-                        "truncate",
+                        "truncate px-4",
                         cell.column.id === "select" && "w-[32px] px-0"
                       )}
                       style={{ width: cell.column.getSize() }}
@@ -136,6 +128,23 @@ export function DataTable<T>({
             )}
           </TableBody>
         </Table>
+      </div>
+      <div className="h-2 bg-white border-t relative">
+        {table.getHeaderGroups()[0].headers.map((header) => (
+          header.column.getCanResize() && header.id !== "select" && (
+            <div
+              key={header.id}
+              onDoubleClick={() => header.column.resetSize()}
+              onMouseDown={header.getResizeHandler()}
+              onTouchStart={header.getResizeHandler()}
+              className="absolute top-0 h-full w-4 cursor-col-resize user-select-none touch-none"
+              style={{
+                left: `${header.getSize() - 8}px`,
+                transform: 'translateX(-50%)'
+              }}
+            />
+          )
+        ))}
       </div>
     </div>
   );
