@@ -1,9 +1,10 @@
-import { DragDropContext } from "@hello-pangea/dnd";
 import { Layout } from "@/components/Layout";
-import DealStatusDropZone from "@/components/deals/DealStatusDropZone";
+import { DragDropContext } from "@hello-pangea/dnd";
 import DealColumn from "@/components/deals/DealColumn";
 import { useDealsState } from "@/hooks/useDealsState";
 import { PageHeader } from "@/components/shared/PageHeader";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 interface DealsProps {
   isCollapsed: boolean;
@@ -67,7 +68,6 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
               </div>
             </div>
           </div>
-          {isDragging && <DealStatusDropZone isDropDisabled={!isDragging} isCollapsed={isCollapsed} />}
         </div>
       </DragDropContext>
     </Layout>
