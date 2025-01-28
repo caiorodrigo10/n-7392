@@ -7,9 +7,9 @@ interface DealStatusDropZoneProps {
 
 const DealStatusDropZone = ({ isDropDisabled }: DealStatusDropZoneProps) => {
   const statuses = [
+    { id: "won", label: "Won", color: "bg-green-500/10 hover:bg-green-500/20" },
     { id: "lost", label: "Lost", color: "bg-red-500/10 hover:bg-red-500/20" },
     { id: "abandoned", label: "Abandoned", color: "bg-gray-500/10 hover:bg-gray-500/20" },
-    { id: "won", label: "Won", color: "bg-green-500/10 hover:bg-green-500/20" },
   ];
 
   return (
