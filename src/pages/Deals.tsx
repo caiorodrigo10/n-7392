@@ -251,7 +251,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
       <Navbar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
       <main 
         className={`flex-1 p-4 sm:p-8 transition-all duration-300 ${
-          isCollapsed ? 'ml-[60px]' : 'ml-[60px] sm:ml-64'
+          isCollapsed ? 'ml-[60px]' : 'ml-64'
         }`}
       >
         <div className="mb-8">
@@ -335,7 +335,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
               ))}
             </div>
           </div>
-          {isDragging && <DealStatusDropZone isDropDisabled={!isDragging} />}
+          {isDragging && <DealStatusDropZone isDropDisabled={!isDragging} isCollapsed={isCollapsed} />}
         </DragDropContext>
       </main>
     </div>

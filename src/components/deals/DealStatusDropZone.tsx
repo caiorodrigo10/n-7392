@@ -3,9 +3,10 @@ import { cn } from "@/lib/utils";
 
 interface DealStatusDropZoneProps {
   isDropDisabled: boolean;
+  isCollapsed: boolean;
 }
 
-const DealStatusDropZone = ({ isDropDisabled }: DealStatusDropZoneProps) => {
+const DealStatusDropZone = ({ isDropDisabled, isCollapsed }: DealStatusDropZoneProps) => {
   const statuses = [
     { id: "won", label: "Won", color: "bg-green-500/10 hover:bg-green-500/20" },
     { id: "lost", label: "Lost", color: "bg-red-500/10 hover:bg-red-500/20" },
@@ -13,7 +14,10 @@ const DealStatusDropZone = ({ isDropDisabled }: DealStatusDropZoneProps) => {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 flex justify-center gap-4 p-6 bg-gradient-to-t from-background to-transparent">
+    <div className={cn(
+      "fixed bottom-0 flex justify-center gap-4 p-6 bg-gradient-to-t from-background to-transparent transition-all duration-300",
+      isCollapsed ? "left-[60px] right-0" : "left-64 right-0"
+    )}>
       {statuses.map((status) => (
         <Droppable
           key={status.id}
