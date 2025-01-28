@@ -173,7 +173,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
           <div className="overflow-x-auto">
             <div className="flex gap-4 min-w-max pb-4">
               {columns.map((column) => (
-                <div key={column.id} className="w-[320px]">
+                <div key={column.id} className="w-[280px]">
                   <h2 className="font-medium text-sm mb-3">
                     {column.title} ({deals[column.id].length}) - {formatCurrency(calculateColumnTotal(deals[column.id]))}
                   </h2>
