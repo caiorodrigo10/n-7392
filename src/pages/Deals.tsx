@@ -35,6 +35,20 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
     ],
   });
 
+  const calculateColumnTotal = (deals: Deal[]) => {
+    return deals.reduce((total, deal) => {
+      const value = parseFloat(deal.value.replace(/[$,]/g, ''));
+      return total + value;
+    }, 0);
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(amount);
+  };
+
   const onDragEnd = (result: any) => {
     const { source, destination } = result;
     if (!destination) return;
@@ -83,7 +97,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
             {columns.map((column) => (
               <div key={column.id} className="flex-1 min-w-0">
                 <h2 className="font-semibold mb-4">
-                  {column.title} ({deals[column.id].length})
+                  {column.title} ({deals[column.id].length}) - {formatCurrency(calculateColumnTotal(deals[column.id]))}
                 </h2>
                 <Droppable droppableId={column.id}>
                   {(provided, snapshot) => (
@@ -102,7 +116,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               className={`p-4 cursor-move bg-white ${
-                                snapshot.isDragging ? "shadow-lg" : "hover:shadow-md"
+                                snapshot.isDraggingOver ? "shadow-lg" : "hover:shadow-md"
                               } transition-shadow`}
                             >
                               <h3 className="font-medium">{deal.title}</h3>
