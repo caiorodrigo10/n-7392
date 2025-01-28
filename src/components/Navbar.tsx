@@ -86,7 +86,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
       "fixed left-0 top-0 h-full flex flex-col transition-all duration-300 z-50 bg-[#F9F9F9]",
       isCollapsed ? "w-[60px]" : "w-full sm:w-64"
     )}>
-      <nav className="w-full p-3 relative flex-1">
+      <nav className="w-full p-3">
         <div className={cn(
           "mb-6 flex items-center",
           isCollapsed ? "justify-center" : "justify-between"
@@ -140,34 +140,36 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
         </div>
       </nav>
       
-      {/* Trial notification at the bottom */}
-      <div className={cn(
-        "p-3 border-t border-neutral-200 w-full",
-        isCollapsed ? "text-center" : ""
-      )}>
+      <div className="mt-auto">
+        {/* Trial notification at the bottom */}
         <div className={cn(
-          "flex items-center gap-2 text-sm text-neutral-600",
-          isCollapsed ? "justify-center" : "justify-between"
+          "p-3 border-t border-neutral-200 w-full",
+          isCollapsed ? "text-center" : ""
         )}>
-          {!isCollapsed ? (
-            <>
-              <div className="flex items-center gap-2">
-                <span>14 days left on trial!</span>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-primary hover:text-primary/90 hover:bg-primary/10 px-3 py-1 h-auto"
-              >
-                Add billing
-              </Button>
-            </>
-          ) : (
-            <span className="text-xs">14d</span>
-          )}
+          <div className={cn(
+            "flex items-center gap-2 text-sm text-neutral-600",
+            isCollapsed ? "justify-center" : "justify-between"
+          )}>
+            {!isCollapsed ? (
+              <>
+                <div className="flex items-center gap-2">
+                  <span>14 days left on trial!</span>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-primary hover:text-primary/90 hover:bg-primary/10 px-3 py-1 h-auto"
+                >
+                  Add billing
+                </Button>
+              </>
+            ) : (
+              <span className="text-xs">14d</span>
+            )}
+          </div>
         </div>
+        <Separator orientation="vertical" className="h-full" />
       </div>
-      <Separator orientation="vertical" className="h-full" />
     </div>
   );
 };
