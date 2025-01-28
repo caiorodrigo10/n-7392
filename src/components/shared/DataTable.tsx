@@ -14,6 +14,7 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
+  RowSelectionState,
 } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -21,7 +22,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 interface DataTableProps<T> {
   columns: ColumnDef<T>[];
   data: T[];
-  onRowSelectionChange?: (selection: Record<string, boolean>) => void;
+  onRowSelectionChange?: (selection: RowSelectionState) => void;
 }
 
 export function DataTable<T>({ 
@@ -30,7 +31,7 @@ export function DataTable<T>({
   onRowSelectionChange 
 }: DataTableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [rowSelection, setRowSelection] = useState({});
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const table = useReactTable({
     data,
