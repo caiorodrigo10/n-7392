@@ -61,7 +61,7 @@ export function DataTable<T>({
 
   return (
     <div className="flex-1 bg-white rounded-lg shadow-sm flex flex-col">
-      <div className="rounded-md border w-full overflow-auto flex-1 m-6">
+      <div className="w-full overflow-auto flex-1 px-6 pt-6">
         <Table className="table-fixed" style={{ width: table.getCenterTotalSize() }}>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -70,7 +70,7 @@ export function DataTable<T>({
                   <TableHead
                     key={header.id}
                     className={cn(
-                      "relative h-10 select-none border-t [&>.cursor-col-resize]:last:opacity-0",
+                      "relative h-10 select-none [&>.cursor-col-resize]:last:opacity-0",
                       header.id === "select" && "w-[32px] px-0"
                     )}
                     style={{ width: header.getSize() }}
