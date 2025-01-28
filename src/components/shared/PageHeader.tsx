@@ -17,21 +17,23 @@ export function PageHeader({
   onAddClick 
 }: PageHeaderProps) {
   return (
-    <div className="flex justify-between items-center mb-8">
-      <div>
-        <h1 className="text-3xl font-bold">
-          {title} {selectedCount !== undefined && selectedCount > 0 && 
-            `(${selectedCount} selected)`}
-        </h1>
-        <p className="text-gray-600 mt-1">{subtitle}</p>
+    <div className="max-w-[1400px] mx-auto px-8">
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold">
+            {title} {selectedCount !== undefined && selectedCount > 0 && 
+              `(${selectedCount} selected)`}
+          </h1>
+          <p className="text-gray-600 mt-1">{subtitle}</p>
+        </div>
+        <Button 
+          onClick={onAddClick}
+          className="flex items-center gap-2"
+        >
+          <Plus className="h-5 w-5" />
+          <span>{buttonLabel}</span>
+        </Button>
       </div>
-      <Button 
-        onClick={onAddClick}
-        className="flex items-center space-x-2"
-      >
-        <Plus className="h-5 w-5" />
-        <span>{buttonLabel}</span>
-      </Button>
     </div>
   );
 }

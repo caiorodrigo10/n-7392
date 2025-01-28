@@ -4,8 +4,6 @@ import DealStatusDropZone from "@/components/deals/DealStatusDropZone";
 import DealColumn from "@/components/deals/DealColumn";
 import { useDealsState } from "@/hooks/useDealsState";
 import { PageHeader } from "@/components/shared/PageHeader";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 
 interface DealsProps {
   isCollapsed: boolean;
@@ -33,14 +31,12 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
 
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
-      <div className="max-w-[1400px] mx-auto px-8 py-8">
-        <PageHeader
-          title="Deals Pipeline"
-          subtitle="Track and manage your deals"
-          buttonLabel="Add Deal"
-          onAddClick={handleAddDeal}
-        />
-      </div>
+      <PageHeader
+        title="Deals Pipeline"
+        subtitle="Track and manage your deals"
+        buttonLabel="Add Deal"
+        onAddClick={handleAddDeal}
+      />
 
       <DragDropContext 
         onDragStart={onDragStart}
