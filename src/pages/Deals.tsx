@@ -33,7 +33,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
 
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
-      <div className="max-w-[1400px] mx-auto py-8">
+      <div className="max-w-[1400px] mx-auto pt-8">
         <PageHeader
           title="Deals Pipeline"
           subtitle="Track and manage your deals"
