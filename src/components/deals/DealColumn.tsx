@@ -55,7 +55,7 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
               getColumnBackground(id)
             } ${
               snapshot.isDraggingOver ? "bg-opacity-80" : ""
-            } ${!isWonColumn ? "border border-gray-200" : ""}`}
+            }`}
           >
             {isWonColumn && (
               <>

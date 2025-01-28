@@ -47,16 +47,26 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
           <div className="flex-1 flex flex-col min-h-[calc(100vh-13rem)]">
             <div className="flex-1 overflow-x-auto scrollbar-thin px-6">
               <div className="inline-flex gap-2 py-4">
-                {columns.map((column) => (
-                  <div key={column.id} className="flex flex-col">
-                    <DealColumn
-                      id={column.id}
-                      title={column.title}
-                      deals={deals[column.id as keyof typeof deals]}
-                      total={formatCurrency(calculateColumnTotal(deals[column.id as keyof typeof deals]))}
-                    />
-                  </div>
-                ))}
+                <div className="flex gap-2 border border-gray-200 rounded-lg p-2">
+                  {columns.slice(0, -1).map((column) => (
+                    <div key={column.id} className="flex flex-col">
+                      <DealColumn
+                        id={column.id}
+                        title={column.title}
+                        deals={deals[column.id as keyof typeof deals]}
+                        total={formatCurrency(calculateColumnTotal(deals[column.id as keyof typeof deals]))}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div key="won" className="flex flex-col">
+                  <DealColumn
+                    id="won"
+                    title="Won"
+                    deals={deals.won}
+                    total={formatCurrency(calculateColumnTotal(deals.won))}
+                  />
+                </div>
               </div>
             </div>
             {isDragging && <DealStatusDropZone isDropDisabled={!isDragging} isCollapsed={isCollapsed} />}
