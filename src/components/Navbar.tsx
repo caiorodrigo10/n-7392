@@ -92,7 +92,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           isCollapsed ? "justify-center" : "justify-between"
         )}>
           {!isCollapsed && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 pl-1">
               <div className="font-semibold text-xl text-neutral-800">Avantt</div>
               <div className="w-8 h-8 bg-[#ccc] rounded-lg overflow-hidden">
                 <img 
