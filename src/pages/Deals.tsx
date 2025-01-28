@@ -12,6 +12,8 @@ interface Deal {
 
 interface DealsState {
   lead: Deal[];
+  qualification: Deal[];
+  meet: Deal[];
   negotiation: Deal[];
   closed: Deal[];
 }
@@ -26,6 +28,12 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
     lead: [
       { id: "1", title: "Enterprise Deal", value: "$50,000", company: "Tech Corp" },
       { id: "2", title: "Software License", value: "$25,000", company: "StartUp Inc" },
+    ],
+    qualification: [
+      { id: "5", title: "Training Service", value: "$20,000", company: "Learning Co" },
+    ],
+    meet: [
+      { id: "6", title: "Hardware Supply", value: "$35,000", company: "Hardware Ltd" },
     ],
     negotiation: [
       { id: "3", title: "Consulting Project", value: "$30,000", company: "Consulting Co" },
@@ -75,7 +83,9 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
 
   const columns = [
     { id: "lead", title: "Lead" },
-    { id: "negotiation", title: "Meet & Negotiation" },
+    { id: "qualification", title: "Qualification" },
+    { id: "meet", title: "Meet" },
+    { id: "negotiation", title: "Negotiation" },
     { id: "closed", title: "Won" },
   ];
 
@@ -95,7 +105,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
         <DragDropContext onDragEnd={onDragEnd}>
           <div className="flex flex-col lg:flex-row gap-4">
             {columns.map((column) => (
-              <div key={column.id} className="flex-1 min-w-0 max-w-[300px]">
+              <div key={column.id} className="flex-1 min-w-0 max-w-[240px]">
                 <h2 className="font-medium text-sm mb-3">
                   {column.title} ({deals[column.id].length}) - {formatCurrency(calculateColumnTotal(deals[column.id]))}
                 </h2>
