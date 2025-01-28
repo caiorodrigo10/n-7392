@@ -51,18 +51,19 @@ const Calendar = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
 
   return (
     <div className="min-h-screen bg-white flex relative">
-      <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
-        <div className="flex-1 p-4 sm:p-8">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold">Calendar</h1>
-            <p className="text-gray-600 mt-1">Track and manage your appointments</p>
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <CalendarTabs events={events} previousEvents={previousEvents} />
-          </div>
+      <Navbar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+      <main className={`flex-1 p-4 sm:p-8 transition-all duration-300 ${
+        isCollapsed ? 'ml-[60px]' : 'ml-[60px] sm:ml-64'
+      }`}>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold">Calendar</h1>
+          <p className="text-gray-600 mt-1">Track and manage your appointments</p>
         </div>
-      </Layout>
+
+        <div className="flex flex-col gap-4">
+          <CalendarTabs events={events} previousEvents={previousEvents} />
+        </div>
+      </main>
     </div>
   );
 };
