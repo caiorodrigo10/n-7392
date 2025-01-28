@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Search, Plus } from "lucide-react";
+import { Search, Plus, ChevronDown, ChevronUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Layout } from "@/components/Layout";
+import { cn } from "@/lib/utils";
 import {
   Table,
   TableBody,
@@ -57,6 +58,16 @@ const columns: ColumnDef<Contact>[] = [
   {
     header: "Status",
     accessorKey: "status",
+    cell: ({ row }) => (
+      <div className={cn(
+        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+        row.getValue("status") === "Active" 
+          ? "bg-green-100 text-green-700" 
+          : "bg-red-100 text-red-700"
+      )}>
+        {row.getValue("status")}
+      </div>
+    ),
   },
   {
     header: "Last Contact",
@@ -171,13 +182,19 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
                       }
                     >
                       <div
-                        className="flex h-full cursor-pointer select-none items-center justify-between gap-2"
+                        className={cn(
+                          "flex h-full cursor-pointer select-none items-center justify-between gap-2",
+                          !header.column.getCanSort() && "cursor-default"
+                        )}
                         onClick={header.column.getToggleSortingHandler()}
                       >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        <span className="truncate">
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                        </span>
+                        {{
+                          asc: <ChevronUp className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
+                          desc: <ChevronDown className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
+                        }[header.column.getIsSorted() as string] ?? null}
                       </div>
                     </TableHead>
                   ))}
