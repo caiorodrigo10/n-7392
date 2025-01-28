@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { ChevronDown, X, Clock, Send, MapPin, Users, Video } from "lucide-react";
+import { ChevronDown, X, Clock, Send, MapPin, Users, Video, AlertCircle, Check } from "lucide-react";
 import { Event } from "@/entities/Event";
 import { EventAdapter } from "@/adapters/EventAdapter";
 import { EventUseCase } from "@/usecases/EventUseCase";
@@ -10,9 +10,10 @@ import { useToast } from "@/components/ui/use-toast";
 interface EventCardProps {
   event: Event;
   onEventCancelled?: (eventId: string) => void;
+  isPreviousEvent?: boolean;
 }
 
-export const EventCard = ({ event, onEventCancelled }: EventCardProps) => {
+export const EventCard = ({ event, onEventCancelled, isPreviousEvent = false }: EventCardProps) => {
   const { toast } = useToast();
   const eventAdapter = new EventAdapter(new EventUseCase());
 
@@ -44,6 +45,13 @@ export const EventCard = ({ event, onEventCancelled }: EventCardProps) => {
     });
   };
 
+  const handleAttendanceStatus = (status: 'attended' | 'not-attended') => {
+    toast({
+      title: status === 'attended' ? "Marcado como comparecido" : "Marcado como não comparecido",
+      description: "Status atualizado com sucesso.",
+    });
+  };
+
   return (
     <Card className="p-6 hover:bg-gray-50 transition-colors">
       <div className="flex flex-col gap-2">
@@ -62,6 +70,33 @@ export const EventCard = ({ event, onEventCancelled }: EventCardProps) => {
               <X className="h-4 w-4 mr-2" />
               Cancelar este evento
             </Button>
+
+            {isPreviousEvent && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="bg-yellow-100 border-yellow-200 text-yellow-700 hover:bg-yellow-200 hover:text-yellow-800 font-normal"
+                  >
+                    <AlertCircle className="h-4 w-4 mr-2" />
+                    Status pendente
+                    <ChevronDown className="h-4 w-4 ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem onClick={() => handleAttendanceStatus('attended')}>
+                    <Check className="h-4 w-4 mr-2" />
+                    Comparecido
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleAttendanceStatus('not-attended')}>
+                    <X className="h-4 w-4 mr-2" />
+                    Não comparecido
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button 

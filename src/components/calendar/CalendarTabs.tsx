@@ -32,7 +32,7 @@ export const CalendarTabs = ({ events, previousEvents }: CalendarTabsProps) => {
       </TabsContent>
 
       <TabsContent value="anteriores" className="space-y-3">
-        <EventList events={previousEvents} />
+        <EventList events={previousEvents} isPreviousEvents={true} />
       </TabsContent>
     </Tabs>
   );
