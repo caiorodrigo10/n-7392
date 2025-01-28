@@ -7,6 +7,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "@/hooks/use-toast";
 import DealStatusDropZone from "@/components/deals/DealStatusDropZone";
+import { triggerWinConfetti } from "@/utils/confetti";
 
 interface Deal {
   id: string;
@@ -171,10 +172,18 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
 
       setDeals(updatedDeals);
 
-      toast({
-        title: `Deal marked as ${status}`,
-        description: `${foundDeal.title} has been marked as ${status}`,
-      });
+      if (status === 'won') {
+        triggerWinConfetti();
+        toast({
+          title: "🎉 Deal Won!",
+          description: `Congratulations! ${foundDeal.title} has been won!`,
+        });
+      } else {
+        toast({
+          title: `Deal marked as ${status}`,
+          description: `${foundDeal.title} has been marked as ${status}`,
+        });
+      }
     }
   };
 
@@ -183,29 +192,24 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
   };
 
   const onDragEnd = (result: DropResult) => {
-    // Reset dragging state immediately
     setIsDragging(false);
 
-    // Early return if no destination
     if (!result.destination) {
       return;
     }
 
     const { source, destination } = result;
 
-    // Handle dropping to status zone
     if (destination.droppableId.startsWith('status-')) {
       const status = destination.droppableId.replace('status-', '');
       handleDealStatusChange(result.draggableId, status);
       return;
     }
 
-    // Skip if dropped in same position
     if (source.droppableId === destination.droppableId && source.index === destination.index) {
       return;
     }
 
-    // Handle same column reordering
     if (source.droppableId === destination.droppableId) {
       const column = Array.from(deals[source.droppableId as keyof DealsState]);
       const [removed] = column.splice(source.index, 1);
@@ -218,7 +222,6 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
       return;
     }
 
-    // Handle moving between columns
     const sourceColumn = Array.from(deals[source.droppableId as keyof DealsState]);
     const destColumn = Array.from(deals[destination.droppableId as keyof DealsState]);
     const [removed] = sourceColumn.splice(source.index, 1);
@@ -290,9 +293,9 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
-                                className={`p-3 cursor-move bg-white ${
-                                  snapshot.isDragging ? "shadow-lg" : "hover:shadow-md"
-                                } transition-shadow`}
+                                className={`p-3 cursor-move bg-white transition-all duration-300 ${
+                                  snapshot.isDragging ? "shadow-lg scale-105" : "hover:shadow-md"
+                                }`}
                               >
                                 <div className="flex justify-between items-start">
                                   <div className="flex-1">
