@@ -44,9 +44,9 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
     <Link
       to={to}
       className={cn(
-        "flex items-center py-1.5 px-2 rounded-lg transition-colors text-white text-sm",
+        "flex items-center py-1.5 px-2 rounded-lg transition-colors text-white text-[13px]",
         isCollapsed ? "justify-center" : "space-x-3",
-        isActive(to) ? "bg-[#EC6C04]" : "hover:bg-[#EC6C04]/20"
+        isActive(to) ? "bg-[#EC6C04]" : "hover:bg-[#B2FC6C]/20"
       )}
     >
       <Icon className="h-4 w-4 flex-shrink-0" />
@@ -67,7 +67,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
   }) => (
     <Collapsible open={isOpen} onOpenChange={onToggle}>
       <CollapsibleTrigger className={cn(
-        "flex items-center w-full py-1.5 px-2 text-white hover:bg-[#EC6C04]/20 rounded-lg text-sm",
+        "flex items-center w-full py-1.5 px-2 text-white hover:bg-[#B2FC6C]/20 rounded-lg text-[13px]",
         isCollapsed ? "justify-center" : "justify-between"
       )}>
         {!isCollapsed && <span>{title}</span>}
@@ -103,7 +103,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7 text-white hover:bg-[#EC6C04]/20"
+            className="h-7 w-7 text-white hover:bg-[#B2FC6C]/20"
             onClick={() => setIsCollapsed(!isCollapsed)}
           >
             {isCollapsed ? (
@@ -147,7 +147,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           isCollapsed ? "text-center" : ""
         )}>
           <div className={cn(
-            "flex items-center gap-2 text-sm text-white",
+            "flex items-center gap-2 text-[13px] text-white",
             isCollapsed ? "justify-center" : "justify-between"
           )}>
             {!isCollapsed ? (
