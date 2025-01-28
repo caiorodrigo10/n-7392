@@ -165,8 +165,8 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
 
     // Handle status changes
     if (['lost', 'abandoned', 'won'].includes(destination.droppableId)) {
-      const sourceColumn = Array.from(deals[source.droppableId]);
-      const [removed] = sourceColumn.splice(source.index, 1);
+      const sourceColumn = Array.from(deals[source.droppableId as keyof DealsState]);
+      const [removed] = sourceColumn.splice(source.index, 1) as [Deal];
       
       setDeals({
         ...deals,
@@ -183,16 +183,16 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
 
     // Handle regular column moves
     if (source.droppableId === destination.droppableId) {
-      const column = Array.from(deals[source.droppableId]);
-      const [removed] = column.splice(source.index, 1);
+      const column = Array.from(deals[source.droppableId as keyof DealsState]);
+      const [removed] = column.splice(source.index, 1) as [Deal];
       column.splice(destination.index, 0, removed);
       setDeals({ ...deals, [source.droppableId]: column });
       return;
     }
 
-    const sourceColumn = Array.from(deals[source.droppableId]);
-    const destColumn = Array.from(deals[destination.droppableId]);
-    const [removed] = sourceColumn.splice(source.index, 1);
+    const sourceColumn = Array.from(deals[source.droppableId as keyof DealsState]);
+    const destColumn = Array.from(deals[destination.droppableId as keyof DealsState]);
+    const [removed] = sourceColumn.splice(source.index, 1) as [Deal];
     destColumn.splice(destination.index, 0, removed);
     setDeals({
       ...deals,
