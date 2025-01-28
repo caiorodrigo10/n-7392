@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Search, Plus, ChevronDown, ChevronUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Layout } from "@/components/Layout";
@@ -127,6 +127,7 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
       ),
       enableSorting: false,
       enableResizing: false,
+      size: 40, // Set a fixed size for the checkbox column
     },
     {
       header: "Name",
@@ -262,7 +263,10 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
                   {headerGroup.headers.map((header) => (
                     <TableHead
                       key={header.id}
-                      className="relative h-10 select-none border-t [&>.cursor-col-resize]:last:opacity-0"
+                      className={cn(
+                        "relative h-10 select-none border-t [&>.cursor-col-resize]:last:opacity-0",
+                        header.id === "select" && "w-[40px] px-2" // Add specific width and padding for checkbox column
+                      )}
                       aria-sort={
                         header.column.getIsSorted() === "asc"
                           ? "ascending"
@@ -277,30 +281,28 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
                         },
                       }}
                     >
-                      {header.isPlaceholder ? null : (
-                        <div
-                          className={cn(
-                            "flex h-full select-none items-center gap-2",
-                            header.column.getCanSort() && "cursor-pointer justify-between"
-                          )}
-                          onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
-                          onKeyDown={(e) => {
-                            if (header.column.getCanSort() && (e.key === "Enter" || e.key === " ")) {
-                              e.preventDefault();
-                              header.column.getToggleSortingHandler()?.(e);
-                            }
-                          }}
-                          tabIndex={header.column.getCanSort() ? 0 : undefined}
-                        >
-                          <span className="truncate">
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                          </span>
-                          {{
-                            asc: <ChevronUp className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
-                            desc: <ChevronDown className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
-                          }[header.column.getIsSorted() as string] ?? null}
-                        </div>
-                      )}
+                      <div
+                        className={cn(
+                          "flex h-full select-none items-center gap-2",
+                          header.column.getCanSort() && "cursor-pointer justify-between"
+                        )}
+                        onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
+                        onKeyDown={(e) => {
+                          if (header.column.getCanSort() && (e.key === "Enter" || e.key === " ")) {
+                            e.preventDefault();
+                            header.column.getToggleSortingHandler()?.(e);
+                          }
+                        }}
+                        tabIndex={header.column.getCanSort() ? 0 : undefined}
+                      >
+                        <span className="truncate">
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                        </span>
+                        {{
+                          asc: <ChevronUp className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
+                          desc: <ChevronDown className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
+                        }[header.column.getIsSorted() as string] ?? null}
+                      </div>
                       {header.column.getCanResize() && (
                         <div
                           onDoubleClick={() => header.column.resetSize()}
@@ -325,7 +327,13 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
                     )}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className="truncate">
+                      <TableCell 
+                        key={cell.id} 
+                        className={cn(
+                          "truncate",
+                          cell.column.id === "select" && "w-[40px] px-2" // Add specific width and padding for checkbox column
+                        )}
+                      >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
