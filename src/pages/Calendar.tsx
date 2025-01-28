@@ -11,7 +11,7 @@ interface CalendarProps {
   setIsCollapsed: (value: boolean) => void;
 }
 
-const CalendarPage = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
+const Calendar = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
   const [events, setEvents] = useState<Event[]>([]);
   const [previousEvents, setPreviousEvents] = useState<Event[]>([]);
   const { toast } = useToast();
@@ -50,19 +50,21 @@ const CalendarPage = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
   };
 
   return (
-    <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
-      <div className="container mx-auto p-6">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">Calendar</h1>
-          <p className="text-gray-600 mt-1">Track and manage your appointments</p>
-        </div>
+    <div className="min-h-screen bg-white flex relative">
+      <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
+        <div className="flex-1 p-4 sm:p-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold">Calendar</h1>
+            <p className="text-gray-600 mt-1">Track and manage your appointments</p>
+          </div>
 
-        <div className="flex flex-col gap-4">
-          <CalendarTabs events={events} previousEvents={previousEvents} />
+          <div className="flex flex-col gap-4">
+            <CalendarTabs events={events} previousEvents={previousEvents} />
+          </div>
         </div>
-      </div>
-    </Layout>
+      </Layout>
+    </div>
   );
 };
 
-export default CalendarPage;
+export default Calendar;
