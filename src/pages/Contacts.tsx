@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Search, Plus, ChevronDown, ChevronUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Layout } from "@/components/Layout";
+import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import {
   Table,
@@ -39,90 +40,6 @@ type Contact = {
   lastActive: string;
   performance: "Excellent" | "Good" | "Average" | "Poor";
 };
-
-const columns: ColumnDef<Contact>[] = [
-  {
-    header: "Name",
-    accessorKey: "name",
-    cell: ({ row }) => <div className="truncate font-medium">{row.getValue("name")}</div>,
-    sortUndefined: "last",
-    sortDescFirst: false,
-  },
-  {
-    header: "Email",
-    accessorKey: "email",
-  },
-  {
-    header: "Location",
-    accessorKey: "location",
-    cell: ({ row }) => (
-      <div className="truncate">
-        <span className="text-lg leading-none">{row.original.flag}</span> {row.getValue("location")}
-      </div>
-    ),
-  },
-  {
-    header: "Status",
-    accessorKey: "status",
-    cell: ({ row }) => (
-      <div className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-        row.getValue("status") === "Active" 
-          ? "bg-green-100 text-green-700" 
-          : row.getValue("status") === "Pending"
-          ? "bg-yellow-100 text-yellow-700"
-          : "bg-red-100 text-red-700"
-      )}>
-        {row.getValue("status")}
-      </div>
-    ),
-  },
-  {
-    header: "Balance",
-    accessorKey: "balance",
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("balance"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-      return formatted;
-    },
-  },
-  {
-    header: "Department",
-    accessorKey: "department",
-  },
-  {
-    header: "Role",
-    accessorKey: "role",
-  },
-  {
-    header: "Join Date",
-    accessorKey: "joinDate",
-  },
-  {
-    header: "Last Active",
-    accessorKey: "lastActive",
-  },
-  {
-    header: "Performance",
-    accessorKey: "performance",
-    cell: ({ row }) => (
-      <div className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-        {
-          "bg-green-100 text-green-700": row.getValue("performance") === "Excellent",
-          "bg-blue-100 text-blue-700": row.getValue("performance") === "Good",
-          "bg-yellow-100 text-yellow-700": row.getValue("performance") === "Average",
-          "bg-red-100 text-red-700": row.getValue("performance") === "Poor",
-        }
-      )}>
-        {row.getValue("performance")}
-      </div>
-    ),
-  },
-];
 
 const mockData: Contact[] = [
   {
@@ -187,6 +104,112 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
   const [search, setSearch] = useState("");
   const [sorting, setSorting] = useState<SortingState>([]);
   const [data] = useState<Contact[]>(mockData);
+  const [rowSelection, setRowSelection] = useState({});
+
+  const columns: ColumnDef<Contact>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()}
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className="translate-y-[2px]"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+          className="translate-y-[2px]"
+        />
+      ),
+      enableSorting: false,
+      enableResizing: false,
+    },
+    {
+      header: "Name",
+      accessorKey: "name",
+      cell: ({ row }) => <div className="truncate font-medium">{row.getValue("name")}</div>,
+      sortUndefined: "last",
+      sortDescFirst: false,
+    },
+    {
+      header: "Email",
+      accessorKey: "email",
+    },
+    {
+      header: "Location",
+      accessorKey: "location",
+      cell: ({ row }) => (
+        <div className="truncate">
+          <span className="text-lg leading-none">{row.original.flag}</span> {row.getValue("location")}
+        </div>
+      ),
+    },
+    {
+      header: "Status",
+      accessorKey: "status",
+      cell: ({ row }) => (
+        <div className={cn(
+          "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+          row.getValue("status") === "Active" 
+            ? "bg-green-100 text-green-700" 
+            : row.getValue("status") === "Pending"
+            ? "bg-yellow-100 text-yellow-700"
+            : "bg-red-100 text-red-700"
+        )}>
+          {row.getValue("status")}
+        </div>
+      ),
+    },
+    {
+      header: "Balance",
+      accessorKey: "balance",
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("balance"));
+        const formatted = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(amount);
+        return formatted;
+      },
+    },
+    {
+      header: "Department",
+      accessorKey: "department",
+    },
+    {
+      header: "Role",
+      accessorKey: "role",
+    },
+    {
+      header: "Join Date",
+      accessorKey: "joinDate",
+    },
+    {
+      header: "Last Active",
+      accessorKey: "lastActive",
+    },
+    {
+      header: "Performance",
+      accessorKey: "performance",
+      cell: ({ row }) => (
+        <div className={cn(
+          "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+          {
+            "bg-green-100 text-green-700": row.getValue("performance") === "Excellent",
+            "bg-blue-100 text-blue-700": row.getValue("performance") === "Good",
+            "bg-yellow-100 text-yellow-700": row.getValue("performance") === "Average",
+            "bg-red-100 text-red-700": row.getValue("performance") === "Poor",
+          }
+        )}>
+          {row.getValue("performance")}
+        </div>
+      ),
+    },
+  ];
 
   const table = useReactTable({
     data,
@@ -195,9 +218,12 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
+      rowSelection,
     },
+    enableRowSelection: true,
     enableSortingRemoval: false,
   });
 
@@ -206,7 +232,10 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
       <div className="p-8">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold">Contacts</h1>
+            <h1 className="text-3xl font-bold">
+              Contacts {table.getFilteredSelectedRowModel().rows.length > 0 && 
+                `(${table.getFilteredSelectedRowModel().rows.length} selected)`}
+            </h1>
             <p className="text-gray-600 mt-1">Manage your contacts and leads</p>
           </div>
           <button className="bg-primary text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-primary/90 transition-colors">
@@ -251,10 +280,10 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
                       {header.isPlaceholder ? null : (
                         <div
                           className={cn(
-                            "flex h-full cursor-pointer select-none items-center justify-between gap-2",
-                            !header.column.getCanSort() && "cursor-default"
+                            "flex h-full select-none items-center gap-2",
+                            header.column.getCanSort() && "cursor-pointer justify-between"
                           )}
-                          onClick={header.column.getToggleSortingHandler()}
+                          onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
                           onKeyDown={(e) => {
                             if (header.column.getCanSort() && (e.key === "Enter" || e.key === " ")) {
                               e.preventDefault();
@@ -288,7 +317,13 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
             <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                  <TableRow 
+                    key={row.id} 
+                    data-state={row.getIsSelected() && "selected"}
+                    className={cn(
+                      row.getIsSelected() && "bg-muted/50"
+                    )}
+                  >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id} className="truncate">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
