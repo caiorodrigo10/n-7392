@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { formatDistanceToNow } from "date-fns";
@@ -15,6 +16,10 @@ interface Deal {
     avatar: string;
   };
   stageEnteredAt: Date;
+  scheduledMeeting?: {
+    date: string;
+    time: string;
+  };
 }
 
 interface DealsState {
@@ -79,7 +84,26 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
           name: "Emma Davis",
           avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
         },
-        stageEnteredAt: new Date(2024, 2, 20)
+        stageEnteredAt: new Date(2024, 2, 20),
+        scheduledMeeting: {
+          date: "15 Apr",
+          time: "14:30"
+        }
+      },
+      { 
+        id: "7", 
+        title: "Cloud Services", 
+        value: "$42,000", 
+        company: "Cloud Systems Inc",
+        assignee: {
+          name: "Robert Chen",
+          avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
+        },
+        stageEnteredAt: new Date(2024, 3, 12),
+        scheduledMeeting: {
+          date: "18 Apr",
+          time: "10:00"
+        }
       },
     ],
     negotiation: [
@@ -156,6 +180,10 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
     { id: "closed", title: "Won" },
   ];
 
+  const showMeetingBadge = (columnId: string) => {
+    return ["meet", "negotiation", "closed"].includes(columnId);
+  };
+
   return (
     <div className="min-h-screen bg-white flex relative">
       <Navbar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
@@ -204,6 +232,14 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                                     <p className="text-sm font-semibold text-primary mt-2">
                                       {deal.value}
                                     </p>
+                                    {showMeetingBadge(column.id) && deal.scheduledMeeting && (
+                                      <Badge 
+                                        variant="secondary" 
+                                        className="mt-2 bg-[#D3E4FD] text-[#0EA5E9] hover:bg-[#D3E4FD]"
+                                      >
+                                        📅 {deal.scheduledMeeting.date} at {deal.scheduledMeeting.time}
+                                      </Badge>
+                                    )}
                                     <p className="text-xs text-gray-500 mt-1">
                                       {formatDistanceToNow(deal.stageEnteredAt, { addSuffix: true })}
                                     </p>
