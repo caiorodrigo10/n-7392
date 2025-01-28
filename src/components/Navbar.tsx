@@ -2,7 +2,6 @@ import { Link, useLocation } from "react-router-dom";
 import { 
   Bell, 
   CheckSquare, 
-  FileText, 
   Mail, 
   BarChart2, 
   Play,
@@ -16,7 +15,8 @@ import {
   ChevronDown,
   Workflow,
   Calendar,
-  Target
+  Target,
+  LayoutDashboard
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -116,7 +116,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
         </div>
         
         <div className="space-y-0.5">
-          <NavLink to="/quick-actions" icon={FileText}>Quick actions</NavLink>
+          <NavLink to="/" icon={LayoutDashboard}>Dashboard</NavLink>
           <NavLink to="/notifications" icon={Bell}>Notifications</NavLink>
           <NavLink to="/tasks" icon={CheckSquare}>Tasks</NavLink>
           <NavLink to="/calendar" icon={Calendar}>Calendar</NavLink>
