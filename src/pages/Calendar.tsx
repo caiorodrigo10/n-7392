@@ -1,7 +1,7 @@
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Filter, MoreVertical } from "lucide-react";
+import { ChevronDown, X, Filter as FilterIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -44,55 +44,61 @@ const CalendarPage = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
       <div className="container mx-auto p-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold mb-2">Reservas</h1>
-          <p className="text-gray-600">
+        <div className="mb-8">
+          <h1 className="text-2xl font-semibold mb-2">Reservas</h1>
+          <p className="text-gray-600 text-sm">
             Veja os eventos futuros e passados reservados através dos links de tipos de eventos.
           </p>
         </div>
 
         <div className="flex justify-between items-center mb-6">
           <Tabs defaultValue="proximos" className="w-full">
-            <TabsList>
-              <TabsTrigger value="proximos">Próximos</TabsTrigger>
-              <TabsTrigger value="nao-confirmado">Não confirmado</TabsTrigger>
-              <TabsTrigger value="recorrente">Recorrente</TabsTrigger>
-              <TabsTrigger value="anteriores">Anteriores</TabsTrigger>
-              <TabsTrigger value="cancelado">Cancelado</TabsTrigger>
+            <TabsList className="bg-gray-100 p-1">
+              <TabsTrigger value="proximos" className="px-4">Próximos</TabsTrigger>
+              <TabsTrigger value="nao-confirmado" className="px-4">Não confirmado</TabsTrigger>
+              <TabsTrigger value="recorrente" className="px-4">Recorrente</TabsTrigger>
+              <TabsTrigger value="anteriores" className="px-4">Anteriores</TabsTrigger>
+              <TabsTrigger value="cancelado" className="px-4">Cancelado</TabsTrigger>
             </TabsList>
           </Tabs>
-          <Button variant="outline" className="ml-4">
-            <Filter className="h-4 w-4 mr-2" />
+          <Button variant="outline" size="sm" className="ml-4 text-sm font-normal">
+            <FilterIcon className="h-4 w-4 mr-2 rotate-90" />
             Filtros
           </Button>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {events.map((event) => (
-            <Card key={event.id} className="p-4 hover:shadow-md transition-shadow">
+            <Card key={event.id} className="p-6 hover:bg-gray-50 transition-colors">
               <div className="flex items-start justify-between">
-                <div className="flex gap-6">
-                  <div className="w-48">
-                    <div className="font-medium">{event.date}</div>
-                    <div className="text-gray-600">{event.time}</div>
+                <div className="flex gap-8">
+                  <div className="w-40">
+                    <div className="font-medium text-sm">{event.date}</div>
+                    <div className="text-gray-600 text-sm">{event.time}</div>
                   </div>
                   <div>
-                    <div className="font-medium">{event.title}</div>
-                    <div className="text-gray-600">{event.participants}</div>
+                    <div className="font-medium text-sm mb-1">{event.title}</div>
+                    <div className="text-gray-600 text-sm">{event.participants}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" className="text-gray-600">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="text-gray-600 font-normal"
+                  >
+                    <X className="h-4 w-4 mr-2" />
                     Cancelar este evento
                   </Button>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="outline" size="icon">
-                        <MoreVertical className="h-4 w-4" />
+                      <Button variant="ghost" size="sm" className="font-normal">
+                        Editar
+                        <ChevronDown className="h-4 w-4 ml-2" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem>Editar</DropdownMenuItem>
+                      <DropdownMenuItem>Editar evento</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
