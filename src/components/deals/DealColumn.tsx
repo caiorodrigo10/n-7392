@@ -32,12 +32,12 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <h2 className="font-medium text-sm text-secondary/80">
-              Won
+              Completed in January
             </h2>
-            <div className="text-[#22C55E] font-medium">{total}</div>
+            <button className="text-secondary/60 hover:text-secondary">▼</button>
           </div>
           <div className="flex items-center gap-2">
-            <button className="text-secondary/60 hover:text-secondary">▼</button>
+            <div className="text-[#22C55E] font-medium">{total}</div>
             <button className="p-1 hover:bg-gray-100 rounded">
               <MoreVertical className="w-4 h-4 text-secondary/60" />
             </button>
