@@ -2,12 +2,19 @@ import { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Card } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { formatDistanceToNow } from "date-fns";
 
 interface Deal {
   id: string;
   title: string;
   value: string;
   company: string;
+  assignee: {
+    name: string;
+    avatar: string;
+  };
+  stageEnteredAt: Date;
 }
 
 interface DealsState {
@@ -26,20 +33,80 @@ interface DealsProps {
 const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
   const [deals, setDeals] = useState<DealsState>({
     lead: [
-      { id: "1", title: "Enterprise Deal", value: "$50,000", company: "Tech Corp" },
-      { id: "2", title: "Software License", value: "$25,000", company: "StartUp Inc" },
+      { 
+        id: "1", 
+        title: "Enterprise Deal", 
+        value: "$50,000", 
+        company: "Tech Corp",
+        assignee: {
+          name: "Sarah Wilson",
+          avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+        },
+        stageEnteredAt: new Date(2024, 2, 15)
+      },
+      { 
+        id: "2", 
+        title: "Software License", 
+        value: "$25,000", 
+        company: "StartUp Inc",
+        assignee: {
+          name: "John Smith",
+          avatar: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952"
+        },
+        stageEnteredAt: new Date(2024, 3, 1)
+      },
     ],
     qualification: [
-      { id: "5", title: "Training Service", value: "$20,000", company: "Learning Co" },
+      { 
+        id: "5", 
+        title: "Training Service", 
+        value: "$20,000", 
+        company: "Learning Co",
+        assignee: {
+          name: "Mike Johnson",
+          avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+        },
+        stageEnteredAt: new Date(2024, 3, 5)
+      },
     ],
     meet: [
-      { id: "6", title: "Hardware Supply", value: "$35,000", company: "Hardware Ltd" },
+      { 
+        id: "6", 
+        title: "Hardware Supply", 
+        value: "$35,000", 
+        company: "Hardware Ltd",
+        assignee: {
+          name: "Emma Davis",
+          avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
+        },
+        stageEnteredAt: new Date(2024, 2, 20)
+      },
     ],
     negotiation: [
-      { id: "3", title: "Consulting Project", value: "$30,000", company: "Consulting Co" },
+      { 
+        id: "3", 
+        title: "Consulting Project", 
+        value: "$30,000", 
+        company: "Consulting Co",
+        assignee: {
+          name: "Sarah Wilson",
+          avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+        },
+        stageEnteredAt: new Date(2024, 3, 10)
+      },
     ],
     closed: [
-      { id: "4", title: "Training Program", value: "$15,000", company: "Education Ltd" },
+      { 
+        id: "4", 
+        title: "Training Program", 
+        value: "$15,000", 
+        company: "Education Ltd",
+        assignee: {
+          name: "John Smith",
+          avatar: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952"
+        },
+        stageEnteredAt: new Date(2024, 2, 28)
+      },
     ],
   });
 
@@ -129,11 +196,22 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                                 snapshot.draggingOver ? "shadow-lg" : "hover:shadow-md"
                               } transition-shadow`}
                             >
-                              <h3 className="font-medium text-sm">{deal.title}</h3>
-                              <p className="text-xs text-gray-600 mt-1">{deal.company}</p>
-                              <p className="text-sm font-semibold text-primary mt-2">
-                                {deal.value}
-                              </p>
+                              <div className="flex justify-between items-start">
+                                <div className="flex-1">
+                                  <h3 className="font-medium text-sm">{deal.title}</h3>
+                                  <p className="text-xs text-gray-600 mt-1">{deal.company}</p>
+                                  <p className="text-sm font-semibold text-primary mt-2">
+                                    {deal.value}
+                                  </p>
+                                  <p className="text-xs text-gray-500 mt-1">
+                                    {formatDistanceToNow(deal.stageEnteredAt, { addSuffix: true })}
+                                  </p>
+                                </div>
+                                <Avatar className="h-8 w-8 ml-2">
+                                  <AvatarImage src={deal.assignee.avatar} alt={deal.assignee.name} />
+                                  <AvatarFallback>{deal.assignee.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                                </Avatar>
+                              </div>
                             </Card>
                           )}
                         </Draggable>
