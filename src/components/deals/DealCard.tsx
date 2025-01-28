@@ -21,12 +21,12 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className={`p-3 cursor-move bg-white transition-all duration-300 animate-enter ${
+          className={`p-3 cursor-move bg-white transition-transform duration-200 animate-enter ${
             snapshot.isDragging ? "shadow-lg scale-105" : "hover:shadow-md"
           }`}
           style={{
             ...provided.draggableProps.style,
-            transition: "all 0.3s ease"
+            transition: "transform 0.2s ease"
           }}
         >
           <div className="flex justify-between items-start">
