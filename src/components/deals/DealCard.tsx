@@ -24,10 +24,6 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
           className={`p-3 cursor-move bg-white transition-all duration-300 animate-enter ${
             snapshot.isDragging ? "shadow-lg scale-105" : "hover:shadow-md"
           }`}
-          style={{
-            ...provided.draggableProps.style,
-            transition: "all 0.3s ease"
-          }}
         >
           <div className="flex justify-between items-start">
             <div className="flex-1">
