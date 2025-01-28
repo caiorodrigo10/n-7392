@@ -116,7 +116,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               className={`p-4 cursor-move bg-white ${
-                                snapshot.isDraggingOver ? "shadow-lg" : "hover:shadow-md"
+                                snapshot.draggingOver ? "shadow-lg" : "hover:shadow-md"
                               } transition-shadow`}
                             >
                               <h3 className="font-medium">{deal.title}</h3>
