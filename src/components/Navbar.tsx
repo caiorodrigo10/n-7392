@@ -117,7 +117,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           <NavLink to="/quick-actions" icon={FileText}>Quick actions</NavLink>
           <NavLink to="/notifications" icon={Bell}>Notifications</NavLink>
           <NavLink to="/tasks" icon={CheckSquare}>Tasks</NavLink>
-          <NavLink to="/notes" icon={FileText}>Notes</NavLink>
+          <NavLink to="/notes" icon={NotepadText}>Notepad</NavLink>
           <NavLink to="/emails" icon={Mail}>Emails</NavLink>
           <NavLink to="/reports" icon={BarChart2}>Reports</NavLink>
 
