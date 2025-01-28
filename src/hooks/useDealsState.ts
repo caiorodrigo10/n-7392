@@ -209,12 +209,22 @@ export const useDealsState = () => {
     });
   };
 
+  const handleAddDeal = () => {
+    toast({
+      title: "Add Deal",
+      description: "Opening deal creation form...",
+    });
+    // TODO: Implement deal creation form
+    console.log("Add deal clicked");
+  };
+
   return {
     deals,
     isDragging,
     calculateColumnTotal,
     formatCurrency,
     onDragStart,
-    onDragEnd
+    onDragEnd,
+    handleAddDeal
   };
 };

@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import DealStatusDropZone from "@/components/deals/DealStatusDropZone";
 import DealColumn from "@/components/deals/DealColumn";
 import { useDealsState } from "@/hooks/useDealsState";
+import { PageHeader } from "@/components/shared/PageHeader";
 
 interface DealsProps {
   isCollapsed: boolean;
@@ -16,7 +17,8 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
     calculateColumnTotal,
     formatCurrency,
     onDragStart,
-    onDragEnd
+    onDragEnd,
+    handleAddDeal
   } = useDealsState();
 
   const columns = [
@@ -35,10 +37,12 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
           isCollapsed ? 'ml-[60px]' : 'ml-64'
         }`}
       >
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">Deals Pipeline</h1>
-          <p className="text-gray-600 mt-1 text-sm">Track and manage your deals</p>
-        </div>
+        <PageHeader
+          title="Deals Pipeline"
+          subtitle="Track and manage your deals"
+          buttonLabel="Add Deal"
+          onAddClick={handleAddDeal}
+        />
 
         <DragDropContext 
           onDragStart={onDragStart}
