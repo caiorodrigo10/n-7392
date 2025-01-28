@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Navbar from "@/components/Navbar";
@@ -157,7 +157,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
     setIsDragging(true);
   };
 
-  const onDragEnd = (result: DropResult) => {
+  const onDragEnd = (result: any) => {
     setIsDragging(false);
     const { source, destination } = result;
     
@@ -165,8 +165,8 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
 
     // Handle status changes
     if (['lost', 'abandoned', 'won'].includes(destination.droppableId)) {
-      const sourceColumn = Array.from(deals[source.droppableId as keyof DealsState]);
-      const [removed] = sourceColumn.splice(source.index, 1) as [Deal];
+      const sourceColumn = Array.from(deals[source.droppableId]);
+      const [removed] = sourceColumn.splice(source.index, 1);
       
       setDeals({
         ...deals,
@@ -183,16 +183,16 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
 
     // Handle regular column moves
     if (source.droppableId === destination.droppableId) {
-      const column = Array.from(deals[source.droppableId as keyof DealsState]);
-      const [removed] = column.splice(source.index, 1) as [Deal];
+      const column = Array.from(deals[source.droppableId]);
+      const [removed] = column.splice(source.index, 1);
       column.splice(destination.index, 0, removed);
       setDeals({ ...deals, [source.droppableId]: column });
       return;
     }
 
-    const sourceColumn = Array.from(deals[source.droppableId as keyof DealsState]);
-    const destColumn = Array.from(deals[destination.droppableId as keyof DealsState]);
-    const [removed] = sourceColumn.splice(source.index, 1) as [Deal];
+    const sourceColumn = Array.from(deals[source.droppableId]);
+    const destColumn = Array.from(deals[destination.droppableId]);
+    const [removed] = sourceColumn.splice(source.index, 1);
     destColumn.splice(destination.index, 0, removed);
     setDeals({
       ...deals,
