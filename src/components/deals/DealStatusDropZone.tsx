@@ -15,8 +15,8 @@ const DealStatusDropZone = ({ isDropDisabled, isCollapsed }: DealStatusDropZoneP
 
   return (
     <div className={cn(
-      "fixed bottom-0 flex justify-center gap-4 p-6 bg-gradient-to-t from-background to-transparent transition-all duration-300",
-      isCollapsed ? "left-[60px] right-0" : "left-64 right-0"
+      "fixed bottom-0 flex justify-center gap-4 p-6 bg-gradient-to-t from-background to-transparent transition-all duration-300 max-w-[1400px] mx-auto left-0 right-0",
+      isCollapsed ? "ml-[60px]" : "ml-64"
     )}>
       {statuses.map((status) => (
         <Droppable
