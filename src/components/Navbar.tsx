@@ -46,12 +46,12 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
     <Link
       to={to}
       className={cn(
-        "flex items-center p-2 rounded-lg transition-colors text-neutral-600",
+        "flex items-center py-1.5 px-2 rounded-lg transition-colors text-neutral-600 text-sm",
         isCollapsed ? "justify-center" : "space-x-3",
         isActive(to) ? "bg-[#E5DEFF] text-[#9b87f5]" : "hover:bg-[#F1F0FB]"
       )}
     >
-      <Icon className="h-5 w-5 flex-shrink-0" />
+      <Icon className="h-4 w-4 flex-shrink-0" />
       {!isCollapsed && <span>{children}</span>}
     </Link>
   );
@@ -69,16 +69,16 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
   }) => (
     <Collapsible open={isOpen} onOpenChange={onToggle}>
       <CollapsibleTrigger className={cn(
-        "flex items-center w-full p-2 text-neutral-500 hover:bg-[#F1F0FB] rounded-lg",
+        "flex items-center w-full py-1.5 px-2 text-neutral-500 hover:bg-[#F1F0FB] rounded-lg text-sm",
         isCollapsed ? "justify-center" : "justify-between"
       )}>
-        {!isCollapsed && <span className="text-sm">{title}</span>}
+        {!isCollapsed && <span>{title}</span>}
         {!isCollapsed && <ChevronDown className={cn(
-          "h-4 w-4 transition-transform",
+          "h-3 w-3 transition-transform",
           isOpen ? "transform rotate-180" : ""
         )} />}
       </CollapsibleTrigger>
-      <CollapsibleContent className="space-y-1 pl-2">
+      <CollapsibleContent className="space-y-0.5 pl-2">
         {children}
       </CollapsibleContent>
     </Collapsible>
@@ -86,12 +86,12 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
 
   return (
     <div className={cn(
-      "fixed left-0 top-0 h-full flex transition-all duration-300 z-50 bg-white",
+      "fixed left-0 top-0 h-full flex transition-all duration-300 z-50 bg-[#F9F9F9]",
       isCollapsed ? "w-[60px]" : "w-full sm:w-64"
     )}>
-      <nav className="w-full p-4 relative">
+      <nav className="w-full p-3 relative">
         <div className={cn(
-          "mb-8 flex items-center",
+          "mb-6 flex items-center",
           isCollapsed ? "justify-center" : "justify-between"
         )}>
           {!isCollapsed && (
@@ -106,7 +106,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-neutral-600 hover:bg-[#F1F0FB]"
+            className="h-7 w-7 text-neutral-600 hover:bg-[#F1F0FB]"
             onClick={() => setIsCollapsed(!isCollapsed)}
           >
             {isCollapsed ? (
@@ -117,7 +117,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           </Button>
         </div>
         
-        <div className="space-y-2">
+        <div className="space-y-0.5">
           <NavLink to="/quick-actions" icon={FileText}>Quick actions</NavLink>
           <NavLink to="/notifications" icon={Bell}>Notifications</NavLink>
           <NavLink to="/tasks" icon={CheckSquare}>Tasks</NavLink>
