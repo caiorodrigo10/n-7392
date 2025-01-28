@@ -26,7 +26,7 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
   const isWonColumn = id === 'won';
   
   return (
-    <div className="w-[250px] shrink-0 h-full">
+    <div className="w-[280px] shrink-0 h-full">
       <h2 className={`font-medium text-sm mb-2 flex items-center gap-1 ${
         isWonColumn ? 'text-[#22C55E]' : 'text-secondary/80'
       }`}>
