@@ -39,7 +39,6 @@ const CalendarPage = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
         description: "O evento foi cancelado com sucesso.",
       });
       
-      // Atualizar a lista de eventos
       setEvents(events.filter(event => event.id !== eventId));
     } else {
       toast({
@@ -54,10 +53,8 @@ const CalendarPage = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
       <div className="container mx-auto p-6">
         <div className="mb-8">
-          <h1 className="text-2xl font-semibold mb-2">Reservas</h1>
-          <p className="text-gray-600 text-sm">
-            Veja os eventos futuros e passados reservados através dos links de tipos de eventos.
-          </p>
+          <h1 className="text-3xl font-bold">Calendar</h1>
+          <p className="text-gray-600 mt-1">Track and manage your appointments</p>
         </div>
 
         <div className="flex flex-col gap-4">
