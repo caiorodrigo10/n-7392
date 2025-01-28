@@ -1,7 +1,6 @@
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/shared/PageHeader";
-import { useNavigate } from "react-router-dom";
 
 interface GoalsProps {
   isCollapsed: boolean;
@@ -9,8 +8,6 @@ interface GoalsProps {
 }
 
 const Goals = ({ isCollapsed, setIsCollapsed }: GoalsProps) => {
-  const navigate = useNavigate();
-
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
       <PageHeader
@@ -28,7 +25,6 @@ const Goals = ({ isCollapsed, setIsCollapsed }: GoalsProps) => {
           <Button 
             size="lg" 
             className="w-full bg-primary hover:bg-primary/90"
-            onClick={() => navigate("/funnel-goals-overview")}
           >
             Define
           </Button>

@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { useState } from "react";
 import Index from "./pages/Index";
 import Contacts from "./pages/Contacts";
 import ContactDetails from "./pages/ContactDetails";
@@ -8,17 +11,18 @@ import Companies from "./pages/Companies";
 import Deals from "./pages/Deals";
 import Calendar from "./pages/Calendar";
 import Goals from "./pages/Goals";
-import FunnelGoalsOverview from "./pages/FunnelGoalsOverview";
-import AiChat from "./components/AiChat";
+import { AiChat } from "./components/AiChat";
 
 const queryClient = new QueryClient();
 
-function App() {
+const App = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="h-screen">
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
@@ -28,13 +32,12 @@ function App() {
             <Route path="/deals" element={<Deals isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
             <Route path="/calendar" element={<Calendar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
             <Route path="/goals" element={<Goals isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
-            <Route path="/funnel-goals-overview" element={<FunnelGoalsOverview isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
           </Routes>
           <AiChat />
         </BrowserRouter>
-      </div>
+      </TooltipProvider>
     </QueryClientProvider>
   );
-}
+};
 
 export default App;
