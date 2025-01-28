@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
 import Index from "./pages/Index";
 import Contacts from "./pages/Contacts";
 import ContactDetails from "./pages/ContactDetails";
@@ -9,7 +9,7 @@ import Deals from "./pages/Deals";
 import Calendar from "./pages/Calendar";
 import Goals from "./pages/Goals";
 import FunnelGoalsOverview from "./pages/FunnelGoalsOverview";
-import { AiChat } from "./components/AiChat";
+import AiChat from "./components/AiChat";
 
 const queryClient = new QueryClient();
 
