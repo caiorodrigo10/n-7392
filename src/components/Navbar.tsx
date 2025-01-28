@@ -24,7 +24,15 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           "mb-8 flex items-center",
           isCollapsed ? "justify-center" : "justify-between"
         )}>
-          {!isCollapsed && <h1 className="text-2xl font-bold text-white">CRM</h1>}
+          {!isCollapsed && (
+            <div className="flex items-center">
+              <img 
+                src="/lovable-uploads/564c052a-1912-4ada-99e6-06ec0c0b6b53.png" 
+                alt="Logo" 
+                className="h-8 w-auto"
+              />
+            </div>
+          )}
           <Button
             variant="ghost"
             size="icon"
