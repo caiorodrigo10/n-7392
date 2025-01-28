@@ -97,8 +97,8 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           {!isCollapsed && (
             <div className="flex items-center">
               <img 
-                src="/lovable-uploads/564c052a-1912-4ada-99e6-06ec0c0b6b53.png" 
-                alt="Logo" 
+                src="/lovable-uploads/1703b3f3-16db-45a5-8331-7d7301d17715.png" 
+                alt="Avantto Logo" 
                 className="h-8 w-auto"
               />
             </div>
