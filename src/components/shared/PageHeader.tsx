@@ -17,7 +17,7 @@ export function PageHeader({
   onAddClick 
 }: PageHeaderProps) {
   return (
-    <div className="max-w-[1400px] mx-auto px-8">
+    <div className="px-6">
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold">

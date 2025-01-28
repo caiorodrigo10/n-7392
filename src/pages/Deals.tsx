@@ -46,8 +46,8 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
           onDragEnd={onDragEnd}
         >
           <div className="flex-1 flex flex-col min-h-[calc(100vh-13rem)]">
-            <div className="flex-1 overflow-x-auto scrollbar-thin">
-              <div className="inline-flex gap-3 p-4">
+            <div className="flex-1 overflow-x-auto scrollbar-thin px-6">
+              <div className="inline-flex gap-2 py-4">
                 {columns.map((column) => (
                   <div key={column.id} className="flex flex-col">
                     <DealColumn

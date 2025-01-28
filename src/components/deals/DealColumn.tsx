@@ -12,7 +12,7 @@ interface DealColumnProps {
 const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
   return (
     <div className="w-[250px] shrink-0">
-      <h2 className="font-medium text-sm mb-3">
+      <h2 className="font-medium text-sm mb-2">
         {title} ({deals.length}) - {total}
       </h2>
       <Droppable droppableId={id} type="DEAL">
