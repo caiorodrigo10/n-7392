@@ -1,11 +1,12 @@
 import { Card } from "@/components/ui/card";
-import { Video } from "lucide-react";
+import { Video, X } from "lucide-react";
 import { Event } from "@/entities/Event";
 import { EventAdapter } from "@/adapters/EventAdapter";
 import { EventUseCase } from "@/usecases/EventUseCase";
 import { useToast } from "@/components/ui/use-toast";
 import { EventActions } from "./EventActions";
 import { AttendanceStatus } from "./AttendanceStatus";
+import { Button } from "@/components/ui/button";
 
 interface EventCardProps {
   event: Event;
