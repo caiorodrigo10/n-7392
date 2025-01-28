@@ -124,6 +124,7 @@ export const useDealsState = () => {
     let foundDeal: Deal | null = null;
     let sourceColumn: keyof DealsState | null = null;
 
+    // Find the deal and its source column
     Object.entries(deals).forEach(([column, columnDeals]) => {
       const deal = columnDeals.find((d) => d.id === dealId);
       if (deal) {
@@ -133,26 +134,35 @@ export const useDealsState = () => {
     });
 
     if (foundDeal && sourceColumn) {
+      // Remove the deal from its source column
       const updatedDeals = {
         ...deals,
         [sourceColumn]: deals[sourceColumn].filter((d) => d.id !== dealId),
       };
 
+      // Update the state immediately to remove the card
       setDeals(updatedDeals);
 
+      // Show appropriate notification and animation
       if (status === 'won') {
         triggerWinConfetti();
         toast({
           title: "🎉 Deal Won!",
           description: `Congratulations! ${foundDeal.title} has been won!`,
+          className: "animate-enter",
         });
       } else {
         toast({
           title: `Deal marked as ${status}`,
           description: `${foundDeal.title} has been marked as ${status}`,
+          className: "animate-enter",
         });
       }
+
+      return true; // Indicate successful status change
     }
+
+    return false; // Indicate failed status change
   };
 
   const onDragStart = () => {
@@ -168,12 +178,18 @@ export const useDealsState = () => {
 
     const { source, destination } = result;
 
+    // Handle dropping to status zones
     if (destination.droppableId.startsWith('status-')) {
       const status = destination.droppableId.replace('status-', '');
-      handleDealStatusChange(result.draggableId, status);
-      return;
+      const statusChanged = handleDealStatusChange(result.draggableId, status);
+      
+      // If status change was successful, don't proceed with column movement
+      if (statusChanged) {
+        return;
+      }
     }
 
+    // Handle moving between columns
     if (source.droppableId === destination.droppableId && source.index === destination.index) {
       return;
     }
