@@ -70,7 +70,7 @@ export function DataTable<T>({
                   key={header.id}
                   className={cn(
                     "relative h-10 select-none border-t [&>.cursor-col-resize]:last:opacity-0",
-                    header.id === "select" && "w-[32px] pl-4 pr-0"
+                    header.id === "select" && "w-[24px] pl-2 pr-0"
                   )}
                   style={{ width: header.getSize() }}
                 >
@@ -117,7 +117,7 @@ export function DataTable<T>({
                     key={cell.id}
                     className={cn(
                       "truncate",
-                      cell.column.id === "select" && "w-[32px] pl-4 pr-0"
+                      cell.column.id === "select" && "w-[24px] pl-2 pr-0"
                     )}
                     style={{ width: cell.column.getSize() }}
                   >
