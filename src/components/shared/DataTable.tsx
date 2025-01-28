@@ -32,7 +32,6 @@ export function DataTable<T>({
 }: DataTableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-  const [columnSizing, setColumnSizing] = useState({});
 
   const table = useReactTable({
     data,
@@ -54,9 +53,7 @@ export function DataTable<T>({
     state: {
       sorting,
       rowSelection,
-      columnSizing,
     },
-    onColumnSizingChange: setColumnSizing,
     enableRowSelection: true,
     enableSortingRemoval: false,
     enableColumnResizing: true,
@@ -64,7 +61,7 @@ export function DataTable<T>({
 
   return (
     <div className="rounded-md border w-full overflow-auto">
-      <Table>
+      <Table className="table-fixed" style={{ width: table.getCenterTotalSize() }}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id} className="bg-muted/50">
@@ -72,35 +69,35 @@ export function DataTable<T>({
                 <TableHead
                   key={header.id}
                   className={cn(
-                    "relative h-10 select-none",
+                    "relative h-10 select-none border-t [&>.cursor-col-resize]:last:opacity-0",
                     header.id === "select" && "w-[40px] px-2"
                   )}
                   style={{ width: header.getSize() }}
                 >
-                  <div
-                    className={cn(
-                      "flex h-full select-none items-center gap-2",
-                      header.column.getCanSort() && "cursor-pointer justify-between"
-                    )}
-                    onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
-                  >
-                    <span className="truncate">
-                      {flexRender(header.column.columnDef.header, header.getContext())}
-                    </span>
-                    {{
-                      asc: <ChevronUp className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
-                      desc: <ChevronDown className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
-                    }[header.column.getIsSorted() as string] ?? null}
-                  </div>
+                  {header.isPlaceholder ? null : (
+                    <div
+                      className={cn(
+                        "flex h-full select-none items-center gap-2",
+                        header.column.getCanSort() && "cursor-pointer justify-between"
+                      )}
+                      onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
+                    >
+                      <span className="truncate">
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                      </span>
+                      {{
+                        asc: <ChevronUp className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
+                        desc: <ChevronDown className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
+                      }[header.column.getIsSorted() as string] ?? null}
+                    </div>
+                  )}
                   {header.column.getCanResize() && header.id !== "select" && (
                     <div
                       onDoubleClick={() => header.column.resetSize()}
                       onMouseDown={header.getResizeHandler()}
                       onTouchStart={header.getResizeHandler()}
-                      className="absolute right-0 top-0 h-full w-2 cursor-col-resize select-none touch-none z-10 group"
-                    >
-                      <div className="absolute right-0 h-full w-px bg-gray-300 group-hover:bg-gray-400 transition-colors" />
-                    </div>
+                      className="absolute top-0 h-full w-4 cursor-col-resize user-select-none touch-none -right-2 z-10 flex justify-center before:absolute before:w-px before:inset-y-0 before:bg-border before:translate-x-px"
+                    />
                   )}
                 </TableHead>
               ))}
