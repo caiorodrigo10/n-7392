@@ -2,6 +2,7 @@ import { Droppable } from "@hello-pangea/dnd";
 import { Deal } from "@/types/deals";
 import DealCard from "./DealCard";
 import { EmptyColumn } from "./EmptyColumn";
+import { Trophy } from "lucide-react";
 
 interface DealColumnProps {
   id: string;
@@ -43,6 +44,18 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
               snapshot.isDraggingOver ? "bg-opacity-80" : ""
             }`}
           >
+            {isWonColumn && (
+              <div className="bg-white rounded-lg p-4 mb-2 border border-[#22C55E]/20">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-gray-600">Ganha</span>
+                  <div className="flex items-center gap-2">
+                    <Trophy className="w-4 h-4 text-[#22C55E]" />
+                    <span className="text-sm">{deals.length}</span>
+                  </div>
+                </div>
+                <div className="text-[#22C55E] font-medium">{total}</div>
+              </div>
+            )}
             {deals.length > 0 ? (
               deals.map((deal, index) => (
                 <DealCard 
