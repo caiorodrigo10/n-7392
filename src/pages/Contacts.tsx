@@ -23,7 +23,7 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
 
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
-      <div className="max-w-[1400px] mx-auto px-8 py-8">
+      <div className="h-full flex flex-col">
         <PageHeader
           title="Contacts"
           subtitle="Manage your contacts and leads"
@@ -32,17 +32,21 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
           onAddClick={handleAddContact}
         />
 
-        <SearchBar
-          value={search}
-          onChange={setSearch}
-          placeholder="Search contacts..."
-        />
+        <div className="flex-1 flex flex-col px-6">
+          <SearchBar
+            value={search}
+            onChange={setSearch}
+            placeholder="Search contacts..."
+          />
 
-        <DataTable
-          columns={contactColumns}
-          data={contacts}
-          onRowSelectionChange={setRowSelection}
-        />
+          <div className="flex-1 overflow-auto">
+            <DataTable
+              columns={contactColumns}
+              data={contacts}
+              onRowSelectionChange={setRowSelection}
+            />
+          </div>
+        </div>
       </div>
     </Layout>
   );

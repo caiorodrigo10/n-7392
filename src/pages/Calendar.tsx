@@ -52,7 +52,7 @@ const Calendar = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
 
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
-      <div className="max-w-[1400px] mx-auto px-8 py-8">
+      <div className="h-full flex flex-col">
         <PageHeader
           title="Calendar"
           subtitle="Track and manage your appointments"
@@ -60,8 +60,10 @@ const Calendar = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
           onAddClick={() => console.log('Add event clicked')}
         />
 
-        <div className="flex flex-col gap-4">
-          <CalendarTabs events={events} previousEvents={previousEvents} />
+        <div className="flex-1 flex flex-col px-6">
+          <div className="flex-1 overflow-auto">
+            <CalendarTabs events={events} previousEvents={previousEvents} />
+          </div>
         </div>
       </div>
     </Layout>
