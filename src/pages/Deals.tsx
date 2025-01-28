@@ -47,7 +47,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
         >
           <div className="flex flex-col h-[calc(100vh-13rem)]">
             <div className="flex-1 overflow-x-auto scrollbar-thin">
-              <div className="min-w-max p-4">
+              <div className="min-w-max">
                 <div className="flex gap-4">
                   {columns.map((column) => (
                     <div key={column.id} className="flex flex-col">
