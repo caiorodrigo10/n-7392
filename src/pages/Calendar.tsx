@@ -50,7 +50,7 @@ const Calendar = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
         <main className={`p-4 sm:p-8`}>
           <div className="mb-8">
