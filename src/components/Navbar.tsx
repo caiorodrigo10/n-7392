@@ -85,7 +85,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
 
   return (
     <div className={cn(
-      "fixed left-0 top-0 h-full flex flex-col transition-all duration-300 z-50 bg-[#F9F9F9]",
+      "fixed left-0 top-0 h-full flex flex-col transition-all duration-300 z-50 bg-white",
       isCollapsed ? "w-[60px]" : "w-full sm:w-64"
     )}>
       <nav className="w-full p-3">
