@@ -26,7 +26,7 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
   const isWonColumn = id === 'won';
   
   return (
-    <div className="w-[250px] shrink-0">
+    <div className="w-[250px] shrink-0 h-full">
       <h2 className={`font-medium text-sm mb-2 flex items-center gap-1 ${
         isWonColumn ? 'text-[#22C55E]' : 'text-secondary/80'
       }`}>
@@ -36,8 +36,8 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
-            {...provided.droppableProps}
-            className={`space-y-2 ${isWonColumn ? 'min-h-[calc(100vh-13rem)]' : 'min-h-[200px]'} p-2 rounded-lg transition-colors duration-200 ${
+            {...provided.draggableProps}
+            className={`h-[calc(100vh-13rem)] space-y-2 p-2 rounded-lg transition-colors duration-200 ${
               getColumnBackground(id)
             } ${
               snapshot.isDraggingOver ? "bg-opacity-80" : ""
