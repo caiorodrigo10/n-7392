@@ -46,11 +46,11 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
           />
         </div>
 
-        <div className="w-full overflow-x-auto">
-          <DragDropContext 
-            onDragStart={onDragStart}
-            onDragEnd={onDragEnd}
-          >
+        <DragDropContext 
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+        >
+          <div className="w-full overflow-x-auto">
             <div className="flex gap-4 min-w-max p-4">
               {columns.map((column) => (
                 <DealColumn
@@ -62,9 +62,9 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                 />
               ))}
             </div>
-          </DragDropContext>
-          {isDragging && <DealStatusDropZone isDropDisabled={!isDragging} isCollapsed={isCollapsed} />}
-        </div>
+            {isDragging && <DealStatusDropZone isDropDisabled={!isDragging} isCollapsed={isCollapsed} />}
+          </div>
+        </DragDropContext>
       </div>
     </div>
   );
