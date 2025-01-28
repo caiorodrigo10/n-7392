@@ -11,7 +11,6 @@ import {
   DollarSign,
   LayoutGrid,
   Share2,
-  Rocket,
   HelpCircle,
   ChevronLeft,
   ChevronRight,
@@ -36,7 +35,6 @@ interface NavbarProps {
 const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
   const location = useLocation();
   const [automationsOpen, setAutomationsOpen] = useState(false);
-  const [favoritesOpen, setFavoritesOpen] = useState(false);
   const [recordsOpen, setRecordsOpen] = useState(false);
   const [listsOpen, setListsOpen] = useState(false);
   
@@ -99,7 +97,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
               <img 
                 src="/lovable-uploads/1703b3f3-16db-45a5-8331-7d7301d17715.png" 
                 alt="Avantto Logo" 
-                className="h-8 w-auto"
+                className="h-10 w-auto"
               />
             </div>
           )}
@@ -130,12 +128,6 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
             <NavLink to="/sequences" icon={Play}>Sequences</NavLink>
           </NavSection>
 
-          <NavSection title="Favorites" isOpen={favoritesOpen} onToggle={setFavoritesOpen}>
-            <NavLink to="/onboarding" icon={Rocket}>Onboarding pipeline</NavLink>
-            <NavLink to="/funnel" icon={Share2}>Top of funnel</NavLink>
-            <NavLink to="/revops" icon={FileText}>RevOps workflows</NavLink>
-          </NavSection>
-
           <NavSection title="Records" isOpen={recordsOpen} onToggle={setRecordsOpen}>
             <NavLink to="/companies" icon={Building2}>Companies</NavLink>
             <NavLink to="/contacts" icon={Users}>People</NavLink>
@@ -145,7 +137,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           </NavSection>
 
           <NavSection title="Lists" isOpen={listsOpen} onToggle={setListsOpen}>
-            <NavLink to="/strategic-accounts" icon={Rocket}>Strategic accounts</NavLink>
+            <NavLink to="/strategic-accounts" icon={Share2}>Strategic accounts</NavLink>
           </NavSection>
 
           <NavLink to="/help" icon={HelpCircle}>Help and first steps</NavLink>
