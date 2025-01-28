@@ -165,8 +165,8 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
 
     // Handle status changes
     if (['lost', 'abandoned', 'won'].includes(destination.droppableId)) {
-      const sourceColumn = Array.from(deals[source.droppableId]);
-      const [removed] = sourceColumn.splice(source.index, 1);
+      const sourceColumn = Array.from(deals[source.droppableId as keyof DealsState]);
+      const [removed] = sourceColumn.splice(source.index, 1) as [Deal];
       
       setDeals({
         ...deals,
@@ -183,15 +183,15 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
 
     // Handle regular column moves
     if (source.droppableId === destination.droppableId) {
-      const column = Array.from(deals[source.droppableId]);
+      const column = Array.from(deals[source.droppableId as keyof DealsState]);
       const [removed] = column.splice(source.index, 1);
       column.splice(destination.index, 0, removed);
       setDeals({ ...deals, [source.droppableId]: column });
       return;
     }
 
-    const sourceColumn = Array.from(deals[source.droppableId]);
-    const destColumn = Array.from(deals[destination.droppableId]);
+    const sourceColumn = Array.from(deals[source.droppableId as keyof DealsState]);
+    const destColumn = Array.from(deals[destination.droppableId as keyof DealsState]);
     const [removed] = sourceColumn.splice(source.index, 1);
     destColumn.splice(destination.index, 0, removed);
     setDeals({
@@ -232,7 +232,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
               {columns.map((column) => (
                 <div key={column.id} className="w-[280px]">
                   <h2 className="font-medium text-sm mb-3">
-                    {column.title} ({deals[column.id].length}) - {formatCurrency(calculateColumnTotal(deals[column.id]))}
+                    {column.title} ({deals[column.id as keyof DealsState].length}) - {formatCurrency(calculateColumnTotal(deals[column.id as keyof DealsState]))}
                   </h2>
                   <Droppable droppableId={column.id}>
                     {(provided, snapshot) => (
@@ -243,7 +243,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                           snapshot.isDraggingOver ? "bg-gray-50" : "bg-gray-100/50"
                         }`}
                       >
-                        {deals[column.id].map((deal, index) => (
+                        {deals[column.id as keyof DealsState].map((deal, index) => (
                           <Draggable key={deal.id} draggableId={deal.id} index={index}>
                             {(provided, snapshot) => (
                               <Card
