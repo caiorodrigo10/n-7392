@@ -11,7 +11,7 @@ interface DealColumnProps {
 
 const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
   return (
-    <div className="w-[280px]">
+    <div className="w-[250px] shrink-0">
       <h2 className="font-medium text-sm mb-3">
         {title} ({deals.length}) - {total}
       </h2>
@@ -20,7 +20,7 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className={`space-y-3 min-h-[200px] p-3 rounded-lg ${
+            className={`space-y-2 min-h-[200px] p-2 rounded-lg ${
               snapshot.isDraggingOver ? "bg-gray-50" : "bg-gray-100/50"
             }`}
           >

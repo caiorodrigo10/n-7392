@@ -33,7 +33,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
 
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
-      <div className="max-w-[1400px] mx-auto pt-8">
+      <div className="h-full flex flex-col">
         <PageHeader
           title="Deals Pipeline"
           subtitle="Track and manage your deals"
@@ -45,29 +45,27 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
         >
-          <div className="flex flex-col h-[calc(100vh-13rem)]">
+          <div className="flex-1 flex flex-col min-h-[calc(100vh-13rem)]">
             <div className="flex-1 overflow-x-auto scrollbar-thin">
-              <div className="min-w-max px-8">
-                <div className="flex gap-4">
-                  {columns.map((column) => (
-                    <div key={column.id} className="flex flex-col">
-                      <DealColumn
-                        id={column.id}
-                        title={column.title}
-                        deals={deals[column.id as keyof typeof deals]}
-                        total={formatCurrency(calculateColumnTotal(deals[column.id as keyof typeof deals]))}
-                      />
-                      <Button 
-                        variant="ghost" 
-                        className="mt-2 w-full text-muted-foreground hover:text-foreground flex items-center justify-center gap-2 h-8"
-                        onClick={() => console.log(`Add calculation for ${column.id}`)}
-                      >
-                        <Plus className="h-4 w-4" />
-                        <span className="text-sm">Add calculation</span>
-                      </Button>
-                    </div>
-                  ))}
-                </div>
+              <div className="inline-flex gap-3 p-4">
+                {columns.map((column) => (
+                  <div key={column.id} className="flex flex-col">
+                    <DealColumn
+                      id={column.id}
+                      title={column.title}
+                      deals={deals[column.id as keyof typeof deals]}
+                      total={formatCurrency(calculateColumnTotal(deals[column.id as keyof typeof deals]))}
+                    />
+                    <Button 
+                      variant="ghost" 
+                      className="mt-2 w-full text-muted-foreground hover:text-foreground flex items-center justify-center gap-2 h-8"
+                      onClick={() => console.log(`Add calculation for ${column.id}`)}
+                    >
+                      <Plus className="h-4 w-4" />
+                      <span className="text-sm">Add calculation</span>
+                    </Button>
+                  </div>
+                ))}
               </div>
             </div>
             {isDragging && <DealStatusDropZone isDropDisabled={!isDragging} isCollapsed={isCollapsed} />}
