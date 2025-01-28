@@ -179,8 +179,10 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
   };
 
   const onDragEnd = (result: DropResult) => {
-    setIsDragging(false);
     const { source, destination } = result;
+    
+    // Always reset dragging state first
+    setIsDragging(false);
     
     if (!destination) return;
 
@@ -216,12 +218,6 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
     setIsDragging(true);
   };
 
-  const onDragUpdate = () => {
-    if (!isDragging) {
-      setIsDragging(true);
-    }
-  };
-
   const columns = [
     { id: "lead", title: "Lead" },
     { id: "qualification", title: "Qualification" },
@@ -250,7 +246,6 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
         <DragDropContext 
           onDragEnd={onDragEnd} 
           onDragStart={onDragStart}
-          onDragUpdate={onDragUpdate}
         >
           <div className="overflow-x-auto">
             <div className="flex gap-4 min-w-max pb-4">
