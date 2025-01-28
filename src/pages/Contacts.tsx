@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Search, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Layout } from "@/components/Layout";
@@ -30,12 +30,17 @@ type Contact = {
   email: string;
   company: string;
   role: string;
+  status: "Active" | "Inactive";
+  lastContact: string;
 };
 
 const columns: ColumnDef<Contact>[] = [
   {
     header: "Name",
     accessorKey: "name",
+    cell: ({ row }) => <div className="truncate font-medium">{row.getValue("name")}</div>,
+    sortUndefined: "last",
+    sortDescFirst: false,
   },
   {
     header: "Email",
@@ -49,15 +54,68 @@ const columns: ColumnDef<Contact>[] = [
     header: "Role",
     accessorKey: "role",
   },
+  {
+    header: "Status",
+    accessorKey: "status",
+  },
+  {
+    header: "Last Contact",
+    accessorKey: "lastContact",
+  },
+];
+
+const mockData: Contact[] = [
+  {
+    id: "1",
+    name: "John Doe",
+    email: "john@company.com",
+    company: "Tech Corp",
+    role: "CEO",
+    status: "Active",
+    lastContact: "2024-03-15",
+  },
+  {
+    id: "2",
+    name: "Jane Smith",
+    email: "jane@design.co",
+    company: "Design Co",
+    role: "Designer",
+    status: "Active",
+    lastContact: "2024-03-14",
+  },
+  {
+    id: "3",
+    name: "Mike Johnson",
+    email: "mike@startup.io",
+    company: "Startup.io",
+    role: "Developer",
+    status: "Inactive",
+    lastContact: "2024-03-10",
+  },
+  {
+    id: "4",
+    name: "Sarah Wilson",
+    email: "sarah@agency.com",
+    company: "Creative Agency",
+    role: "Director",
+    status: "Active",
+    lastContact: "2024-03-13",
+  },
+  {
+    id: "5",
+    name: "Tom Brown",
+    email: "tom@consulting.com",
+    company: "Consulting Ltd",
+    role: "Consultant",
+    status: "Inactive",
+    lastContact: "2024-03-08",
+  },
 ];
 
 const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
   const [search, setSearch] = useState("");
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [data] = useState<Contact[]>([
-    { id: "1", name: "John Doe", email: "john@example.com", company: "Tech Corp", role: "CEO" },
-    { id: "2", name: "Jane Smith", email: "jane@example.com", company: "Design Co", role: "Designer" },
-  ]);
+  const [data] = useState<Contact[]>(mockData);
 
   const table = useReactTable({
     data,
@@ -68,6 +126,7 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
     state: {
       sorting,
     },
+    enableSortingRemoval: false,
   });
 
   return (
@@ -98,15 +157,28 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
+                <TableRow key={headerGroup.id} className="bg-muted/50">
                   {headerGroup.headers.map((header) => (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                    <TableHead
+                      key={header.id}
+                      className="relative h-10 select-none border-t"
+                      aria-sort={
+                        header.column.getIsSorted() === "asc"
+                          ? "ascending"
+                          : header.column.getIsSorted() === "desc"
+                            ? "descending"
+                            : "none"
+                      }
+                    >
+                      <div
+                        className="flex h-full cursor-pointer select-none items-center justify-between gap-2"
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                      </div>
                     </TableHead>
                   ))}
                 </TableRow>
