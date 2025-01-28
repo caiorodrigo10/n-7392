@@ -93,14 +93,10 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
         )}>
           {!isCollapsed && (
             <div className="flex items-center gap-2 pl-1">
-              <div className="w-8 h-8 bg-[#ccc] rounded-lg overflow-hidden">
-                <img 
-                  src="/lovable-uploads/28d7ef06-e34b-413f-bb1e-508bf88d5b46.png" 
-                  alt="Company Logo" 
-                  className="w-full h-full object-cover"
-                />
+              <div className="w-8 h-8 bg-primary rounded-lg overflow-hidden flex items-center justify-center text-white font-semibold">
+                A
               </div>
-              <div className="font-semibold text-xl text-neutral-800">Avantt</div>
+              <div className="font-semibold text-xl text-neutral-800">Avantto</div>
             </div>
           )}
           <Button
