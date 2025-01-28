@@ -12,13 +12,13 @@ interface DashboardCardProps {
 
 const DashboardCard = ({ title, value, icon, trend }: DashboardCardProps) => {
   return (
-    <Card className="p-6">
+    <Card className="p-6 border-none shadow-lg bg-white hover:shadow-xl transition-shadow duration-200">
       <div className="flex items-center justify-between">
-        <div className="text-secondary">{icon}</div>
+        <div className="text-primary">{icon}</div>
         {trend && (
           <div
             className={`text-sm ${
-              trend.isPositive ? "text-green-500" : "text-red-500"
+              trend.isPositive ? "text-tertiary" : "text-red-500"
             }`}
           >
             {trend.isPositive ? "+" : "-"}{trend.value}%
@@ -26,8 +26,8 @@ const DashboardCard = ({ title, value, icon, trend }: DashboardCardProps) => {
         )}
       </div>
       <div className="mt-4">
-        <h3 className="text-lg font-medium text-gray-600">{title}</h3>
-        <p className="text-2xl font-bold mt-1">{value}</p>
+        <h3 className="text-lg font-medium text-secondary/60">{title}</h3>
+        <p className="text-2xl font-bold mt-1 text-secondary">{value}</p>
       </div>
     </Card>
   );

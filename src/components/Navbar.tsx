@@ -19,16 +19,16 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
       "fixed left-0 top-0 h-full flex transition-all duration-300 z-50",
       isCollapsed ? "w-[60px]" : "w-full sm:w-64"
     )}>
-      <nav className="w-full bg-white p-4 relative">
+      <nav className="w-full bg-secondary p-4 relative">
         <div className={cn(
           "mb-8 flex items-center",
           isCollapsed ? "justify-center" : "justify-between"
         )}>
-          {!isCollapsed && <h1 className="text-2xl font-bold text-primary">CRM</h1>}
+          {!isCollapsed && <h1 className="text-2xl font-bold text-white">CRM</h1>}
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8"
+            className="h-8 w-8 text-white hover:bg-primary/20"
             onClick={() => setIsCollapsed(!isCollapsed)}
           >
             {isCollapsed ? (
@@ -43,9 +43,9 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           <Link
             to="/"
             className={cn(
-              "flex items-center p-3 rounded-lg transition-colors",
+              "flex items-center p-3 rounded-lg transition-colors text-white/80",
               isCollapsed ? "justify-center" : "space-x-3",
-              isActive("/") ? "bg-gray-100 text-gray-900" : "hover:bg-gray-50"
+              isActive("/") ? "bg-primary text-white" : "hover:bg-white/10"
             )}
           >
             <LayoutDashboard className="h-5 w-5 flex-shrink-0" />
@@ -55,9 +55,9 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           <Link
             to="/contacts"
             className={cn(
-              "flex items-center p-3 rounded-lg transition-colors",
+              "flex items-center p-3 rounded-lg transition-colors text-white/80",
               isCollapsed ? "justify-center" : "space-x-3",
-              isActive("/contacts") ? "bg-gray-100 text-gray-900" : "hover:bg-gray-50"
+              isActive("/contacts") ? "bg-primary text-white" : "hover:bg-white/10"
             )}
           >
             <Users className="h-5 w-5 flex-shrink-0" />
@@ -67,9 +67,9 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           <Link
             to="/deals"
             className={cn(
-              "flex items-center p-3 rounded-lg transition-colors",
+              "flex items-center p-3 rounded-lg transition-colors text-white/80",
               isCollapsed ? "justify-center" : "space-x-3",
-              isActive("/deals") ? "bg-gray-100 text-gray-900" : "hover:bg-gray-50"
+              isActive("/deals") ? "bg-primary text-white" : "hover:bg-white/10"
             )}
           >
             <PieChart className="h-5 w-5 flex-shrink-0" />
@@ -79,9 +79,9 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           <Link
             to="/calendar"
             className={cn(
-              "flex items-center p-3 rounded-lg transition-colors",
+              "flex items-center p-3 rounded-lg transition-colors text-white/80",
               isCollapsed ? "justify-center" : "space-x-3",
-              isActive("/calendar") ? "bg-gray-100 text-gray-900" : "hover:bg-gray-50"
+              isActive("/calendar") ? "bg-primary text-white" : "hover:bg-white/10"
             )}
           >
             <Calendar className="h-5 w-5 flex-shrink-0" />
@@ -89,7 +89,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           </Link>
         </div>
       </nav>
-      <Separator orientation="vertical" className="h-full" />
+      <Separator orientation="vertical" className="h-full bg-white/10" />
     </div>
   );
 };

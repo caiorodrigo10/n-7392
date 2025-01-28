@@ -12,15 +12,15 @@ const data = [
 
 const DashboardChart = () => {
   return (
-    <Card className="p-6">
-      <h3 className="text-lg font-medium text-gray-600 mb-4">Sales Overview</h3>
+    <Card className="p-6 border-none shadow-lg bg-white">
+      <h3 className="text-lg font-medium text-secondary/60 mb-4">Sales Overview</h3>
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
             <defs>
               <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#000000" stopOpacity={0.1}/>
-                <stop offset="95%" stopColor="#000000" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#EC6C04" stopOpacity={0.1}/>
+                <stop offset="95%" stopColor="#EC6C04" stopOpacity={0}/>
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
@@ -28,13 +28,13 @@ const DashboardChart = () => {
               dataKey="name" 
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#666666', fontSize: 12 }}
+              tick={{ fill: '#1A1A1A', fontSize: 12 }}
               dy={10}
             />
             <YAxis 
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#666666', fontSize: 12 }}
+              tick={{ fill: '#1A1A1A', fontSize: 12 }}
               dx={-10}
             />
             <Tooltip 
@@ -48,10 +48,10 @@ const DashboardChart = () => {
             <Line 
               type="monotone" 
               dataKey="value" 
-              stroke="#000000" 
+              stroke="#EC6C04" 
               strokeWidth={2}
               dot={false}
-              activeDot={{ r: 6, fill: '#000000' }}
+              activeDot={{ r: 6, fill: '#EC6C04' }}
               fill="url(#colorValue)"
             />
           </LineChart>

@@ -10,19 +10,19 @@ const data = [
 
 const DashboardBarChart = () => {
   return (
-    <Card className="p-6">
-      <h3 className="text-lg font-medium mb-4">Quarterly Performance</h3>
+    <Card className="p-6 border-none shadow-lg bg-white">
+      <h3 className="text-lg font-medium mb-4 text-secondary/60">Quarterly Performance</h3>
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
             <defs>
               <linearGradient id="dealsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#000000" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#000000" stopOpacity={0.4}/>
+                <stop offset="0%" stopColor="#EC6C04" stopOpacity={0.8}/>
+                <stop offset="95%" stopColor="#EC6C04" stopOpacity={0.4}/>
               </linearGradient>
               <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#64748b" stopOpacity={0.8}/>
-                <stop offset="95%" stopColor="#64748b" stopOpacity={0.4}/>
+                <stop offset="0%" stopColor="#B2FC6C" stopOpacity={0.8}/>
+                <stop offset="95%" stopColor="#B2FC6C" stopOpacity={0.4}/>
               </linearGradient>
             </defs>
             <CartesianGrid 
@@ -35,13 +35,13 @@ const DashboardBarChart = () => {
               dataKey="name" 
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#666666', fontSize: 12 }}
+              tick={{ fill: '#1A1A1A', fontSize: 12 }}
               dy={10}
             />
             <YAxis 
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#666666', fontSize: 12 }}
+              tick={{ fill: '#1A1A1A', fontSize: 12 }}
               dx={-10}
               tickFormatter={(value) => `$${value}`}
             />
@@ -55,7 +55,7 @@ const DashboardBarChart = () => {
                 padding: '8px 12px'
               }}
               labelStyle={{
-                color: '#666666',
+                color: '#1A1A1A',
                 fontWeight: 500,
                 marginBottom: '4px'
               }}
@@ -77,13 +77,13 @@ const DashboardBarChart = () => {
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <div className="flex items-center justify-center gap-6 mt-4 text-sm text-gray-600">
+      <div className="flex items-center justify-center gap-6 mt-4 text-sm text-secondary">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded bg-black opacity-80" />
+          <div className="w-3 h-3 rounded bg-primary opacity-80" />
           <span>Deals</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded bg-slate-500 opacity-80" />
+          <div className="w-3 h-3 rounded bg-tertiary opacity-80" />
           <span>Revenue</span>
         </div>
       </div>
