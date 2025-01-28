@@ -1,6 +1,4 @@
 import { Layout } from "@/components/Layout";
-import { Button } from "@/components/ui/button";
-import { Filter as FilterIcon } from "lucide-react";
 import { Event } from "@/entities/Event";
 import { CalendarTabs } from "@/components/calendar/CalendarTabs";
 import { EventUseCase } from "@/usecases/EventUseCase";
@@ -63,14 +61,6 @@ const CalendarPage = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
         </div>
 
         <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <div className="flex-1" />
-            <Button variant="outline" size="sm" className="text-sm font-normal">
-              <FilterIcon className="h-4 w-4 mr-2 rotate-90" />
-              Filtros
-            </Button>
-          </div>
-
           <CalendarTabs events={events} previousEvents={previousEvents} />
         </div>
       </div>
