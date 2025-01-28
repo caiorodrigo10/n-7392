@@ -33,7 +33,7 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
           <div className="flex justify-between items-start">
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <h3 className={`text-sm ${isWonDeal ? "text-[#22C55E]" : "text-secondary"}`}>
+                <h3 className={`text-sm font-normal ${isWonDeal ? "text-[#22C55E]" : "text-secondary"}`}>
                   {deal.title}
                 </h3>
                 {needsAttention && !isWonDeal && (
@@ -43,7 +43,7 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
               <p className={`text-xs ${isWonDeal ? "text-[#22C55E]/60" : "text-secondary/60"} mt-0.5`}>
                 {deal.company}
               </p>
-              <p className={`text-sm mt-2 ${isWonDeal ? "text-[#22C55E]" : "text-secondary/60"}`}>
+              <p className={`text-sm mt-2 font-normal ${isWonDeal ? "text-[#22C55E]" : "text-secondary/60"}`}>
                 {deal.value}
               </p>
             </div>
