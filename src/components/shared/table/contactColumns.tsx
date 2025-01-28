@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 export const contactColumns: ColumnDef<Contact>[] = [
   {
     id: "select",
+    size: 40, // Definindo um tamanho menor para a coluna de checkbox
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}

@@ -7,6 +7,7 @@ import { Globe, Link, Users, ChartBar } from "lucide-react";
 export const companyColumns: ColumnDef<Company>[] = [
   {
     id: "select",
+    size: 40, // Definindo um tamanho menor para a coluna de checkbox
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
