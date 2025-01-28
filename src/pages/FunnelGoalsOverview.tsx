@@ -1,6 +1,5 @@
 import { Layout } from "@/components/Layout";
 import { PageHeader } from "@/components/shared/PageHeader";
-import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
@@ -16,19 +15,11 @@ const MonthCard = ({ month }: { month: string }) => (
       <div className="space-y-3">
         <div>
           <p className="text-xs text-neutral-500 mb-1">Meta</p>
-          <Input 
-            type="number" 
-            value="0.00" 
-            className="text-right h-8 text-sm bg-transparent" 
-          />
+          <p className="text-sm font-medium text-right">R$ 50.000,00</p>
         </div>
         <div>
           <p className="text-xs text-neutral-500 mb-1">Realizado</p>
-          <Input 
-            type="number" 
-            value="0.00" 
-            className="text-right h-8 text-sm bg-transparent" 
-          />
+          <p className="text-sm font-medium text-right">R$ 45.000,00</p>
         </div>
       </div>
     </div>
@@ -47,11 +38,11 @@ const QuarterSection = ({ quarter, months }: { quarter: string, months: string[]
           <h3 className="font-medium text-sm mb-3">Total {quarter}</h3>
           <div className="w-16 h-16 relative">
             <Progress 
-              value={100} 
+              value={90} 
               className="h-16 w-16 rounded-full [&>div]:bg-[#00C48C]" 
             />
             <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-medium">
-              100%
+              90%
             </span>
           </div>
         </div>
@@ -105,9 +96,9 @@ const FunnelGoalsOverview = ({ isCollapsed, setIsCollapsed }: FunnelGoalsOvervie
               <span>Não atingidas: <strong>11</strong></span>
             </div>
             <div className="flex gap-4">
-              <span>Meta: <strong>0,00</strong></span>
-              <span>Atingido: <strong className="text-[#00C48C]">0,00</strong></span>
-              <span className="text-red-500">0.00%</span>
+              <span>Meta: <strong>R$ 600.000,00</strong></span>
+              <span>Atingido: <strong className="text-[#00C48C]">R$ 540.000,00</strong></span>
+              <span className="text-red-500">90.00%</span>
             </div>
           </div>
         </Card>
