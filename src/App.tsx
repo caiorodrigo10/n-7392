@@ -1,43 +1,31 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import Calendar from "./pages/Calendar";
 import Contacts from "./pages/Contacts";
-import ContactDetails from "./pages/ContactDetails";
 import Companies from "./pages/Companies";
 import Deals from "./pages/Deals";
-import Calendar from "./pages/Calendar";
 import Goals from "./pages/Goals";
-import { AiChat } from "./components/AiChat";
+import FunnelGoalsOverview from "./pages/FunnelGoalsOverview";
+import ContactDetails from "./pages/ContactDetails";
 
-const queryClient = new QueryClient();
-
-const App = () => {
+function App() {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
-            <Route path="/contacts" element={<Contacts isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
-            <Route path="/contacts/:id" element={<ContactDetails isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
-            <Route path="/companies" element={<Companies isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
-            <Route path="/deals" element={<Deals isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
-            <Route path="/calendar" element={<Calendar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
-            <Route path="/goals" element={<Goals isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
-          </Routes>
-          <AiChat />
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Index isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
+        <Route path="/calendar" element={<Calendar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
+        <Route path="/contacts" element={<Contacts isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
+        <Route path="/companies" element={<Companies isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
+        <Route path="/deals" element={<Deals isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
+        <Route path="/goals" element={<Goals isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
+        <Route path="/funnel-goals-overview" element={<FunnelGoalsOverview isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
+        <Route path="/contact/:id" element={<ContactDetails isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;
