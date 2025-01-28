@@ -36,7 +36,7 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
-            {...provided.draggableProps}
+            {...provided.droppableProps}
             className={`h-[calc(100vh-13rem)] space-y-2 p-2 rounded-lg transition-colors duration-200 ${
               getColumnBackground(id)
             } ${
