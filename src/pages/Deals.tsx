@@ -177,7 +177,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
     { id: "qualification", title: "Qualification" },
     { id: "meet", title: "Meet" },
     { id: "negotiation", title: "Negotiation" },
-    { id: "closed", title: "Closed" },
+    { id: "closed", title: "Closing" },
   ];
 
   const showMeetingBadge = (columnId: string) => {
