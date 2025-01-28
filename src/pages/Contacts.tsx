@@ -2,6 +2,7 @@ import { Layout } from "@/components/Layout";
 import { DataTable } from "@/components/shared/DataTable";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { SearchBar } from "@/components/shared/SearchBar";
+import { TableContainer } from "@/components/shared/TableContainer";
 import { contactColumns } from "@/components/shared/table/contactColumns";
 import { useContacts } from "@/hooks/useContacts";
 
@@ -40,11 +41,13 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
           />
 
           <div className="flex-1 flex flex-col mt-4">
-            <DataTable
-              columns={contactColumns}
-              data={contacts}
-              onRowSelectionChange={setRowSelection}
-            />
+            <TableContainer>
+              <DataTable
+                columns={contactColumns}
+                data={contacts}
+                onRowSelectionChange={setRowSelection}
+              />
+            </TableContainer>
           </div>
         </div>
       </div>

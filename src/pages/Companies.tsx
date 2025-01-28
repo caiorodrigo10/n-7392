@@ -2,6 +2,7 @@ import { Layout } from "@/components/Layout";
 import { DataTable } from "@/components/shared/DataTable";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { SearchBar } from "@/components/shared/SearchBar";
+import { TableContainer } from "@/components/shared/TableContainer";
 import { companyColumns } from "@/components/shared/table/companyColumns";
 import { useCompanies } from "@/hooks/useCompanies";
 
@@ -40,11 +41,13 @@ const Companies = ({ isCollapsed, setIsCollapsed }: CompaniesProps) => {
           />
 
           <div className="flex-1 overflow-auto">
-            <DataTable
-              columns={companyColumns}
-              data={companies}
-              onRowSelectionChange={setRowSelection}
-            />
+            <TableContainer>
+              <DataTable
+                columns={companyColumns}
+                data={companies}
+                onRowSelectionChange={setRowSelection}
+              />
+            </TableContainer>
           </div>
         </div>
       </div>
