@@ -12,12 +12,12 @@ interface DealColumnProps {
 
 const getColumnBackground = (id: string) => {
   const backgrounds = {
-    lead: "bg-gradient-to-b from-[#F97316]/20 to-[#F97316]/5",
-    qualification: "bg-gradient-to-b from-[#B2FC6C]/20 to-[#B2FC6C]/5",
-    meet: "bg-gradient-to-b from-[#0EA5E9]/20 to-[#0EA5E9]/5",
-    negotiation: "bg-gradient-to-b from-[#8B5CF6]/20 to-[#8B5CF6]/5",
-    closed: "bg-gradient-to-b from-[#D946EF]/20 to-[#D946EF]/5",
-    won: "bg-white border-2 border-[#22C55E]/20"
+    lead: "bg-gradient-to-b from-[#8E9196]/10 to-[#F1F1F1]/5",
+    qualification: "bg-gradient-to-b from-[#8E9196]/10 to-[#F1F1F1]/5",
+    meet: "bg-gradient-to-b from-[#8E9196]/10 to-[#F1F1F1]/5",
+    negotiation: "bg-gradient-to-b from-[#8E9196]/10 to-[#F1F1F1]/5",
+    closed: "bg-gradient-to-b from-[#8E9196]/10 to-[#F1F1F1]/5",
+    won: "bg-white border border-[#22C55E]/20"
   };
   return backgrounds[id as keyof typeof backgrounds] || "bg-gray-100/50";
 };
@@ -37,7 +37,7 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className={`space-y-2 min-h-[200px] p-2 rounded-lg transition-colors duration-200 ${
+            className={`space-y-2 ${isWonColumn ? 'min-h-[calc(100vh-13rem)]' : 'min-h-[200px]'} p-2 rounded-lg transition-colors duration-200 ${
               getColumnBackground(id)
             } ${
               snapshot.isDraggingOver ? "bg-opacity-80" : ""
