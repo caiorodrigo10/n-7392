@@ -9,7 +9,7 @@ interface LayoutProps {
 
 export const Layout = ({ children, isCollapsed, setIsCollapsed }: LayoutProps) => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Navbar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
       <main className={`transition-all duration-300 ${isCollapsed ? "ml-[60px]" : "ml-0 sm:ml-64"}`}>
         {children}
