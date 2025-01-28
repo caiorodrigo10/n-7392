@@ -58,18 +58,24 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                       deals={deals[column.id as keyof typeof deals]}
                       total={formatCurrency(calculateColumnTotal(deals[column.id as keyof typeof deals]))}
                     />
-                    <Button 
-                      variant="ghost" 
-                      className="mt-2 w-full text-muted-foreground hover:text-foreground flex items-center justify-center gap-2 h-8"
-                      onClick={() => console.log(`Add calculation for ${column.id}`)}
-                    >
-                      <Plus className="h-4 w-4" />
-                      <span className="text-sm">Add calculation</span>
-                    </Button>
                   </div>
                 ))}
               </div>
             </div>
+          </div>
+          <div className="flex gap-4 min-w-max p-4 border-t">
+            {columns.map((column) => (
+              <div key={column.id} className="w-[280px]">
+                <Button 
+                  variant="ghost" 
+                  className="w-full text-muted-foreground hover:text-foreground flex items-center justify-center gap-2 h-8"
+                  onClick={() => console.log(`Add calculation for ${column.id}`)}
+                >
+                  <Plus className="h-4 w-4" />
+                  <span className="text-sm">Add calculation</span>
+                </Button>
+              </div>
+            ))}
           </div>
           {isDragging && <DealStatusDropZone isDropDisabled={!isDragging} isCollapsed={isCollapsed} />}
         </div>
