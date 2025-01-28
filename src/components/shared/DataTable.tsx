@@ -22,7 +22,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 interface DataTableProps<T> {
   columns: ColumnDef<T>[];
   data: T[];
-  onRowSelectionChange?: (selection: RowSelectionState) => void;
+  onRowSelectionChange?: (selection: Record<string, boolean>) => void;
 }
 
 export function DataTable<T>({ 
@@ -40,8 +40,14 @@ export function DataTable<T>({
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
     onRowSelectionChange: (updatedSelection) => {
-      setRowSelection(updatedSelection);
-      onRowSelectionChange?.(updatedSelection);
+      if (typeof updatedSelection === 'function') {
+        const newSelection = updatedSelection(rowSelection);
+        setRowSelection(newSelection);
+        onRowSelectionChange?.(newSelection);
+      } else {
+        setRowSelection(updatedSelection);
+        onRowSelectionChange?.(updatedSelection);
+      }
     },
     state: {
       sorting,
