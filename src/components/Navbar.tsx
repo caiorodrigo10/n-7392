@@ -9,7 +9,6 @@ import {
   Users,
   Building2,
   DollarSign,
-  LayoutGrid,
   Share2,
   HelpCircle,
   ChevronLeft,
@@ -34,8 +33,8 @@ interface NavbarProps {
 
 const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
   const location = useLocation();
-  const [automationsOpen, setAutomationsOpen] = useState(false);
-  const [recordsOpen, setRecordsOpen] = useState(false);
+  const [automationsOpen, setAutomationsOpen] = useState(true);
+  const [recordsOpen, setRecordsOpen] = useState(true);
   const [listsOpen, setListsOpen] = useState(false);
   
   const isActive = (path: string) => location.pathname === path;
@@ -132,8 +131,6 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
             <NavLink to="/companies" icon={Building2}>Companies</NavLink>
             <NavLink to="/contacts" icon={Users}>People</NavLink>
             <NavLink to="/deals" icon={DollarSign}>Deals</NavLink>
-            <NavLink to="/workspaces" icon={LayoutGrid}>Workspaces</NavLink>
-            <NavLink to="/partnerships" icon={Share2}>Partnerships</NavLink>
           </NavSection>
 
           <NavSection title="Lists" isOpen={listsOpen} onToggle={setListsOpen}>
