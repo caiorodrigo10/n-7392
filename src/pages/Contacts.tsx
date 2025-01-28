@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Search, Plus, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, Plus, ChevronDown, ChevronUp, Check } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Layout } from "@/components/Layout";
 import { cn } from "@/lib/utils";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
   TableBody,
@@ -18,6 +19,7 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
+  RowSelectionState,
 } from "@tanstack/react-table";
 
 interface ContactsProps {
@@ -39,90 +41,6 @@ type Contact = {
   lastActive: string;
   performance: "Excellent" | "Good" | "Average" | "Poor";
 };
-
-const columns: ColumnDef<Contact>[] = [
-  {
-    header: "Name",
-    accessorKey: "name",
-    cell: ({ row }) => <div className="truncate font-medium">{row.getValue("name")}</div>,
-    sortUndefined: "last",
-    sortDescFirst: false,
-  },
-  {
-    header: "Email",
-    accessorKey: "email",
-  },
-  {
-    header: "Location",
-    accessorKey: "location",
-    cell: ({ row }) => (
-      <div className="truncate">
-        <span className="text-lg leading-none">{row.original.flag}</span> {row.getValue("location")}
-      </div>
-    ),
-  },
-  {
-    header: "Status",
-    accessorKey: "status",
-    cell: ({ row }) => (
-      <div className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-        row.getValue("status") === "Active" 
-          ? "bg-green-100 text-green-700" 
-          : row.getValue("status") === "Pending"
-          ? "bg-yellow-100 text-yellow-700"
-          : "bg-red-100 text-red-700"
-      )}>
-        {row.getValue("status")}
-      </div>
-    ),
-  },
-  {
-    header: "Balance",
-    accessorKey: "balance",
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("balance"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-      return formatted;
-    },
-  },
-  {
-    header: "Department",
-    accessorKey: "department",
-  },
-  {
-    header: "Role",
-    accessorKey: "role",
-  },
-  {
-    header: "Join Date",
-    accessorKey: "joinDate",
-  },
-  {
-    header: "Last Active",
-    accessorKey: "lastActive",
-  },
-  {
-    header: "Performance",
-    accessorKey: "performance",
-    cell: ({ row }) => (
-      <div className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-        {
-          "bg-green-100 text-green-700": row.getValue("performance") === "Excellent",
-          "bg-blue-100 text-blue-700": row.getValue("performance") === "Good",
-          "bg-yellow-100 text-yellow-700": row.getValue("performance") === "Average",
-          "bg-red-100 text-red-700": row.getValue("performance") === "Poor",
-        }
-      )}>
-        {row.getValue("performance")}
-      </div>
-    ),
-  },
-];
 
 const mockData: Contact[] = [
   {
@@ -187,6 +105,114 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
   const [search, setSearch] = useState("");
   const [sorting, setSorting] = useState<SortingState>([]);
   const [data] = useState<Contact[]>(mockData);
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+
+  const columns: ColumnDef<Contact>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()}
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className="translate-y-[2px]"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+          className="translate-y-[2px]"
+        />
+      ),
+      enableSorting: false,
+      enableResizing: false,
+    },
+    {
+      header: "Name",
+      accessorKey: "name",
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2">
+          <div className="truncate font-medium">{row.getValue("name")}</div>
+        </div>
+      ),
+    },
+    {
+      header: "Email",
+      accessorKey: "email",
+    },
+    {
+      header: "Location",
+      accessorKey: "location",
+      cell: ({ row }) => (
+        <div className="truncate">
+          <span className="text-lg leading-none">{row.original.flag}</span> {row.getValue("location")}
+        </div>
+      ),
+    },
+    {
+      header: "Status",
+      accessorKey: "status",
+      cell: ({ row }) => (
+        <div className={cn(
+          "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+          row.getValue("status") === "Active" 
+            ? "bg-green-100 text-green-700" 
+            : row.getValue("status") === "Pending"
+            ? "bg-yellow-100 text-yellow-700"
+            : "bg-red-100 text-red-700"
+        )}>
+          {row.getValue("status")}
+        </div>
+      ),
+    },
+    {
+      header: "Balance",
+      accessorKey: "balance",
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("balance"));
+        const formatted = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(amount);
+        return formatted;
+      },
+    },
+    {
+      header: "Department",
+      accessorKey: "department",
+    },
+    {
+      header: "Role",
+      accessorKey: "role",
+    },
+    {
+      header: "Join Date",
+      accessorKey: "joinDate",
+    },
+    {
+      header: "Last Active",
+      accessorKey: "lastActive",
+    },
+    {
+      header: "Performance",
+      accessorKey: "performance",
+      cell: ({ row }) => (
+        <div className={cn(
+          "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+          {
+            "bg-green-100 text-green-700": row.getValue("performance") === "Excellent",
+            "bg-blue-100 text-blue-700": row.getValue("performance") === "Good",
+            "bg-yellow-100 text-yellow-700": row.getValue("performance") === "Average",
+            "bg-red-100 text-red-700": row.getValue("performance") === "Poor",
+          }
+        )}>
+          {row.getValue("performance")}
+        </div>
+      ),
+    },
+  ];
 
   const table = useReactTable({
     data,
@@ -195,10 +221,13 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
+      rowSelection,
     },
-    enableSortingRemoval: false,
+    enableRowSelection: true,
+    enableMultiRowSelection: true,
   });
 
   return (
@@ -207,7 +236,10 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold">Contacts</h1>
-            <p className="text-gray-600 mt-1">Manage your contacts and leads</p>
+            <p className="text-gray-600 mt-1">
+              {table.getFilteredSelectedRowModel().rows.length} of{" "}
+              {table.getFilteredRowModel().rows.length} row(s) selected
+            </p>
           </div>
           <button className="bg-primary text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-primary/90 transition-colors">
             <Plus className="h-5 w-5" />
@@ -226,60 +258,26 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
         </div>
 
         <div className="rounded-md border">
-          <Table className="table-fixed">
+          <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id} className="bg-muted/50">
                   {headerGroup.headers.map((header) => (
                     <TableHead
                       key={header.id}
-                      className="relative h-10 select-none border-t [&>.cursor-col-resize]:last:opacity-0"
-                      aria-sort={
-                        header.column.getIsSorted() === "asc"
-                          ? "ascending"
-                          : header.column.getIsSorted() === "desc"
-                            ? "descending"
-                            : "none"
-                      }
-                      {...{
-                        colSpan: header.colSpan,
-                        style: {
-                          width: header.getSize(),
-                        },
-                      }}
+                      className={cn(
+                        "relative h-10 select-none border-t [&>.cursor-col-resize]:last:opacity-0",
+                        header.column.getCanSort() && "cursor-pointer"
+                      )}
+                      onClick={header.column.getToggleSortingHandler()}
                     >
-                      {header.isPlaceholder ? null : (
-                        <div
-                          className={cn(
-                            "flex h-full cursor-pointer select-none items-center justify-between gap-2",
-                            !header.column.getCanSort() && "cursor-default"
-                          )}
-                          onClick={header.column.getToggleSortingHandler()}
-                          onKeyDown={(e) => {
-                            if (header.column.getCanSort() && (e.key === "Enter" || e.key === " ")) {
-                              e.preventDefault();
-                              header.column.getToggleSortingHandler()?.(e);
-                            }
-                          }}
-                          tabIndex={header.column.getCanSort() ? 0 : undefined}
-                        >
-                          <span className="truncate">
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                          </span>
-                          {{
-                            asc: <ChevronUp className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
-                            desc: <ChevronDown className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
-                          }[header.column.getIsSorted() as string] ?? null}
-                        </div>
-                      )}
-                      {header.column.getCanResize() && (
-                        <div
-                          onDoubleClick={() => header.column.resetSize()}
-                          onMouseDown={header.getResizeHandler()}
-                          onTouchStart={header.getResizeHandler()}
-                          className="absolute top-0 h-full w-4 cursor-col-resize user-select-none touch-none -right-2 z-10 flex justify-center before:absolute before:w-px before:inset-y-0 before:bg-border before:translate-x-px"
-                        />
-                      )}
+                      <div className="flex items-center gap-2">
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                        {{
+                          asc: <ChevronUp className="h-4 w-4" />,
+                          desc: <ChevronDown className="h-4 w-4" />,
+                        }[header.column.getIsSorted() as string] ?? null}
+                      </div>
                     </TableHead>
                   ))}
                 </TableRow>
@@ -288,7 +286,15 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
             <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    className={cn(
+                      row.getIsSelected() && "bg-muted/50",
+                      "hover:bg-muted/50 cursor-pointer"
+                    )}
+                    onClick={() => row.toggleSelected()}
+                  >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id} className="truncate">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
