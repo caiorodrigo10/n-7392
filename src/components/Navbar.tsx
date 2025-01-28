@@ -92,12 +92,15 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           isCollapsed ? "justify-center" : "justify-between"
         )}>
           {!isCollapsed && (
-            <div className="flex items-center">
-              <img 
-                src="/lovable-uploads/1703b3f3-16db-45a5-8331-7d7301d17715.png" 
-                alt="Avantto Logo" 
-                className="h-10 w-auto"
-              />
+            <div className="flex items-center gap-2">
+              <div className="font-semibold text-xl text-neutral-800">Avantt</div>
+              <div className="w-8 h-8 bg-[#ccc] rounded-lg overflow-hidden">
+                <img 
+                  src="/lovable-uploads/28d7ef06-e34b-413f-bb1e-508bf88d5b46.png" 
+                  alt="Company Logo" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
             </div>
           )}
           <Button
