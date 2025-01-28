@@ -216,6 +216,12 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
     setIsDragging(true);
   };
 
+  const onDragUpdate = () => {
+    if (!isDragging) {
+      setIsDragging(true);
+    }
+  };
+
   const columns = [
     { id: "lead", title: "Lead" },
     { id: "qualification", title: "Qualification" },
@@ -241,7 +247,11 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
           <p className="text-gray-600 mt-1 text-sm">Track and manage your deals</p>
         </div>
 
-        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+        <DragDropContext 
+          onDragEnd={onDragEnd} 
+          onDragStart={onDragStart}
+          onDragUpdate={onDragUpdate}
+        >
           <div className="overflow-x-auto">
             <div className="flex gap-4 min-w-max pb-4">
               {columns.map((column) => (
