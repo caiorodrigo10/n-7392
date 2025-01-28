@@ -307,7 +307,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
               ))}
             </div>
           </div>
-          <DealStatusDropZone isDropDisabled={!isDragging} />
+          {isDragging && <DealStatusDropZone isDropDisabled={!isDragging} />}
         </DragDropContext>
       </main>
     </div>
