@@ -12,11 +12,11 @@ interface DealColumnProps {
 
 const getColumnBackground = (id: string) => {
   const backgrounds = {
-    lead: "bg-gradient-to-b from-[#FDE1D3]/30 to-[#FDE1D3]/10",
-    qualification: "bg-gradient-to-b from-[#F2FCE2]/30 to-[#F2FCE2]/10",
-    meet: "bg-gradient-to-b from-[#D3E4FD]/30 to-[#D3E4FD]/10",
-    negotiation: "bg-gradient-to-b from-[#E5DEFF]/30 to-[#E5DEFF]/10",
-    closed: "bg-gradient-to-b from-[#FFDEE2]/30 to-[#FFDEE2]/10"
+    lead: "bg-gradient-to-b from-[#F97316]/20 to-[#F97316]/5",
+    qualification: "bg-gradient-to-b from-[#B2FC6C]/20 to-[#B2FC6C]/5",
+    meet: "bg-gradient-to-b from-[#0EA5E9]/20 to-[#0EA5E9]/5",
+    negotiation: "bg-gradient-to-b from-[#8B5CF6]/20 to-[#8B5CF6]/5",
+    closed: "bg-gradient-to-b from-[#D946EF]/20 to-[#D946EF]/5"
   };
   return backgrounds[id as keyof typeof backgrounds] || "bg-gray-100/50";
 };
