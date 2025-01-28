@@ -24,7 +24,7 @@ const Companies = ({ isCollapsed, setIsCollapsed }: CompaniesProps) => {
 
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
-      <div className="h-full flex flex-col">
+      <div className="flex flex-col h-screen">
         <PageHeader
           title="Companies"
           subtitle="Manage your companies and business relationships"
