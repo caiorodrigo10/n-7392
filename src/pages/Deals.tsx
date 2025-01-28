@@ -232,22 +232,24 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                                     <p className="text-sm font-semibold text-primary mt-2">
                                       {deal.value}
                                     </p>
-                                    {showMeetingBadge(column.id) && deal.scheduledMeeting && (
-                                      <Badge 
-                                        variant="secondary" 
-                                        className="mt-2 bg-[#D3E4FD] text-[#0EA5E9] hover:bg-[#D3E4FD]"
-                                      >
-                                        📅 {deal.scheduledMeeting.date} at {deal.scheduledMeeting.time}
-                                      </Badge>
-                                    )}
-                                    <p className="text-xs text-gray-500 mt-1">
-                                      {formatDistanceToNow(deal.stageEnteredAt, { addSuffix: true })}
-                                    </p>
                                   </div>
                                   <Avatar className="h-8 w-8 ml-2">
                                     <AvatarImage src={deal.assignee.avatar} alt={deal.assignee.name} />
                                     <AvatarFallback>{deal.assignee.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                                   </Avatar>
+                                </div>
+                                <div className="flex justify-between items-center mt-2">
+                                  <p className="text-xs text-gray-500">
+                                    {formatDistanceToNow(deal.stageEnteredAt, { addSuffix: true })}
+                                  </p>
+                                  {showMeetingBadge(column.id) && deal.scheduledMeeting && (
+                                    <Badge 
+                                      variant="secondary" 
+                                      className="bg-[#333333] text-white hover:bg-[#333333]"
+                                    >
+                                      📅 {deal.scheduledMeeting.date} at {deal.scheduledMeeting.time}
+                                    </Badge>
+                                  )}
                                 </div>
                               </Card>
                             )}
