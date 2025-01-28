@@ -41,7 +41,7 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
           </button>
         </div>
       ) : (
-        <h2 className="font-medium text-sm mb-4 mt-2 flex items-center gap-1 text-secondary/80">
+        <h2 className="font-medium text-sm mb-4 mt-6 flex items-center gap-1 text-secondary/80">
           {title} <span className="text-secondary/60">({deals.length})</span> - <span className="text-secondary/60">{total}</span>
         </h2>
       )}
