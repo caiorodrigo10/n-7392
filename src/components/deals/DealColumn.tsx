@@ -13,14 +13,14 @@ interface DealColumnProps {
 
 const getColumnBackground = (id: string) => {
   const backgrounds = {
-    lead: "bg-[#F1F1F1]/60",
-    qualification: "bg-[#8E9196]/0",
-    meet: "bg-[#F1F1F1]/60",
-    negotiation: "bg-[#8E9196]/0",
-    closed: "bg-[#F1F1F1]/60",
+    lead: "bg-[#ECEEF5]",
+    qualification: "bg-transparent",
+    meet: "bg-[#ECEEF5]",
+    negotiation: "bg-transparent",
+    closed: "bg-[#ECEEF5]",
     won: "bg-white rounded-lg"
   };
-  return backgrounds[id as keyof typeof backgrounds] || "bg-gray-100";
+  return backgrounds[id as keyof typeof backgrounds] || "bg-[#ECEEF5]";
 };
 
 const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
