@@ -172,7 +172,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
         <DragDropContext onDragEnd={onDragEnd}>
           <div className="flex flex-col lg:flex-row gap-4">
             {columns.map((column) => (
-              <div key={column.id} className="flex-1 min-w-0 max-w-[240px]">
+              <div key={column.id} className="flex-1 min-w-0 max-w-[320px]">
                 <h2 className="font-medium text-sm mb-3">
                   {column.title} ({deals[column.id].length}) - {formatCurrency(calculateColumnTotal(deals[column.id]))}
                 </h2>
