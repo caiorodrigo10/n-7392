@@ -140,21 +140,21 @@ const CalendarPage = ({ isCollapsed, setIsCollapsed }: CalendarProps) => {
         </div>
 
         <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <TabsList className="bg-gray-100 p-1">
-              <TabsTrigger value="proximos" className="px-4">Próximos</TabsTrigger>
-              <TabsTrigger value="nao-confirmado" className="px-4">Não confirmado</TabsTrigger>
-              <TabsTrigger value="recorrente" className="px-4">Recorrente</TabsTrigger>
-              <TabsTrigger value="anteriores" className="px-4">Anteriores</TabsTrigger>
-              <TabsTrigger value="cancelado" className="px-4">Cancelado</TabsTrigger>
-            </TabsList>
-            <Button variant="outline" size="sm" className="text-sm font-normal">
-              <FilterIcon className="h-4 w-4 mr-2 rotate-90" />
-              Filtros
-            </Button>
-          </div>
-
           <Tabs defaultValue="proximos" className="w-full">
+            <div className="flex items-center justify-between">
+              <TabsList className="bg-gray-100 p-1">
+                <TabsTrigger value="proximos" className="px-4">Próximos</TabsTrigger>
+                <TabsTrigger value="nao-confirmado" className="px-4">Não confirmado</TabsTrigger>
+                <TabsTrigger value="recorrente" className="px-4">Recorrente</TabsTrigger>
+                <TabsTrigger value="anteriores" className="px-4">Anteriores</TabsTrigger>
+                <TabsTrigger value="cancelado" className="px-4">Cancelado</TabsTrigger>
+              </TabsList>
+              <Button variant="outline" size="sm" className="text-sm font-normal">
+                <FilterIcon className="h-4 w-4 mr-2 rotate-90" />
+                Filtros
+              </Button>
+            </div>
+
             <TabsContent value="proximos" className="space-y-3">
               {events.map(renderEventCard)}
             </TabsContent>
