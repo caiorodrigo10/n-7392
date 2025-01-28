@@ -21,7 +21,7 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className={`p-3 cursor-move bg-white transition-all duration-300 ${
+          className={`p-3 cursor-move bg-white transition-all duration-300 animate-enter ${
             snapshot.isDragging ? "shadow-lg scale-105" : "hover:shadow-md"
           }`}
         >

@@ -120,7 +120,7 @@ export const useDealsState = () => {
     }).format(amount);
   };
 
-  const handleDealStatusChange = (dealId: string, status: string) => {
+  const handleDealStatusChange = (dealId: string, status: string): boolean => {
     let foundDeal: Deal | null = null;
     let sourceColumn: keyof DealsState | null = null;
 
@@ -135,34 +135,33 @@ export const useDealsState = () => {
 
     if (foundDeal && sourceColumn) {
       // Remove the deal from its source column
-      const updatedDeals = {
-        ...deals,
-        [sourceColumn]: deals[sourceColumn].filter((d) => d.id !== dealId),
-      };
-
-      // Update the state immediately to remove the card
-      setDeals(updatedDeals);
+      setDeals((prevDeals) => ({
+        ...prevDeals,
+        [sourceColumn!]: prevDeals[sourceColumn!].filter((d) => d.id !== dealId),
+      }));
 
       // Show appropriate notification and animation
-      if (status === 'won') {
-        triggerWinConfetti();
-        toast({
-          title: "🎉 Deal Won!",
-          description: `Congratulations! ${foundDeal.title} has been won!`,
-          className: "animate-enter",
-        });
-      } else {
-        toast({
-          title: `Deal marked as ${status}`,
-          description: `${foundDeal.title} has been marked as ${status}`,
-          className: "animate-enter",
-        });
-      }
+      setTimeout(() => {
+        if (status === 'won') {
+          triggerWinConfetti();
+          toast({
+            title: "🎉 Deal Won!",
+            description: `Congratulations! ${foundDeal!.title} has been won!`,
+            className: "animate-enter",
+          });
+        } else {
+          toast({
+            title: `Deal marked as ${status}`,
+            description: `${foundDeal!.title} has been marked as ${status}`,
+            className: "animate-enter",
+          });
+        }
+      }, 100);
 
-      return true; // Indicate successful status change
+      return true;
     }
 
-    return false; // Indicate failed status change
+    return false;
   };
 
   const onDragStart = () => {
@@ -176,18 +175,16 @@ export const useDealsState = () => {
       return;
     }
 
-    const { source, destination } = result;
-
     // Handle dropping to status zones
-    if (destination.droppableId.startsWith('status-')) {
-      const status = destination.droppableId.replace('status-', '');
-      const statusChanged = handleDealStatusChange(result.draggableId, status);
-      
-      // If status change was successful, don't proceed with column movement
-      if (statusChanged) {
+    if (result.destination.droppableId.startsWith('status-')) {
+      const status = result.destination.droppableId.replace('status-', '');
+      const success = handleDealStatusChange(result.draggableId, status);
+      if (success) {
         return;
       }
     }
+
+    const { source, destination } = result;
 
     // Handle moving between columns
     if (source.droppableId === destination.droppableId && source.index === destination.index) {
@@ -212,9 +209,9 @@ export const useDealsState = () => {
     destColumn.splice(destination.index, 0, removed);
 
     setDeals({
-      ...deals,
-      [source.droppableId]: sourceColumn,
-      [destination.droppableId]: destColumn,
+        ...deals,
+        [source.droppableId]: sourceColumn,
+        [destination.droppableId]: destColumn,
     });
   };
 
