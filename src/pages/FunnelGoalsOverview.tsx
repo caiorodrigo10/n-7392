@@ -10,35 +10,50 @@ interface FunnelGoalsOverviewProps {
 }
 
 const MonthCard = ({ month }: { month: string }) => (
-  <Card className="p-4 bg-white">
-    <h3 className="font-medium mb-4">{month}</h3>
-    <div className="space-y-4">
-      <div>
-        <p className="text-sm text-neutral-500 mb-1">Meta</p>
-        <Input type="number" value="0.00" className="text-right" />
-      </div>
-      <div>
-        <p className="text-sm text-neutral-500 mb-1">Realizado</p>
-        <Input type="number" value="0.00" className="text-right" />
+  <Card className="bg-white">
+    <div className="p-3 space-y-3">
+      <h3 className="font-medium text-sm text-neutral-900">{month}</h3>
+      <div className="space-y-3">
+        <div>
+          <p className="text-xs text-neutral-500 mb-1">Meta</p>
+          <Input 
+            type="number" 
+            value="0.00" 
+            className="text-right h-8 text-sm bg-transparent" 
+          />
+        </div>
+        <div>
+          <p className="text-xs text-neutral-500 mb-1">Realizado</p>
+          <Input 
+            type="number" 
+            value="0.00" 
+            className="text-right h-8 text-sm bg-transparent" 
+          />
+        </div>
       </div>
     </div>
   </Card>
 );
 
 const QuarterSection = ({ quarter, months }: { quarter: string, months: string[] }) => (
-  <div className="space-y-4">
-    <h2 className="text-lg font-semibold text-neutral-700">{quarter}</h2>
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+  <div className="space-y-3">
+    <h2 className="text-sm font-medium text-neutral-800">{quarter}</h2>
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
       {months.map((month) => (
         <MonthCard key={month} month={month} />
       ))}
-      <Card className="p-4 bg-white flex flex-col justify-center items-center">
-        <h3 className="font-medium mb-2">Total {quarter}</h3>
-        <div className="w-20 h-20 relative">
-          <Progress value={100} className="h-20 w-20 rounded-full" />
-          <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm font-medium">
-            100%
-          </span>
+      <Card className="bg-white">
+        <div className="p-3 flex flex-col items-center justify-center h-full">
+          <h3 className="font-medium text-sm mb-3">Total {quarter}</h3>
+          <div className="w-16 h-16 relative">
+            <Progress 
+              value={100} 
+              className="h-16 w-16 rounded-full [&>div]:bg-[#00C48C]" 
+            />
+            <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-medium">
+              100%
+            </span>
+          </div>
         </div>
       </Card>
     </div>
@@ -74,7 +89,7 @@ const FunnelGoalsOverview = ({ isCollapsed, setIsCollapsed }: FunnelGoalsOvervie
         onAddClick={() => window.history.back()}
       />
       
-      <div className="px-6 space-y-8 pb-8">
+      <div className="px-6 space-y-6 pb-6">
         {quarters.map((quarter) => (
           <QuarterSection
             key={quarter.name}
@@ -83,15 +98,15 @@ const FunnelGoalsOverview = ({ isCollapsed, setIsCollapsed }: FunnelGoalsOvervie
           />
         ))}
         
-        <Card className="p-4 bg-white mt-8">
-          <div className="flex justify-between items-center text-sm">
-            <div className="flex gap-8">
+        <Card className="bg-white">
+          <div className="p-3 flex justify-between items-center text-xs">
+            <div className="flex gap-6">
               <span>Atingidas: <strong>1</strong></span>
               <span>Não atingidas: <strong>11</strong></span>
             </div>
             <div className="flex gap-4">
               <span>Meta: <strong>0,00</strong></span>
-              <span>Atingido: <strong className="text-green-500">0,00</strong></span>
+              <span>Atingido: <strong className="text-[#00C48C]">0,00</strong></span>
               <span className="text-red-500">0.00%</span>
             </div>
           </div>
