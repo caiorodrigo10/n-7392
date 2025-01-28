@@ -36,9 +36,12 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
             </h2>
             <button className="text-secondary/60 hover:text-secondary">▼</button>
           </div>
-          <button className="p-1 hover:bg-gray-100 rounded">
-            <MoreVertical className="w-4 h-4 text-secondary/60" />
-          </button>
+          <div className="flex items-center gap-2">
+            <div className="text-[#22C55E] font-medium">{total}</div>
+            <button className="p-1 hover:bg-gray-100 rounded">
+              <MoreVertical className="w-4 h-4 text-secondary/60" />
+            </button>
+          </div>
         </div>
       ) : (
         <h2 className="font-medium text-sm mb-4 mt-6 flex items-center gap-1 text-secondary/80">
@@ -74,7 +77,6 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
                     <span className="text-sm text-secondary/80">{deals.length}</span>
                   </div>
                 </div>
-                <div className="text-[#22C55E] font-medium mb-4">{total}</div>
               </>
             )}
             {deals.length > 0 ? (
