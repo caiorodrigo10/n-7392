@@ -32,6 +32,7 @@ export function DataTable<T>({
 }: DataTableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [columnResizing, setColumnResizing] = useState({});
 
   const table = useReactTable({
     data,
@@ -53,87 +54,92 @@ export function DataTable<T>({
     state: {
       sorting,
       rowSelection,
+      columnResizing,
     },
+    onColumnResizingChange: setColumnResizing,
     enableRowSelection: true,
     enableSortingRemoval: false,
+    enableColumnResizing: true,
   });
 
   return (
     <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="bg-muted/50">
-              {headerGroup.headers.map((header) => (
-                <TableHead
-                  key={header.id}
-                  className={cn(
-                    "relative h-10 select-none border-t [&>.cursor-col-resize]:last:opacity-0",
-                    header.id === "select" && "w-[40px] px-2"
-                  )}
-                  style={{ width: header.getSize() }}
-                >
-                  <div
+      <div className="relative" style={{ width: table.getCenterTotalSize() }}>
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id} className="bg-muted/50">
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
                     className={cn(
-                      "flex h-full select-none items-center gap-2",
-                      header.column.getCanSort() && "cursor-pointer justify-between"
+                      "relative h-10 select-none border-t [&>.cursor-col-resize]:last:opacity-0",
+                      header.id === "select" && "w-[40px] px-2"
                     )}
-                    onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
+                    style={{ width: header.getSize() }}
                   >
-                    <span className="truncate">
-                      {flexRender(header.column.columnDef.header, header.getContext())}
-                    </span>
-                    {{
-                      asc: <ChevronUp className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
-                      desc: <ChevronDown className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
-                    }[header.column.getIsSorted() as string] ?? null}
-                  </div>
-                  {header.column.getCanResize() && (
                     <div
-                      onDoubleClick={() => header.column.resetSize()}
-                      onMouseDown={header.getResizeHandler()}
-                      onTouchStart={header.getResizeHandler()}
-                      className="absolute top-0 right-0 h-full w-4 cursor-col-resize select-none touch-none z-10"
+                      className={cn(
+                        "flex h-full select-none items-center gap-2",
+                        header.column.getCanSort() && "cursor-pointer justify-between"
+                      )}
+                      onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
                     >
-                      <div className="absolute right-0 h-full w-px bg-gray-300 opacity-0 transition-opacity hover:opacity-100" />
+                      <span className="truncate">
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                      </span>
+                      {{
+                        asc: <ChevronUp className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
+                        desc: <ChevronDown className="shrink-0 opacity-60" size={16} strokeWidth={2} />,
+                      }[header.column.getIsSorted() as string] ?? null}
                     </div>
-                  )}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-                className={cn(row.getIsSelected() && "bg-muted/50")}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    key={cell.id}
-                    className={cn(
-                      "truncate",
-                      cell.column.id === "select" && "w-[40px] px-2"
+                    {header.column.getCanResize() && (
+                      <div
+                        onDoubleClick={() => header.column.resetSize()}
+                        onMouseDown={header.getResizeHandler()}
+                        onTouchStart={header.getResizeHandler()}
+                        className="absolute right-0 top-0 h-full w-2 cursor-col-resize select-none touch-none z-10 group"
+                      >
+                        <div className="absolute right-0 h-full w-px bg-gray-300 group-hover:bg-gray-400 transition-colors" />
+                      </div>
                     )}
-                    style={{ width: cell.column.getSize() }}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
+                  </TableHead>
                 ))}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className={cn(row.getIsSelected() && "bg-muted/50")}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className={cn(
+                        "truncate",
+                        cell.column.id === "select" && "w-[40px] px-2"
+                      )}
+                      style={{ width: cell.column.getSize() }}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }
