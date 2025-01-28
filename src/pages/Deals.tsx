@@ -170,58 +170,60 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
         </div>
 
         <DragDropContext onDragEnd={onDragEnd}>
-          <div className="flex flex-col lg:flex-row gap-4">
-            {columns.map((column) => (
-              <div key={column.id} className="flex-1 min-w-0 max-w-[320px]">
-                <h2 className="font-medium text-sm mb-3">
-                  {column.title} ({deals[column.id].length}) - {formatCurrency(calculateColumnTotal(deals[column.id]))}
-                </h2>
-                <Droppable droppableId={column.id}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className={`space-y-3 min-h-[200px] p-3 rounded-lg ${
-                        snapshot.isDraggingOver ? "bg-gray-50" : "bg-gray-100/50"
-                      }`}
-                    >
-                      {deals[column.id].map((deal, index) => (
-                        <Draggable key={deal.id} draggableId={deal.id} index={index}>
-                          {(provided, snapshot) => (
-                            <Card
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className={`p-3 cursor-move bg-white ${
-                                snapshot.draggingOver ? "shadow-lg" : "hover:shadow-md"
-                              } transition-shadow`}
-                            >
-                              <div className="flex justify-between items-start">
-                                <div className="flex-1">
-                                  <h3 className="font-medium text-sm">{deal.title}</h3>
-                                  <p className="text-xs text-gray-600 mt-1">{deal.company}</p>
-                                  <p className="text-sm font-semibold text-primary mt-2">
-                                    {deal.value}
-                                  </p>
-                                  <p className="text-xs text-gray-500 mt-1">
-                                    {formatDistanceToNow(deal.stageEnteredAt, { addSuffix: true })}
-                                  </p>
+          <div className="overflow-x-auto">
+            <div className="flex gap-4 min-w-max pb-4">
+              {columns.map((column) => (
+                <div key={column.id} className="w-[320px]">
+                  <h2 className="font-medium text-sm mb-3">
+                    {column.title} ({deals[column.id].length}) - {formatCurrency(calculateColumnTotal(deals[column.id]))}
+                  </h2>
+                  <Droppable droppableId={column.id}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        className={`space-y-3 min-h-[200px] p-3 rounded-lg ${
+                          snapshot.isDraggingOver ? "bg-gray-50" : "bg-gray-100/50"
+                        }`}
+                      >
+                        {deals[column.id].map((deal, index) => (
+                          <Draggable key={deal.id} draggableId={deal.id} index={index}>
+                            {(provided, snapshot) => (
+                              <Card
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                className={`p-3 cursor-move bg-white ${
+                                  snapshot.draggingOver ? "shadow-lg" : "hover:shadow-md"
+                                } transition-shadow`}
+                              >
+                                <div className="flex justify-between items-start">
+                                  <div className="flex-1">
+                                    <h3 className="font-medium text-sm">{deal.title}</h3>
+                                    <p className="text-xs text-gray-600 mt-1">{deal.company}</p>
+                                    <p className="text-sm font-semibold text-primary mt-2">
+                                      {deal.value}
+                                    </p>
+                                    <p className="text-xs text-gray-500 mt-1">
+                                      {formatDistanceToNow(deal.stageEnteredAt, { addSuffix: true })}
+                                    </p>
+                                  </div>
+                                  <Avatar className="h-8 w-8 ml-2">
+                                    <AvatarImage src={deal.assignee.avatar} alt={deal.assignee.name} />
+                                    <AvatarFallback>{deal.assignee.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                                  </Avatar>
                                 </div>
-                                <Avatar className="h-8 w-8 ml-2">
-                                  <AvatarImage src={deal.assignee.avatar} alt={deal.assignee.name} />
-                                  <AvatarFallback>{deal.assignee.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                                </Avatar>
-                              </div>
-                            </Card>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              </div>
-            ))}
+                              </Card>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </div>
+              ))}
+            </div>
           </div>
         </DragDropContext>
       </main>
