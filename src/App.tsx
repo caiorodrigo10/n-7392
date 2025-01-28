@@ -9,6 +9,7 @@ import Contacts from "./pages/Contacts";
 import ContactDetails from "./pages/ContactDetails";
 import Deals from "./pages/Deals";
 import Calendar from "./pages/Calendar";
+import { AiChat } from "./components/AiChat";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="/deals" element={<Deals isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
             <Route path="/calendar" element={<Calendar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
           </Routes>
+          <AiChat />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
