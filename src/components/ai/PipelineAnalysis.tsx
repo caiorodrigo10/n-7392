@@ -33,15 +33,25 @@ interface PipelineAnalysisProps {
 const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) => {
   const chartRef = useRef<HTMLDivElement>(null);
 
-  // Color scheme constants - usando uma progressão mais clara de cores
+  // Color scheme constants
   const COLORS = {
-    lead: '#E2E8F0',        // Slate-200
-    qualification: '#CBD5E1', // Slate-300
-    meet: '#94A3B8',        // Slate-400
-    negotiation: '#64748B',  // Slate-500
-    closed: '#475569',      // Slate-600
-    won: '#22C55E',         // Success Green
-    count: '#F1F5F9',       // Lighter shade for count bars
+    lead: '#E2E8F0',
+    qualification: '#CBD5E1',
+    meet: '#94A3B8',
+    negotiation: '#64748B',
+    closed: '#475569',
+    won: '#22C55E',
+    count: '#F1F5F9',
+  };
+
+  const formatValue = (value: number) => {
+    if (value >= 1000000) {
+      return `$${(value / 1000000).toFixed(1)}M`;
+    }
+    if (value >= 1000) {
+      return `$${(value / 1000).toFixed(0)}k`;
+    }
+    return `$${value}`;
   };
 
   const calculateStageMetrics = () => {
@@ -84,7 +94,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
       <BarChart
         data={calculateStageMetrics()}
         layout="vertical"
-        margin={{ top: 20, right: 20, left: 100, bottom: 5 }}
+        margin={{ top: 20, right: 40, left: 80, bottom: 5 }}
       >
         <CartesianGrid horizontal={false} strokeDasharray="3 3" />
         <XAxis 
@@ -92,7 +102,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
           axisLine={false}
           tickLine={false}
           tick={{ fill: '#1A1A1A', fontSize: 12 }}
-          tickFormatter={(value) => `$${value.toLocaleString()}`}
+          tickFormatter={formatValue}
           domain={[0, 'dataMax']}
         />
         <YAxis 
@@ -101,7 +111,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
           axisLine={false}
           tickLine={false}
           tick={{ fill: '#1A1A1A', fontSize: 12 }}
-          width={90}
+          width={70}
         />
         <Tooltip 
           cursor={{ fill: 'rgba(0, 0, 0, 0.04)' }}
@@ -111,7 +121,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
             borderRadius: '8px',
             boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
           }}
-          formatter={(value: number) => [`$${value.toLocaleString()}`, 'Value']}
+          formatter={(value: number) => [formatValue(value), 'Value']}
         />
         <Bar 
           dataKey="value" 
