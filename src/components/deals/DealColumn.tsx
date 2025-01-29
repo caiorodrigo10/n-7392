@@ -2,7 +2,7 @@ import { Droppable } from "@hello-pangea/dnd";
 import { Deal } from "@/types/deals";
 import DealCard from "./DealCard";
 import { EmptyColumn } from "./EmptyColumn";
-import { Trophy, MoreVertical, ChevronDown } from "lucide-react";
+import { Trophy, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface DealColumnProps {
@@ -44,9 +44,13 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
                 <ChevronDown className="h-4 w-4 text-secondary/60" />
               </Button>
             </div>
-            <button className="p-1 hover:bg-gray-100 rounded">
-              <MoreVertical className="w-4 h-4 text-secondary/60" />
-            </button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="font-medium text-secondary/80 hover:bg-transparent px-0"
+            >
+              DC+
+            </Button>
           </div>
         ) : (
           <h2 className="font-medium text-sm mb-4 mt-6 flex items-center gap-1 text-secondary/80">
