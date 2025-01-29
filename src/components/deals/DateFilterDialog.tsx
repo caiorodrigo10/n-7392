@@ -5,6 +5,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ChevronDown } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface DateFilterDialogProps {
   children: React.ReactNode;
@@ -56,56 +57,70 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
         </div>
       </DialogTrigger>
       <DialogContent className="max-w-[600px] bg-white/95">
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-sm font-medium mb-3">Quick access</h3>
-            <div className="grid grid-cols-3 gap-2">
-              {timeFrames.quick.map((option) => (
-                <Button
-                  key={option.value}
-                  variant="outline"
-                  className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
-                >
-                  {option.label}
-                </Button>
-              ))}
+        <Tabs defaultValue="relative" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="relative">Quick access</TabsTrigger>
+            <TabsTrigger value="choose">Choose date</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="relative" className="space-y-6">
+            <div>
+              <h3 className="text-sm font-medium mb-3">RELATIVE</h3>
+              <div className="grid grid-cols-3 gap-2">
+                {timeFrames.quick.map((option) => (
+                  <Button
+                    key={option.value}
+                    variant="outline"
+                    className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
+                  >
+                    {option.label}
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div>
-            <h3 className="text-sm font-medium mb-3">PAST</h3>
-            <div className="grid grid-cols-3 gap-2">
-              {timeFrames.past.map((option) => (
-                <Button
-                  key={option.value}
-                  variant="outline"
-                  className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
-                >
-                  {option.label}
-                </Button>
-              ))}
+            <div>
+              <h3 className="text-sm font-medium mb-3">PAST</h3>
+              <div className="grid grid-cols-3 gap-2">
+                {timeFrames.past.map((option) => (
+                  <Button
+                    key={option.value}
+                    variant="outline"
+                    className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
+                  >
+                    {option.label}
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div>
-            <h3 className="text-sm font-medium mb-3">FUTURE</h3>
-            <div className="grid grid-cols-3 gap-2">
-              {timeFrames.future.map((option) => (
-                <Button
-                  key={option.value}
-                  variant="outline"
-                  className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
-                >
-                  {option.label}
-                </Button>
-              ))}
+            <div>
+              <h3 className="text-sm font-medium mb-3">FUTURE</h3>
+              <div className="grid grid-cols-3 gap-2">
+                {timeFrames.future.map((option) => (
+                  <Button
+                    key={option.value}
+                    variant="outline"
+                    className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
+                  >
+                    {option.label}
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>
 
-          <Button variant="outline" className="w-full justify-start font-normal">
-            Clear
-          </Button>
-        </div>
+            <Button variant="outline" className="w-full justify-start font-normal">
+              Clear
+            </Button>
+          </TabsContent>
+          
+          <TabsContent value="choose">
+            <div className="space-y-4">
+              {/* Calendar content will be implemented in a future update */}
+              <p className="text-sm text-gray-500">Calendar view coming soon...</p>
+            </div>
+          </TabsContent>
+        </Tabs>
       </DialogContent>
     </Dialog>
   );
