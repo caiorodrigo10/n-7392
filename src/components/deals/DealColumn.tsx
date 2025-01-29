@@ -2,11 +2,8 @@ import { Droppable } from "@hello-pangea/dnd";
 import { Deal } from "@/types/deals";
 import DealCard from "./DealCard";
 import { EmptyColumn } from "./EmptyColumn";
-import { Trophy, Columns, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import DateFilterDialog from "./DateFilterDialog";
+import { Trophy } from "lucide-react";
 import { StatusSelector } from "./StatusSelector";
-import { useState } from "react";
 
 interface DealColumnProps {
   id: string;
@@ -15,6 +12,7 @@ interface DealColumnProps {
   total: string;
   visibleStatuses?: string[];
   onToggleStatus?: (status: string) => void;
+  showDateFilter?: boolean;
 }
 
 const getColumnBackground = (id: string) => {
@@ -42,9 +40,8 @@ const getStatusColor = (status: string) => {
   return colors[status as keyof typeof colors] || "text-[#22C55E]";
 };
 
-const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleStatus }: DealColumnProps) => {
+const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleStatus, showDateFilter }: DealColumnProps) => {
   const isStatusColumn = ["won", "lost", "abandoned", "extended"].includes(id);
-  const [selectedFilter, setSelectedFilter] = useState("January");
   const statusColor = getStatusColor(id);
   
   if (isStatusColumn && !visibleStatuses.includes(id)) {
@@ -53,25 +50,8 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   
   return (
     <div className={`${isStatusColumn ? 'w-[280px]' : 'w-[250px]'} shrink-0 h-full`}>
-      <div className={`${isStatusColumn ? 'bg-white rounded-lg p-4' : ''} w-full`}>
-        {isStatusColumn ? (
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <h2 className="font-medium text-sm text-secondary/80">
-                Completed in{" "}
-                <DateFilterDialog onFilterChange={setSelectedFilter}>
-                  <span className="text-blue-500 cursor-pointer">{selectedFilter}</span>
-                </DateFilterDialog>
-              </h2>
-            </div>
-            {id === "won" && (
-              <StatusSelector
-                visibleStatuses={visibleStatuses}
-                onToggleStatus={onToggleStatus || (() => {})}
-              />
-            )}
-          </div>
-        ) : (
+      <div className={`${isStatusColumn ? 'bg-white rounded-lg' : ''} w-full`}>
+        {!isStatusColumn && (
           <h2 className="font-medium text-sm mb-4 mt-6 flex items-center gap-1 text-secondary/80">
             {title} <span className="text-secondary/60">({deals.length})</span> - <span className="text-secondary/60">{total}</span>
           </h2>
