@@ -45,8 +45,8 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
     <Link
       to={to}
       className={cn(
-        "flex items-center py-1.5 px-2 rounded-lg transition-colors text-neutral-600 text-sm",
-        isCollapsed ? "justify-center w-full px-0" : "space-x-3",
+        "flex items-center py-1.5 rounded-lg transition-colors text-neutral-600 text-sm",
+        isCollapsed ? "justify-center w-full px-0 mx-0" : "space-x-3 px-2",
         isActive(to) ? "bg-[#E5DEFF] text-[#9b87f5]" : "hover:bg-[#F1F0FB]"
       )}
     >
