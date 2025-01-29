@@ -1,6 +1,7 @@
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 
 const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+const OPENAI_API_KEY = "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";
 
 const KAI_SYSTEM_PROMPT: ChatCompletionMessageParam = {
   role: "system",
@@ -38,10 +39,10 @@ export async function getChatCompletion(messages: ChatCompletionMessageParam[]) 
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("OPENAI_API_KEY")}`,
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "gpt-4",
         messages: [KAI_SYSTEM_PROMPT, ...messages],
         temperature: 0.7,
       }),

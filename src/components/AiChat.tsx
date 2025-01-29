@@ -1,4 +1,4 @@
-import { useState, FormEvent, useEffect } from "react";
+import { useState, FormEvent } from "react";
 import { Send, Bot, Paperclip, Mic, CornerDownLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -36,16 +36,6 @@ export function AiChat() {
 
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const apiKey = localStorage.getItem("OPENAI_API_KEY");
-    if (!apiKey) {
-      const key = prompt("Por favor, insira sua chave API do OpenAI:");
-      if (key) {
-        localStorage.setItem("OPENAI_API_KEY", key);
-      }
-    }
-  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -94,7 +84,7 @@ export function AiChat() {
     } catch (error) {
       toast({
         title: "Erro",
-        description: "Não foi possível obter resposta da IA. Verifique sua chave API.",
+        description: "Não foi possível obter resposta da IA. Por favor, tente novamente.",
         variant: "destructive",
       });
     } finally {
