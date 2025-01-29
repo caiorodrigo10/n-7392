@@ -68,7 +68,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                 snapshot.isDraggingOver ? "bg-opacity-80" : ""
               }`}
             >
-              {isStatusColumn && (
+              {isStatusColumn ? (
                 <div className={`flex ${isCollapsed ? 'flex-col h-full items-center justify-center gap-8' : 'items-center justify-between mb-2'} px-2 pt-2`}>
                   {isCollapsed ? (
                     <>
@@ -104,9 +104,9 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                     </>
                   )}
                 </div>
-              )}
-              {!isCollapsed && deals.length > 0 ? (
-                deals.map((deal, index) => (
+              ) : null}
+              {deals.length > 0 ? (
+                deals.map((index, deal) => (
                   <DealCard 
                     key={deal.id} 
                     deal={deal} 
@@ -114,9 +114,9 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                     columnId={id}
                   />
                 ))
-              ) : !isCollapsed ? (
+              ) : (
                 <EmptyColumn />
-              ) : null}
+              )}
               {provided.placeholder}
             </div>
           )}
