@@ -9,9 +9,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface DateFilterDialogProps {
   children: React.ReactNode;
+  onFilterChange: (value: string) => void;
 }
 
-const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
+const DateFilterDialog = ({ children, onFilterChange }: DateFilterDialogProps) => {
   const timeFrames = {
     quick: [
       { label: "All time", value: "all" },
@@ -47,6 +48,10 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
     "July", "August", "September", "October", "November", "December"
   ];
 
+  const handleOptionClick = (label: string) => {
+    onFilterChange(label);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -77,6 +82,7 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
                     key={option.value}
                     variant="outline"
                     className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
+                    onClick={() => handleOptionClick(option.label)}
                   >
                     {option.label}
                   </Button>
@@ -92,6 +98,7 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
                     key={option.value}
                     variant="outline"
                     className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
+                    onClick={() => handleOptionClick(option.label)}
                   >
                     {option.label}
                   </Button>
@@ -107,6 +114,7 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
                     key={option.value}
                     variant="outline"
                     className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
+                    onClick={() => handleOptionClick(option.label)}
                   >
                     {option.label}
                   </Button>
@@ -114,7 +122,11 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
               </div>
             </div>
 
-            <Button variant="outline" className="w-full justify-start font-normal">
+            <Button 
+              variant="outline" 
+              className="w-full justify-start font-normal"
+              onClick={() => handleOptionClick("January")}
+            >
               Clear
             </Button>
           </TabsContent>
@@ -141,17 +153,26 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
                     className={`w-full py-2 ${
                       month === "January" ? "bg-blue-50 border-blue-200" : ""
                     }`}
+                    onClick={() => handleOptionClick(month)}
                   >
                     {month}
                   </Button>
                 ))}
               </div>
 
-              <Button variant="outline" className="w-full mt-4">
+              <Button 
+                variant="outline" 
+                className="w-full mt-4"
+                onClick={() => handleOptionClick("Custom")}
+              >
                 Custom...
               </Button>
 
-              <Button variant="outline" className="w-full">
+              <Button 
+                variant="outline" 
+                className="w-full"
+                onClick={() => handleOptionClick("January")}
+              >
                 Clear
               </Button>
             </div>

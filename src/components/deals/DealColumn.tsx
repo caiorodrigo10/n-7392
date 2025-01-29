@@ -5,6 +5,7 @@ import { EmptyColumn } from "./EmptyColumn";
 import { Trophy, Columns, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DateFilterDialog from "./DateFilterDialog";
+import { useState } from "react";
 
 interface DealColumnProps {
   id: string;
@@ -27,6 +28,7 @@ const getColumnBackground = (id: string) => {
 
 const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
   const isWonColumn = id === 'won';
+  const [selectedFilter, setSelectedFilter] = useState("January");
   
   return (
     <div className={`${isWonColumn ? 'w-[280px]' : 'w-[250px]'} shrink-0 h-full`}>
@@ -36,8 +38,8 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
             <div className="flex items-center gap-2">
               <h2 className="font-medium text-sm text-secondary/80">
                 Completed in{" "}
-                <DateFilterDialog>
-                  <span className="text-blue-500 cursor-pointer">January</span>
+                <DateFilterDialog onFilterChange={setSelectedFilter}>
+                  <span className="text-blue-500 cursor-pointer">{selectedFilter}</span>
                 </DateFilterDialog>
               </h2>
             </div>
