@@ -2,8 +2,9 @@ import { Droppable } from "@hello-pangea/dnd";
 import { Deal } from "@/types/deals";
 import DealCard from "./DealCard";
 import { EmptyColumn } from "./EmptyColumn";
-import { Trophy, ChevronDown, Columns, Plus } from "lucide-react";
+import { Trophy, Columns, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import DateFilterDialog from "./DateFilterDialog";
 
 interface DealColumnProps {
   id: string;
@@ -34,15 +35,11 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <h2 className="font-medium text-sm text-secondary/80">
-                Completed in <span className="text-blue-500">January</span>
+                Completed in{" "}
+                <DateFilterDialog>
+                  <span className="text-blue-500 cursor-pointer">January</span>
+                </DateFilterDialog>
               </h2>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="p-0 h-auto hover:bg-transparent"
-              >
-                <ChevronDown className="h-4 w-4 text-secondary/60" />
-              </Button>
             </div>
             <Button
               variant="ghost"
