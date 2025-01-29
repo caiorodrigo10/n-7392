@@ -72,12 +72,14 @@ export function ChatInputForm({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Digite sua mensagem..."
+            placeholder={isRecording ? "Gravando áudio..." : "Digite sua mensagem..."}
             className={cn(
               "min-h-[40px] w-full resize-none rounded-md px-4 py-2 pr-20",
-              "focus:outline-none focus:ring-2 focus:ring-primary"
+              "focus:outline-none focus:ring-2 focus:ring-primary",
+              isRecording && "bg-red-50"
             )}
             rows={1}
+            disabled={isRecording}
           />
           <div className="absolute right-1 top-1 flex items-center gap-1">
             <Button
