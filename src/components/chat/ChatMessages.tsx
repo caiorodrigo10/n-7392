@@ -17,6 +17,14 @@ interface ChatMessagesProps {
 }
 
 export function ChatMessages({ messages, isLoading, deals }: ChatMessagesProps) {
+  const shouldShowAnalysis = (message: Message) => {
+    // Não mostrar gráfico se a mensagem contém informações sobre agendamentos
+    if (message.content.includes("Nos últimos 30 dias temos")) {
+      return false;
+    }
+    return message.showAnalysis;
+  };
+
   return (
     <>
       {messages.map((message) => (
@@ -34,7 +42,7 @@ export function ChatMessages({ messages, isLoading, deals }: ChatMessagesProps) 
               {message.content}
             </ChatBubbleMessage>
           </ChatBubble>
-          {message.showAnalysis && deals && (
+          {shouldShowAnalysis(message) && deals && (
             <div className="mt-4 mb-4 p-4 bg-white rounded-lg shadow-sm">
               <PipelineAnalysis deals={deals} chartType={message.chartType} />
             </div>
