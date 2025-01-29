@@ -28,7 +28,7 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
   
   return (
     <div className="w-[280px] shrink-0 h-full">
-      <div className={`${isWonColumn ? 'bg-white rounded-lg p-4' : ''}`}>
+      <div className={`${isWonColumn ? 'bg-white rounded-lg p-4 w-[280px]' : ''}`}>
         {isWonColumn ? (
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
