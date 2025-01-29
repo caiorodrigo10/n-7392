@@ -18,7 +18,7 @@ const getColumnBackground = (id: string) => {
     meet: "bg-[#ECEEF5]",
     negotiation: "bg-transparent",
     closed: "bg-[#ECEEF5]",
-    won: "bg-white"
+    won: "bg-secondary"
   };
   return backgrounds[id as keyof typeof backgrounds] || "bg-[#ECEEF5]";
 };
