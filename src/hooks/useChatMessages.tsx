@@ -30,21 +30,33 @@ export function useChatMessages() {
     console.log("Input recebido:", input);
     console.log("Verificando palavras-chave para análise...");
 
-    const shouldShowAnalysis = input.toLowerCase().includes("análise") || 
-        input.toLowerCase().includes("pipeline") || 
-        input.toLowerCase().includes("relatório") ||
-        input.toLowerCase().includes("gráfico");
+    const pipelineKeywords = [
+      'pipeline',
+      'funil',
+      'vendas',
+      'oportunidades',
+      'criar grafico',
+      'mostrar grafico',
+      'ver grafico'
+    ];
+
+    const shouldShowAnalysis = pipelineKeywords.some(keyword => 
+      input.toLowerCase().includes(keyword)
+    );
 
     let chartType: 'bar' | 'funnel' | 'trend' | 'distribution' | undefined;
     
-    if (input.toLowerCase().includes("funil")) {
+    // Se for uma solicitação relacionada a pipeline/funil, usar o funil horizontal por padrão
+    if (shouldShowAnalysis && !input.toLowerCase().includes('barra') && 
+        !input.toLowerCase().includes('tendência') && 
+        !input.toLowerCase().includes('distribuição')) {
       chartType = 'funnel';
-    } else if (input.toLowerCase().includes("tendência") || input.toLowerCase().includes("evolução")) {
-      chartType = 'trend';
-    } else if (input.toLowerCase().includes("distribuição")) {
-      chartType = 'distribution';
-    } else if (shouldShowAnalysis) {
+    } else if (input.toLowerCase().includes('barra')) {
       chartType = 'bar';
+    } else if (input.toLowerCase().includes('tendência') || input.toLowerCase().includes('evolução')) {
+      chartType = 'trend';
+    } else if (input.toLowerCase().includes('distribuição')) {
+      chartType = 'distribution';
     }
 
     console.log("Deve mostrar análise?", shouldShowAnalysis);
