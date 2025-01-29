@@ -24,6 +24,7 @@ interface Message {
   id: number;
   content: string;
   sender: "user" | "ai";
+  showAnalysis?: boolean;
 }
 
 export function AiChat() {
@@ -39,7 +40,6 @@ export function AiChat() {
 
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [showAnalysis, setShowAnalysis] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -48,7 +48,6 @@ export function AiChat() {
     console.log("Input recebido:", input);
     console.log("Verificando palavras-chave para análise...");
 
-    // Se a mensagem contiver palavras-chave relacionadas a análise
     const shouldShowAnalysis = input.toLowerCase().includes("análise") || 
         input.toLowerCase().includes("pipeline") || 
         input.toLowerCase().includes("relatório");
@@ -64,11 +63,6 @@ export function AiChat() {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
-
-    if (shouldShowAnalysis) {
-      console.log("Ativando exibição do gráfico");
-      setShowAnalysis(true);
-    }
 
     try {
       const apiMessages = messages.map((msg) => {
@@ -98,6 +92,7 @@ export function AiChat() {
           id: prev.length + 1,
           content: response,
           sender: "ai",
+          showAnalysis: shouldShowAnalysis
         },
       ]);
     } catch (error) {
@@ -136,20 +131,27 @@ export function AiChat() {
       <ExpandableChatBody>
         <ChatMessageList>
           {messages.map((message) => (
-            <ChatBubble
-              key={message.id}
-              variant={message.sender === "user" ? "sent" : "received"}
-            >
-              <ChatBubbleAvatar
-                className="h-8 w-8 shrink-0"
-                fallback={message.sender === "user" ? "US" : "KA"}
-              />
-              <ChatBubbleMessage
+            <>
+              <ChatBubble
+                key={message.id}
                 variant={message.sender === "user" ? "sent" : "received"}
               >
-                {message.content}
-              </ChatBubbleMessage>
-            </ChatBubble>
+                <ChatBubbleAvatar
+                  className="h-8 w-8 shrink-0"
+                  fallback={message.sender === "user" ? "US" : "KA"}
+                />
+                <ChatBubbleMessage
+                  variant={message.sender === "user" ? "sent" : "received"}
+                >
+                  {message.content}
+                </ChatBubbleMessage>
+              </ChatBubble>
+              {message.showAnalysis && deals && (
+                <div className="mt-4 mb-4 p-4 bg-white rounded-lg shadow-sm">
+                  <PipelineAnalysis deals={deals} />
+                </div>
+              )}
+            </>
           ))}
 
           {isLoading && (
@@ -162,12 +164,6 @@ export function AiChat() {
             </ChatBubble>
           )}
         </ChatMessageList>
-
-        {showAnalysis && deals && (
-          <div className="mt-4 mb-4 p-4 bg-white rounded-lg shadow-sm">
-            <PipelineAnalysis deals={deals} />
-          </div>
-        )}
       </ExpandableChatBody>
 
       <ExpandableChatFooter>
