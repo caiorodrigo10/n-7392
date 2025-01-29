@@ -13,31 +13,31 @@ interface DateFilterDialogProps {
 const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
   const timeFrames = {
     quick: [
-      { label: "Todo período", value: "all" },
-      { label: "Hoje", value: "today" },
-      { label: "Esta semana", value: "this_week" },
-      { label: "Este mês", value: "this_month" },
-      { label: "Este trimestre", value: "this_quarter" },
-      { label: "Este ano", value: "this_year" },
+      { label: "All time", value: "all" },
+      { label: "Today", value: "today" },
+      { label: "This week", value: "this_week" },
+      { label: "This month", value: "this_month" },
+      { label: "This quarter", value: "this_quarter" },
+      { label: "This year", value: "this_year" },
     ],
     past: [
-      { label: "Ontem", value: "yesterday" },
-      { label: "Semana passada", value: "last_week" },
-      { label: "Mês passado", value: "last_month" },
-      { label: "Últimos 7 dias", value: "last_7_days" },
-      { label: "Últimos 30 dias", value: "last_30_days" },
-      { label: "Últimos 60 dias", value: "last_60_days" },
-      { label: "Últimos 90 dias", value: "last_90_days" },
-      { label: "Trimestre passado", value: "last_quarter" },
-      { label: "Semestre passado", value: "last_semester" },
-      { label: "Ano passado", value: "last_year" },
-      { label: "Últimos 6 meses", value: "last_6_months" },
-      { label: "Últimos 365 dias", value: "last_365_days" },
+      { label: "Yesterday", value: "yesterday" },
+      { label: "Last week", value: "last_week" },
+      { label: "Last month", value: "last_month" },
+      { label: "Last 7 days", value: "last_7_days" },
+      { label: "Last 30 days", value: "last_30_days" },
+      { label: "Last 60 days", value: "last_60_days" },
+      { label: "Last 90 days", value: "last_90_days" },
+      { label: "Last quarter", value: "last_quarter" },
+      { label: "Last semester", value: "last_semester" },
+      { label: "Last year", value: "last_year" },
+      { label: "Last 6 months", value: "last_6_months" },
+      { label: "Last 365 days", value: "last_365_days" },
     ],
     future: [
-      { label: "Amanhã", value: "tomorrow" },
-      { label: "Próxima semana", value: "next_week" },
-      { label: "Próximo mês", value: "next_month" },
+      { label: "Tomorrow", value: "tomorrow" },
+      { label: "Next week", value: "next_week" },
+      { label: "Next month", value: "next_month" },
     ],
   };
 
@@ -55,16 +55,16 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="max-w-[400px]">
+      <DialogContent className="max-w-[400px] bg-white/95">
         <div className="space-y-6">
           <div>
-            <h3 className="text-sm font-medium mb-3">Acesso rápido</h3>
+            <h3 className="text-sm font-medium mb-3">Quick access</h3>
             <div className="grid grid-cols-3 gap-2">
               {timeFrames.quick.map((option) => (
                 <Button
                   key={option.value}
                   variant="outline"
-                  className="w-full justify-start font-normal"
+                  className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
                 >
                   {option.label}
                 </Button>
@@ -73,13 +73,13 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
           </div>
 
           <div>
-            <h3 className="text-sm font-medium mb-3">PASSADO</h3>
+            <h3 className="text-sm font-medium mb-3">PAST</h3>
             <div className="grid grid-cols-3 gap-2">
               {timeFrames.past.map((option) => (
                 <Button
                   key={option.value}
                   variant="outline"
-                  className="w-full justify-start font-normal"
+                  className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
                 >
                   {option.label}
                 </Button>
@@ -88,13 +88,13 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
           </div>
 
           <div>
-            <h3 className="text-sm font-medium mb-3">FUTURO</h3>
+            <h3 className="text-sm font-medium mb-3">FUTURE</h3>
             <div className="grid grid-cols-3 gap-2">
               {timeFrames.future.map((option) => (
                 <Button
                   key={option.value}
                   variant="outline"
-                  className="w-full justify-start font-normal"
+                  className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
                 >
                   {option.label}
                 </Button>
@@ -103,7 +103,7 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
           </div>
 
           <Button variant="outline" className="w-full justify-start font-normal">
-            Limpar
+            Clear
           </Button>
         </div>
       </DialogContent>
