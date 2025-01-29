@@ -47,6 +47,36 @@ export function useChatMessages() {
     };
   };
 
+  const suggestChartType = (input: string): { shouldAsk: boolean; type?: 'bar' | 'funnel' | 'trend' | 'distribution' } => {
+    const keywords = {
+      funnel: ['funil', 'conversão', 'etapas', 'processo'],
+      trend: ['tendência', 'evolução', 'tempo', 'período', 'histórico'],
+      distribution: ['distribuição', 'proporção', 'divisão', 'composição'],
+      bar: ['comparação', 'valores', 'quantidade']
+    };
+
+    const inputLower = input.toLowerCase();
+    
+    // Se a pergunta menciona análise ou visualização
+    if (inputLower.includes('análise') || 
+        inputLower.includes('visualizar') || 
+        inputLower.includes('mostrar') ||
+        inputLower.includes('gráfico')) {
+      
+      // Determina o tipo mais apropriado baseado nas palavras-chave
+      for (const [type, words] of Object.entries(keywords)) {
+        if (words.some(word => inputLower.includes(word))) {
+          return { shouldAsk: true, type: type as 'bar' | 'funnel' | 'trend' | 'distribution' };
+        }
+      }
+      
+      // Se não encontrou um tipo específico mas quer visualização
+      return { shouldAsk: true };
+    }
+
+    return { shouldAsk: false };
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -67,23 +97,8 @@ export function useChatMessages() {
                                    input.toLowerCase().includes("reuniões") ||
                                    input.toLowerCase().includes("agenda");
 
-      const shouldShowAnalysis = input.toLowerCase().includes("análise") || 
-          input.toLowerCase().includes("pipeline") || 
-          input.toLowerCase().includes("relatório") ||
-          input.toLowerCase().includes("gráfico") ||
-          isAskingAboutMeetings;
-
-      let chartType: 'bar' | 'funnel' | 'trend' | 'distribution' | undefined;
-      
-      if (input.toLowerCase().includes("funil")) {
-        chartType = 'funnel';
-      } else if (input.toLowerCase().includes("tendência") || input.toLowerCase().includes("evolução")) {
-        chartType = 'trend';
-      } else if (input.toLowerCase().includes("distribuição")) {
-        chartType = 'distribution';
-      } else if (shouldShowAnalysis) {
-        chartType = 'bar';
-      }
+      const chartSuggestion = suggestChartType(input);
+      const shouldShowAnalysis = chartSuggestion.shouldAsk;
 
       let response: string;
 
@@ -116,6 +131,11 @@ export function useChatMessages() {
         } as ChatCompletionUserMessageParam);
 
         response = await getChatCompletion(apiMessages);
+
+        // Se devemos sugerir uma visualização, adiciona a sugestão na resposta
+        if (shouldShowAnalysis) {
+          response += `\n\nPosso criar um gráfico para ajudar na visualização desses dados. Gostaria de ver?`;
+        }
       }
 
       setMessages((prev) => [
@@ -125,7 +145,7 @@ export function useChatMessages() {
           content: response,
           sender: "ai",
           showAnalysis: shouldShowAnalysis,
-          chartType
+          chartType: chartSuggestion.type || 'bar'
         },
       ]);
     } catch (error) {
