@@ -11,7 +11,6 @@ interface ChatInputFormProps {
   setInput: (value: string) => void;
   handleSubmit: (e: FormEvent) => void;
   handleAttachFile: () => void;
-  handleMicrophoneClick: () => void;
 }
 
 export function ChatInputForm({

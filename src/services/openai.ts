@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
-  apiKey: 'OPENAI_API_KEY', // Placeholder que será substituído pelo valor real
+  apiKey: 'sk-your-key-here', // This should be replaced with your actual key
   dangerouslyAllowBrowser: true
 });
 
@@ -15,7 +15,6 @@ export async function getChatCompletion(messages: any[]) {
 
 export async function transcribeAudio(audioBlob: Blob): Promise<string> {
   try {
-    // Converter o Blob para um File com nome e tipo específicos
     const audioFile = new File([audioBlob], 'audio.wav', {
       type: 'audio/wav',
       lastModified: Date.now(),
