@@ -1,8 +1,9 @@
-import React from "react";
-import { Mic, PaperclipIcon, SendHorizontal } from "lucide-react";
+import React, { useState } from "react";
+import { Mic, PaperclipIcon, SendHorizontal, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { AudioRecorder } from "@/services/audioRecorder";
 
 interface ChatInputFormProps {
   input: string;
@@ -19,6 +20,9 @@ export function ChatInputForm({
   handleAttachFile,
   suggestions,
 }: ChatInputFormProps) {
+  const [isRecording, setIsRecording] = useState(false);
+  const [audioRecorder] = useState(() => new AudioRecorder());
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -26,9 +30,25 @@ export function ChatInputForm({
     }
   };
 
-  const handleAudioRecord = () => {
-    // Implementar lógica de gravação de áudio
-    console.log("Iniciando gravação de áudio...");
+  const handleAudioRecord = async () => {
+    if (isRecording) {
+      try {
+        const audioBlob = await audioRecorder.stopRecording();
+        console.log("Áudio gravado:", audioBlob);
+        // Aqui você pode implementar o envio do áudio
+        // Por exemplo: handleAudioSubmit(audioBlob);
+      } catch (error) {
+        console.error("Erro ao parar gravação:", error);
+      }
+      setIsRecording(false);
+    } else {
+      try {
+        await audioRecorder.startRecording();
+        setIsRecording(true);
+      } catch (error) {
+        console.error("Erro ao iniciar gravação:", error);
+      }
+    }
   };
 
   return (
@@ -62,12 +82,16 @@ export function ChatInputForm({
           <div className="absolute right-1 top-1 flex items-center gap-1">
             <Button
               type="button"
-              variant="ghost"
+              variant={isRecording ? "destructive" : "ghost"}
               size="icon"
               className="h-8 w-8"
               onClick={handleAudioRecord}
             >
-              <Mic className="h-4 w-4" />
+              {isRecording ? (
+                <Square className="h-4 w-4" />
+              ) : (
+                <Mic className="h-4 w-4" />
+              )}
             </Button>
             <Button
               type="button"
