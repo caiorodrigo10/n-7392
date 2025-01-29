@@ -4,6 +4,8 @@ import DealStatusDropZone from "@/components/deals/DealStatusDropZone";
 import { useDealsState } from "@/hooks/useDealsState";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { DragDropContext } from "@hello-pangea/dnd";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface DealsProps {
   isCollapsed: boolean;
@@ -64,18 +66,30 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                     </div>
                   ))}
                 </div>
-                {statusColumns.map((status) => (
-                  <div key={status} className="flex flex-col">
-                    <DealColumn
-                      id={status}
-                      title={status.charAt(0).toUpperCase() + status.slice(1)}
-                      deals={deals[status as keyof typeof deals]}
-                      total={formatCurrency(calculateColumnTotal(deals[status as keyof typeof deals]))}
-                      visibleStatuses={visibleStatuses}
-                      onToggleStatus={toggleStatus}
-                    />
+
+                <div className="bg-white rounded-lg p-4 flex-shrink-0">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="font-medium text-sm text-secondary/80">
+                      Completed Deals
+                    </h2>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <Plus className="h-4 w-4" />
+                    </Button>
                   </div>
-                ))}
+                  <div className="flex gap-2">
+                    {statusColumns.map((status) => (
+                      <DealColumn
+                        key={status}
+                        id={status}
+                        title={status.charAt(0).toUpperCase() + status.slice(1)}
+                        deals={deals[status as keyof typeof deals]}
+                        total={formatCurrency(calculateColumnTotal(deals[status as keyof typeof deals]))}
+                        visibleStatuses={visibleStatuses}
+                        onToggleStatus={toggleStatus}
+                      />
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
             {isDragging && <DealStatusDropZone isDropDisabled={!isDragging} isCollapsed={isCollapsed} />}
