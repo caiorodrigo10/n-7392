@@ -8,9 +8,9 @@ const initialDeals: DealsState = {
   lead: [
     { 
       id: "1", 
-      title: "Enterprise Deal", 
-      value: "$50,000", 
-      company: "Tech Corp",
+      title: "Jato Executivo Legacy 500", 
+      value: "$14,500,000", 
+      company: "Tech Corp Airlines",
       assignee: {
         name: "Sarah Wilson",
         avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
@@ -19,35 +19,57 @@ const initialDeals: DealsState = {
     },
     { 
       id: "2", 
-      title: "Software License", 
-      value: "$25,000", 
-      company: "StartUp Inc",
+      title: "Phenom 300 Customizado", 
+      value: "$9,800,000", 
+      company: "StartUp Aviation",
       assignee: {
         name: "John Smith",
         avatar: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952"
       },
       stageEnteredAt: new Date(2024, 3, 1)
     },
+    { 
+      id: "3", 
+      title: "Programa de Compartilhamento", 
+      value: "$5,200,000", 
+      company: "Share & Fly Co",
+      assignee: {
+        name: "Maria Santos",
+        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330"
+      },
+      stageEnteredAt: new Date(2024, 3, 5)
+    },
   ],
   qualification: [
     { 
-      id: "5", 
-      title: "Training Service", 
-      value: "$20,000", 
-      company: "Learning Co",
+      id: "4", 
+      title: "Praetor 600 Elite", 
+      value: "$20,900,000", 
+      company: "Elite Aviation Ltd",
       assignee: {
         name: "Mike Johnson",
-        avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
       },
       stageEnteredAt: new Date(2024, 3, 5)
+    },
+    { 
+      id: "5", 
+      title: "Pacote Manutenção Premium", 
+      value: "$3,500,000", 
+      company: "AeroMaintain Corp",
+      assignee: {
+        name: "Ana Oliveira",
+        avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80"
+      },
+      stageEnteredAt: new Date(2024, 3, 8)
     },
   ],
   meet: [
     { 
       id: "6", 
-      title: "Hardware Supply", 
-      value: "$35,000", 
-      company: "Hardware Ltd",
+      title: "Legacy 650E Corporativo", 
+      value: "$32,000,000", 
+      company: "Global Airways Inc",
       assignee: {
         name: "Emma Davis",
         avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
@@ -60,9 +82,9 @@ const initialDeals: DealsState = {
     },
     { 
       id: "7", 
-      title: "Cloud Services", 
-      value: "$42,000", 
-      company: "Cloud Systems Inc",
+      title: "Programa de Treinamento", 
+      value: "$1,800,000", 
+      company: "AeroTraining Systems",
       assignee: {
         name: "Robert Chen",
         avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
@@ -76,41 +98,74 @@ const initialDeals: DealsState = {
   ],
   negotiation: [
     { 
-      id: "3", 
-      title: "Consulting Project", 
-      value: "$30,000", 
-      company: "Consulting Co",
+      id: "8", 
+      title: "Phenom 100EV Fleet", 
+      value: "$28,500,000", 
+      company: "Regional Express",
       assignee: {
         name: "Sarah Wilson",
         avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
       },
       stageEnteredAt: new Date(2024, 3, 10)
     },
+    { 
+      id: "9", 
+      title: "Programa VIP Charter", 
+      value: "$7,200,000", 
+      company: "Luxury Air Services",
+      assignee: {
+        name: "Carlos Rodriguez",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"
+      },
+      stageEnteredAt: new Date(2024, 3, 15)
+    },
   ],
   closed: [
     { 
-      id: "4", 
-      title: "Training Program", 
-      value: "$15,000", 
-      company: "Education Ltd",
+      id: "10", 
+      title: "Legacy 500 Corporate", 
+      value: "$18,900,000", 
+      company: "Business Air Ltd",
       assignee: {
         name: "John Smith",
         avatar: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952"
       },
       stageEnteredAt: new Date(2024, 2, 28)
     },
+    { 
+      id: "11", 
+      title: "Pacote Manutenção Anual", 
+      value: "$2,500,000", 
+      company: "TechAir Solutions",
+      assignee: {
+        name: "Lisa Wong",
+        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330"
+      },
+      stageEnteredAt: new Date(2024, 3, 18)
+    },
   ],
   won: [
     { 
-      id: "8", 
-      title: "Enterprise Software", 
-      value: "$75,000", 
-      company: "Big Corp Ltd",
+      id: "12", 
+      title: "Praetor 500 Executive", 
+      value: "$17,000,000", 
+      company: "Executive Air Corp",
       assignee: {
         name: "Sarah Wilson",
         avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
       },
       stageEnteredAt: new Date(2024, 2, 25)
+    },
+    { 
+      id: "13", 
+      title: "Programa de Fretamento", 
+      value: "$4,800,000", 
+      company: "Charter Solutions",
+      assignee: {
+        name: "David Kim",
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e"
+      },
+      stageEnteredAt: new Date(2024, 3, 20)
     },
   ],
 };
