@@ -13,7 +13,7 @@ import { useChatMessages } from "@/hooks/useChatMessages";
 
 export function AiChat() {
   const { deals } = useDealsState();
-  const { messages, input, setInput, isLoading, handleSubmit } = useChatMessages();
+  const { messages, input, setInput, isLoading, handleSubmit, suggestions } = useChatMessages();
 
   const handleAttachFile = () => {
     // Implement file attachment logic
@@ -48,6 +48,7 @@ export function AiChat() {
           setInput={setInput}
           handleSubmit={handleSubmit}
           handleAttachFile={handleAttachFile}
+          suggestions={suggestions}
         />
       </ExpandableChatFooter>
     </ExpandableChat>

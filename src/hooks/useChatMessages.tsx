@@ -1,7 +1,6 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { getChatCompletion } from "@/services/openai";
-import { ChatCompletionUserMessageParam, ChatCompletionAssistantMessageParam } from "openai/resources/chat/completions";
 import { useDataVisualization } from "./useDataVisualization";
 
 interface Message {
@@ -12,6 +11,18 @@ interface Message {
   visualizationType?: 'comparison' | 'trend' | 'distribution' | 'relationship' | 'hierarchy' | 'flow';
   analysisData?: any[];
 }
+
+interface CachedAnalysis {
+  query: string;
+  result: {
+    type: string;
+    data: any[];
+  };
+  timestamp: number;
+}
+
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutos
+const analysisCache = new Map<string, CachedAnalysis>();
 
 export function useChatMessages() {
   const { toast } = useToast();
@@ -24,7 +35,41 @@ export function useChatMessages() {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { analyzeData } = useDataVisualization({} as any); // Será atualizado com os deals reais
+  const { analyzeData } = useDataVisualization({} as any);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+
+  // Gera sugestões baseadas no contexto atual
+  const generateSuggestions = () => {
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage?.sender === "ai" && lastMessage?.analysisData) {
+      const newSuggestions = [
+        "Mostre a evolução desses dados ao longo do tempo",
+        "Compare esses resultados por vendedor",
+        "Qual a distribuição por valor dos negócios?",
+      ];
+      setSuggestions(newSuggestions);
+    }
+  };
+
+  useEffect(() => {
+    generateSuggestions();
+  }, [messages]);
+
+  const getCachedAnalysis = (query: string) => {
+    const cached = analysisCache.get(query);
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+      return cached.result;
+    }
+    return null;
+  };
+
+  const cacheAnalysis = (query: string, result: any) => {
+    analysisCache.set(query, {
+      query,
+      result,
+      timestamp: Date.now(),
+    });
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -41,8 +86,18 @@ export function useChatMessages() {
     setIsLoading(true);
 
     try {
-      // Analisa os dados baseado na query do usuário
-      const analysis = analyzeData(input);
+      // Verifica cache primeiro
+      const cachedResult = getCachedAnalysis(input);
+      let analysis;
+      
+      if (cachedResult) {
+        analysis = cachedResult;
+        console.log("Usando análise em cache");
+      } else {
+        analysis = analyzeData(input);
+        cacheAnalysis(input, analysis);
+        console.log("Nova análise realizada e cacheada");
+      }
       
       const apiMessages = messages.map((msg) => ({
         role: msg.sender === "user" ? "user" : "assistant",
@@ -84,6 +139,7 @@ export function useChatMessages() {
     input,
     setInput,
     isLoading,
-    handleSubmit
+    handleSubmit,
+    suggestions
   };
 }
