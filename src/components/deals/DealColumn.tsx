@@ -106,7 +106,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                 </div>
               ) : null}
               {deals.length > 0 ? (
-                deals.map((index, deal) => (
+                deals.map((deal, index) => (
                   <DealCard 
                     key={deal.id} 
                     deal={deal} 
