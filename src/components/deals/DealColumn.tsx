@@ -5,6 +5,7 @@ import { EmptyColumn } from "./EmptyColumn";
 import { Trophy, Columns, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DateFilterDialog from "./DateFilterDialog";
+import { StatusSelector } from "./StatusSelector";
 import { useState } from "react";
 
 interface DealColumnProps {
@@ -12,6 +13,8 @@ interface DealColumnProps {
   title: string;
   deals: Deal[];
   total: string;
+  visibleStatuses?: string[];
+  onToggleStatus?: (status: string) => void;
 }
 
 const getColumnBackground = (id: string) => {
@@ -21,19 +24,33 @@ const getColumnBackground = (id: string) => {
     meet: "bg-[#ECEEF5]",
     negotiation: "bg-transparent",
     closed: "bg-[#ECEEF5]",
-    won: "bg-white"
+    won: "bg-white",
+    lost: "bg-white",
+    abandoned: "bg-white",
+    extended: "bg-white"
   };
   return backgrounds[id as keyof typeof backgrounds] || "bg-[#ECEEF5]";
 };
 
-const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
-  const isWonColumn = id === 'won';
+const getStatusColor = (status: string) => {
+  const colors = {
+    won: "text-[#22C55E]",
+    lost: "text-[#EF4444]",
+    abandoned: "text-[#6B7280]",
+    extended: "text-[#60A5FA]"
+  };
+  return colors[status as keyof typeof colors] || "text-[#22C55E]";
+};
+
+const DealColumn = ({ id, title, deals, total, visibleStatuses, onToggleStatus }: DealColumnProps) => {
+  const isStatusColumn = ["won", "lost", "abandoned", "extended"].includes(id);
   const [selectedFilter, setSelectedFilter] = useState("January");
+  const statusColor = getStatusColor(id);
   
   return (
-    <div className={`${isWonColumn ? 'w-[280px]' : 'w-[250px]'} shrink-0 h-full`}>
-      <div className={`${isWonColumn ? 'bg-white rounded-lg p-4' : ''} w-full`}>
-        {isWonColumn ? (
+    <div className={`${isStatusColumn ? 'w-[280px]' : 'w-[250px]'} shrink-0 h-full`}>
+      <div className={`${isStatusColumn ? 'bg-white rounded-lg p-4' : ''} w-full`}>
+        {isStatusColumn ? (
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <h2 className="font-medium text-sm text-secondary/80">
@@ -43,14 +60,12 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
                 </DateFilterDialog>
               </h2>
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="font-medium text-secondary/80 hover:bg-transparent px-0 flex items-center gap-1"
-            >
-              <Columns className="h-4 w-4" />
-              <Plus className="h-3 w-3" />
-            </Button>
+            {id === "won" && visibleStatuses && onToggleStatus && (
+              <StatusSelector
+                visibleStatuses={visibleStatuses}
+                onToggleStatus={onToggleStatus}
+              />
+            )}
           </div>
         ) : (
           <h2 className="font-medium text-sm mb-4 mt-6 flex items-center gap-1 text-secondary/80">
@@ -69,21 +84,21 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
                 snapshot.isDraggingOver ? "bg-opacity-80" : ""
               }`}
             >
-              {isWonColumn && (
+              {isStatusColumn && (
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <input 
                       type="checkbox" 
-                      className="rounded border-gray-300 text-[#22C55E] focus:ring-[#22C55E]" 
+                      className={`rounded border-gray-300 ${statusColor} focus:ring-${statusColor}`}
                       checked 
                       readOnly 
                     />
-                    <span className="text-sm text-secondary/80">Won</span>
+                    <span className="text-sm text-secondary/80">{title}</span>
                   </div>
                   <div className="flex items-center justify-between flex-1 px-4">
-                    <div className="text-[#22C55E] font-medium">{total}</div>
+                    <div className={statusColor}>{total}</div>
                     <div className="flex items-center gap-1.5">
-                      <Trophy className="w-4 h-4 text-[#22C55E]" />
+                      <Trophy className={`w-4 h-4 ${statusColor}`} />
                       <span className="text-sm text-secondary/80">{deals.length}</span>
                     </div>
                   </div>

@@ -113,11 +113,51 @@ const initialDeals: DealsState = {
       stageEnteredAt: new Date(2024, 2, 25)
     },
   ],
+  lost: [
+    { 
+      id: "9", 
+      title: "Failed Project", 
+      value: "$45,000", 
+      company: "Failed Corp",
+      assignee: {
+        name: "Emma Davis",
+        avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
+      },
+      stageEnteredAt: new Date(2024, 2, 20)
+    },
+  ],
+  abandoned: [
+    { 
+      id: "10", 
+      title: "Abandoned Deal", 
+      value: "$15,000", 
+      company: "Left Inc",
+      assignee: {
+        name: "Robert Chen",
+        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
+      },
+      stageEnteredAt: new Date(2024, 2, 15)
+    },
+  ],
+  extended: [
+    { 
+      id: "11", 
+      title: "Extended Project", 
+      value: "$60,000", 
+      company: "Delay Corp",
+      assignee: {
+        name: "Sarah Wilson",
+        avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+      },
+      stageEnteredAt: new Date(2024, 3, 1)
+    },
+  ],
 };
 
 export const useDealsState = () => {
   const [deals, setDeals] = useState<DealsState>(initialDeals);
   const [isDragging, setIsDragging] = useState(false);
+  const [visibleStatuses, setVisibleStatuses] = useState<string[]>(["won"]);
 
   const calculateColumnTotal = (deals: Deal[]) => {
     return deals.reduce((total, deal) => {
@@ -137,7 +177,6 @@ export const useDealsState = () => {
     let foundDeal: Deal | null = null;
     let sourceColumn: keyof DealsState | null = null;
 
-    // Find the deal and its source column
     Object.entries(deals).forEach(([column, columnDeals]) => {
       const deal = columnDeals.find((d) => d.id === dealId);
       if (deal) {
@@ -147,30 +186,42 @@ export const useDealsState = () => {
     });
 
     if (foundDeal && sourceColumn) {
-      // Remove the deal from its source column immediately
       setDeals((prevDeals) => ({
         ...prevDeals,
         [sourceColumn!]: prevDeals[sourceColumn!].filter((d) => d.id !== dealId),
       }));
 
-      // Show appropriate notification and trigger confetti for won deals
+      const statusMessages = {
+        won: { title: "🎉 Deal Won!", description: "Congratulations!" },
+        lost: { title: "Deal Lost", description: "Better luck next time" },
+        abandoned: { title: "Deal Abandoned", description: "Deal has been abandoned" },
+        extended: { title: "Deal Extended", description: "Deal timeline has been extended" }
+      };
+
+      const message = statusMessages[status as keyof typeof statusMessages];
+      
       if (status === 'won') {
         triggerWinConfetti();
-        toast({
-          title: "🎉 Deal Won!",
-          description: `Congratulations! ${foundDeal.title} has been won!`,
-        });
-      } else {
-        toast({
-          title: `Deal marked as ${status}`,
-          description: `${foundDeal.title} has been marked as ${status}`,
-        });
       }
+      
+      toast({
+        title: message?.title || `Deal marked as ${status}`,
+        description: message?.description || `${foundDeal.title} has been marked as ${status}`,
+      });
 
       return true;
     }
 
     return false;
+  };
+
+  const toggleStatus = (status: string) => {
+    setVisibleStatuses((prev) => {
+      if (prev.includes(status)) {
+        return prev.filter((s) => s !== status);
+      }
+      return [...prev, status];
+    });
   };
 
   const onDragStart = () => {
@@ -184,16 +235,14 @@ export const useDealsState = () => {
       return;
     }
 
-    // Handle dropping to status zones
     if (result.destination.droppableId.startsWith('status-')) {
       const status = result.destination.droppableId.replace('status-', '');
       handleDealStatusChange(result.draggableId, status);
-      return; // Important: return here to prevent further processing
+      return;
     }
 
     const { source, destination } = result;
 
-    // Handle moving between columns
     if (source.droppableId === destination.droppableId && source.index === destination.index) {
       return;
     }
@@ -227,17 +276,18 @@ export const useDealsState = () => {
       title: "Add Deal",
       description: "Opening deal creation form...",
     });
-    // TODO: Implement deal creation form
     console.log("Add deal clicked");
   };
 
   return {
     deals,
     isDragging,
+    visibleStatuses,
     calculateColumnTotal,
     formatCurrency,
     onDragStart,
     onDragEnd,
-    handleAddDeal
+    handleAddDeal,
+    toggleStatus
   };
 };
