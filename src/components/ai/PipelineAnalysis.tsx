@@ -84,7 +84,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
       <BarChart
         data={calculateStageMetrics()}
         layout="vertical"
-        margin={{ top: 20, right: 30, left: 100, bottom: 5 }}
+        margin={{ top: 20, right: 20, left: 100, bottom: 5 }}
       >
         <CartesianGrid horizontal={false} strokeDasharray="3 3" />
         <XAxis 
@@ -93,6 +93,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
           tickLine={false}
           tick={{ fill: '#1A1A1A', fontSize: 12 }}
           tickFormatter={(value) => `$${value.toLocaleString()}`}
+          domain={[0, 'dataMax']}
         />
         <YAxis 
           type="category"
@@ -116,6 +117,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
           dataKey="value" 
           radius={[0, 4, 4, 0]}
           maxBarSize={35}
+          minPointSize={2}
         >
           {calculateStageMetrics().map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.fill} />
@@ -219,7 +221,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
   };
 
   return (
-    <Card className="p-6 bg-white shadow-lg">
+    <Card className="p-6 bg-white shadow-lg w-full">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-medium text-secondary/60">Pipeline Analysis</h3>
         <Button
@@ -232,7 +234,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
           Download
         </Button>
       </div>
-      <div ref={chartRef} className="h-[300px]">
+      <div ref={chartRef} className="h-[300px] w-full">
         {renderChart()}
       </div>
     </Card>
