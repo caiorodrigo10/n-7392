@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || '',
+  apiKey: 'OPENAI_API_KEY', // Placeholder que será substituído pelo valor real
   dangerouslyAllowBrowser: true
 });
 
@@ -15,13 +15,14 @@ export async function getChatCompletion(messages: any[]) {
 
 export async function transcribeAudio(audioBlob: Blob): Promise<string> {
   try {
-    const formData = new FormData();
-    formData.append('file', audioBlob, 'audio.wav');
-    formData.append('model', 'whisper-1');
-    formData.append('language', 'pt');
+    // Converter o Blob para um File com nome e tipo específicos
+    const audioFile = new File([audioBlob], 'audio.wav', {
+      type: 'audio/wav',
+      lastModified: Date.now(),
+    });
 
     const response = await openai.audio.transcriptions.create({
-      file: audioBlob,
+      file: audioFile,
       model: 'whisper-1',
       language: 'pt'
     });
