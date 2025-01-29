@@ -4,9 +4,8 @@ import DealStatusDropZone from "@/components/deals/DealStatusDropZone";
 import { useDealsState } from "@/hooks/useDealsState";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { DragDropContext } from "@hello-pangea/dnd";
-import { Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import DateFilterDialog from "@/components/deals/DateFilterDialog";
+import { StatusSelector } from "@/components/deals/StatusSelector";
 
 interface DealsProps {
   isCollapsed: boolean;
@@ -73,14 +72,15 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                     <div className="flex items-center gap-2">
                       <h2 className="font-medium text-sm text-secondary/80">
                         Completed in{" "}
-                        <DateFilterDialog>
+                        <DateFilterDialog onFilterChange={() => {}}>
                           <span className="text-blue-500 cursor-pointer">January</span>
                         </DateFilterDialog>
                       </h2>
                     </div>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                      <Plus className="h-4 w-4" />
-                    </Button>
+                    <StatusSelector
+                      visibleStatuses={visibleStatuses}
+                      onToggleStatus={toggleStatus}
+                    />
                   </div>
                   <div className="flex gap-2">
                     {statusColumns.map((status) => (
