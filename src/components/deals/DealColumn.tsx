@@ -118,7 +118,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                   />
                 ))
               ) : (
-                !isCollapsed && <EmptyColumn />
+                !isCollapsed && !isStatusColumn && <EmptyColumn />
               )}
               {provided.placeholder}
             </div>
