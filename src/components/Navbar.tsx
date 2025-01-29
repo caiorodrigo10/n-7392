@@ -26,6 +26,12 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useState } from "react";
 
 interface NavbarProps {
@@ -41,19 +47,38 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
   
   const isActive = (path: string) => location.pathname === path;
   
-  const NavLink = ({ to, icon: Icon, children }: { to: string; icon: any; children: React.ReactNode }) => (
-    <Link
-      to={to}
-      className={cn(
-        "flex items-center py-1.5 rounded-lg transition-colors text-neutral-600 text-sm",
-        isCollapsed ? "justify-center w-full px-0 mx-0" : "space-x-3 px-2",
-        isActive(to) ? "bg-[#E5DEFF] text-[#9b87f5]" : "hover:bg-[#F1F0FB]"
-      )}
-    >
-      <Icon className="h-4 w-4 flex-shrink-0" />
-      {!isCollapsed && <span>{children}</span>}
-    </Link>
-  );
+  const NavLink = ({ to, icon: Icon, children }: { to: string; icon: any; children: React.ReactNode }) => {
+    const link = (
+      <Link
+        to={to}
+        className={cn(
+          "flex items-center py-1.5 rounded-lg transition-colors text-neutral-600 text-sm",
+          isCollapsed ? "justify-center w-full px-0 mx-0" : "space-x-3 px-2",
+          isActive(to) ? "bg-[#E5DEFF] text-[#9b87f5]" : "hover:bg-[#F1F0FB]"
+        )}
+      >
+        <Icon className="h-4 w-4 flex-shrink-0" />
+        {!isCollapsed && <span>{children}</span>}
+      </Link>
+    );
+
+    if (isCollapsed) {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              {link}
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              {children}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    }
+
+    return link;
+  };
 
   const NavSection = ({ 
     title, 
