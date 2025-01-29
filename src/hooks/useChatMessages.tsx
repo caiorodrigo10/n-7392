@@ -23,8 +23,9 @@ export function useChatMessages() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const shouldShowPipelineAnalysis = (input: string): { show: boolean; type?: 'bar' | 'funnel' | 'trend' | 'distribution' } => {
+  const shouldShowPipelineAnalysis = (input: string, response: string): { show: boolean; type?: 'bar' | 'funnel' | 'trend' | 'distribution' } => {
     const input_lower = input.toLowerCase();
+    const response_lower = response.toLowerCase();
     
     // Keywords that indicate a request for pipeline visualization
     const visualizationKeywords = [
@@ -42,12 +43,29 @@ export function useChatMessages() {
       'deals'
     ];
 
+    // Keywords that indicate pipeline data in the response
+    const responseKeywords = [
+      'leads',
+      'qualificados',
+      'negociação',
+      'propostas',
+      'fechadas',
+      'pipeline',
+      'funil'
+    ];
+
     // Check if the input contains visualization keywords
     const requestingVisualization = visualizationKeywords.some(keyword => 
       input_lower.includes(keyword)
     );
 
-    if (!requestingVisualization) {
+    // Check if the response contains pipeline data
+    const containsPipelineData = responseKeywords.some(keyword =>
+      response_lower.includes(keyword)
+    );
+
+    // Show visualization if either condition is met
+    if (!requestingVisualization && !containsPipelineData) {
       return { show: false };
     }
 
@@ -99,7 +117,7 @@ export function useChatMessages() {
       } as ChatCompletionUserMessageParam);
 
       const response = await getChatCompletion(apiMessages);
-      const { show: shouldShow, type: chartType } = shouldShowPipelineAnalysis(input);
+      const { show: shouldShow, type: chartType } = shouldShowPipelineAnalysis(input, response);
 
       setMessages((prev) => [
         ...prev,
