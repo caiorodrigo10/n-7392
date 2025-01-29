@@ -47,9 +47,29 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   if (isStatusColumn && !visibleStatuses.includes(id)) {
     return null;
   }
+
+  if (isStatusColumn && isCollapsed) {
+    return (
+      <div className="w-[80px] shrink-0 h-full transition-all duration-300">
+        <div className="bg-white rounded-lg w-full h-full">
+          <div className="flex flex-col h-full items-center justify-between py-8 px-2">
+            <span className="-rotate-90 whitespace-nowrap text-sm font-light text-secondary/80">
+              Finalizadas em
+            </span>
+            <button 
+              onClick={() => onToggleStatus?.('won')}
+              className="text-secondary/60 hover:text-secondary/80 transition-colors"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
   
   return (
-    <div className={`${isStatusColumn ? (isCollapsed ? 'w-[80px]' : 'w-[280px]') : 'w-[250px]'} shrink-0 h-full transition-all duration-300`}>
+    <div className={`${isStatusColumn ? 'w-[280px]' : 'w-[250px]'} shrink-0 h-full transition-all duration-300`}>
       <div className={`${isStatusColumn ? 'bg-white rounded-lg' : ''} w-full h-full`}>
         {!isStatusColumn && (
           <h2 className="font-medium text-sm mb-4 mt-6 flex items-center gap-1 text-secondary/80">
@@ -68,42 +88,26 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                 snapshot.isDraggingOver ? "bg-opacity-80" : ""
               }`}
             >
-              {isStatusColumn ? (
-                <div className={`flex ${isCollapsed ? 'flex-col h-full items-center justify-between py-8' : 'items-center justify-between mb-2'} px-2 pt-2`}>
-                  {isCollapsed ? (
-                    <>
-                      <span className="-rotate-90 whitespace-nowrap text-sm font-light text-secondary/80">
-                        Finalizadas em
-                      </span>
-                      <button 
-                        onClick={() => onToggleStatus?.('won')}
-                        className="text-secondary/60 hover:text-secondary/80 transition-colors"
-                      >
-                        <ChevronRight className="w-4 h-4" />
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <div className="flex items-center gap-2">
-                        <input 
-                          type="checkbox" 
-                          className={`rounded border-gray-300 ${statusColor} focus:ring-${statusColor}`}
-                          checked={visibleStatuses.includes(id)}
-                          readOnly 
-                        />
-                        <span className="text-sm text-secondary/80">{title}</span>
-                      </div>
-                      <div className="flex items-center justify-between flex-1 px-4">
-                        <div className={statusColor}>{total}</div>
-                        <div className="flex items-center gap-1.5">
-                          <Trophy className={`w-4 h-4 ${statusColor}`} />
-                          <span className="text-sm text-secondary/80">{deals.length}</span>
-                        </div>
-                      </div>
-                    </>
-                  )}
+              {isStatusColumn && !isCollapsed && (
+                <div className="flex items-center justify-between mb-2 px-2 pt-2">
+                  <div className="flex items-center gap-2">
+                    <input 
+                      type="checkbox" 
+                      className={`rounded border-gray-300 ${statusColor} focus:ring-${statusColor}`}
+                      checked={visibleStatuses.includes(id)}
+                      readOnly 
+                    />
+                    <span className="text-sm text-secondary/80">{title}</span>
+                  </div>
+                  <div className="flex items-center justify-between flex-1 px-4">
+                    <div className={statusColor}>{total}</div>
+                    <div className="flex items-center gap-1.5">
+                      <Trophy className={`w-4 h-4 ${statusColor}`} />
+                      <span className="text-sm text-secondary/80">{deals.length}</span>
+                    </div>
+                  </div>
                 </div>
-              ) : null}
+              )}
               {deals.length > 0 ? (
                 deals.map((deal, index) => (
                   <DealCard 
@@ -114,7 +118,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                   />
                 ))
               ) : (
-                <EmptyColumn />
+                !isCollapsed && <EmptyColumn />
               )}
               {provided.placeholder}
             </div>
