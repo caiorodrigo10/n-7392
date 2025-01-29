@@ -1,39 +1,36 @@
 import { useState } from 'react';
-import { analyzeQuery } from '@/services/nlpAnalysis';
-import { selectChartType } from '@/services/chartSelector';
-import { processDealsData, DataPoint } from '@/services/dataAccess';
+import { analyzeIntent, determineVisualizationType, processDealsData } from '@/services/dataAnalysis';
 import { DealsState } from '@/types/deals';
 
 export function useDataVisualization(deals: DealsState) {
   const [currentQuery, setCurrentQuery] = useState<string>('');
   const [visualizationType, setVisualizationType] = useState<string>('bar');
-  const [processedData, setProcessedData] = useState<DataPoint[]>([]);
 
   const analyzeData = (query: string) => {
-    // Analisa a query usando NLP
-    const analysis = analyzeQuery(query);
+    console.log('Analisando query:', query);
     
-    // Seleciona o tipo de visualização apropriado
-    const chartType = selectChartType(analysis);
+    // Analisa a intenção da query
+    const context = analyzeIntent(query);
     
-    // Processa os dados de acordo com a análise
-    const data = processDealsData(deals, analysis.dimension, analysis.timeFrame);
+    // Processa os dados baseado no contexto
+    const processedData = processDealsData(deals, context);
+    
+    // Determina o melhor tipo de visualização
+    const vizType = determineVisualizationType(context, processedData);
     
     setCurrentQuery(query);
-    setVisualizationType(chartType);
-    setProcessedData(data);
+    setVisualizationType(vizType);
     
     return {
-      data,
-      type: chartType,
-      analysis
+      data: processedData,
+      type: vizType,
+      context
     };
   };
 
   return {
     currentQuery,
     visualizationType,
-    processedData,
     analyzeData
   };
 }

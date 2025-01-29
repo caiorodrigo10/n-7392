@@ -13,23 +13,16 @@ interface Message {
 interface ChatMessagesProps {
   messages: Message[];
   isLoading: boolean;
-  deals?: DealsState;
+  deals?: DealsState;  // Changed from Deal[] to DealsState
 }
 
 export function ChatMessages({ messages, isLoading, deals }: ChatMessagesProps) {
-  const shouldShowAnalysis = (message: Message) => {
-    // Não mostrar gráfico se a mensagem contém informações sobre agendamentos
-    if (message.content.includes("Nos últimos 30 dias temos")) {
-      return false;
-    }
-    return message.showAnalysis;
-  };
-
   return (
     <>
       {messages.map((message) => (
-        <div key={message.id}>
+        <>
           <ChatBubble
+            key={message.id}
             variant={message.sender === "user" ? "sent" : "received"}
           >
             <ChatBubbleAvatar
@@ -42,20 +35,18 @@ export function ChatMessages({ messages, isLoading, deals }: ChatMessagesProps) 
               {message.content}
             </ChatBubbleMessage>
           </ChatBubble>
-          {shouldShowAnalysis(message) && deals && (
+          {message.showAnalysis && deals && (
             <div className="mt-4 mb-4 p-4 bg-white rounded-lg shadow-sm">
               <PipelineAnalysis deals={deals} chartType={message.chartType} />
             </div>
           )}
-        </div>
+        </>
       ))}
 
       {isLoading && (
         <ChatBubble variant="received">
           <ChatBubbleAvatar className="h-8 w-8 shrink-0" fallback="KA" />
-          <ChatBubbleMessage variant="received">
-            Processando sua solicitação...
-          </ChatBubbleMessage>
+          <ChatBubbleMessage isLoading />
         </ChatBubble>
       )}
     </>
