@@ -1,6 +1,6 @@
 import { ChatBubble, ChatBubbleAvatar, ChatBubbleMessage } from "@/components/ui/chat-bubble";
 import PipelineAnalysis from "../ai/PipelineAnalysis";
-import { Deal } from "@/types/deals";
+import { Deal, DealsState } from "@/types/deals";
 
 interface Message {
   id: number;
@@ -13,7 +13,7 @@ interface Message {
 interface ChatMessagesProps {
   messages: Message[];
   isLoading: boolean;
-  deals?: Deal[];
+  deals?: DealsState;  // Changed from Deal[] to DealsState
 }
 
 export function ChatMessages({ messages, isLoading, deals }: ChatMessagesProps) {
