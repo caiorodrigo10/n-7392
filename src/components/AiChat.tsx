@@ -29,7 +29,7 @@ export function AiChat() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      content: "Olá! Como posso ajudar você hoje?",
+      content: "Olá! Sou Kai, seu assistente de vendas da Avantto. Como posso ajudar você hoje?",
       sender: "ai",
     },
   ]);
@@ -117,9 +117,9 @@ export function AiChat() {
       icon={<Bot className="h-6 w-6" />}
     >
       <ExpandableChatHeader className="flex-col text-center justify-center">
-        <h1 className="text-xl font-semibold">Chat com IA ✨</h1>
+        <h1 className="text-xl font-semibold">Kai - Assistente de Vendas ✨</h1>
         <p className="text-sm text-muted-foreground">
-          Me pergunte qualquer coisa sobre o sistema
+          Seu especialista em vendas da Avantto
         </p>
       </ExpandableChatHeader>
 
@@ -132,7 +132,7 @@ export function AiChat() {
             >
               <ChatBubbleAvatar
                 className="h-8 w-8 shrink-0"
-                fallback={message.sender === "user" ? "US" : "AI"}
+                fallback={message.sender === "user" ? "US" : "KA"}
               />
               <ChatBubbleMessage
                 variant={message.sender === "user" ? "sent" : "received"}
@@ -146,7 +146,7 @@ export function AiChat() {
             <ChatBubble variant="received">
               <ChatBubbleAvatar
                 className="h-8 w-8 shrink-0"
-                fallback="AI"
+                fallback="KA"
               />
               <ChatBubbleMessage isLoading />
             </ChatBubble>
