@@ -69,13 +69,12 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
               }`}
             >
               {isStatusColumn ? (
-                <div className={`flex ${isCollapsed ? 'flex-col h-full items-center justify-center gap-8' : 'items-center justify-between mb-2'} px-2 pt-2`}>
+                <div className={`flex ${isCollapsed ? 'flex-col h-full items-center justify-between py-8' : 'items-center justify-between mb-2'} px-2 pt-2`}>
                   {isCollapsed ? (
                     <>
-                      <div className="flex flex-col items-center gap-4">
-                        <span className="-rotate-90 whitespace-nowrap text-sm text-secondary/80">Finalizadas em</span>
-                        <span className="text-sm text-blue-500 cursor-pointer">Janeiro</span>
-                      </div>
+                      <span className="-rotate-90 whitespace-nowrap text-sm font-light text-secondary/80">
+                        Finalizadas em
+                      </span>
                       <button 
                         onClick={() => onToggleStatus?.('won')}
                         className="text-secondary/60 hover:text-secondary/80 transition-colors"
