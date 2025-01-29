@@ -157,7 +157,7 @@ const initialDeals: DealsState = {
 export const useDealsState = () => {
   const [deals, setDeals] = useState<DealsState>(initialDeals);
   const [isDragging, setIsDragging] = useState(false);
-  const [visibleStatuses, setVisibleStatuses] = useState<string[]>(["won"]);
+  const [visibleStatuses, setVisibleStatuses] = useState<string[]>(["won"]); // Won is checked by default
 
   const calculateColumnTotal = (deals: Deal[]) => {
     return deals.reduce((total, deal) => {

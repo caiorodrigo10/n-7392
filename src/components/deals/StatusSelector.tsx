@@ -46,9 +46,9 @@ export const StatusSelector = ({ visibleStatuses, onToggleStatus }: StatusSelect
             <Checkbox
               id={status.id}
               checked={visibleStatuses.includes(status.id)}
-              className={status.color}
+              className={`${status.color} border-gray-300`}
             />
-            <span className={`text-sm ${status.color}`}>{status.label}</span>
+            <span className="text-sm text-secondary/80">{status.label}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
