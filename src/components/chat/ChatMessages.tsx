@@ -1,7 +1,24 @@
 import { ChatBubble, ChatBubbleAvatar, ChatBubbleMessage } from "@/components/ui/chat-bubble";
 import { Deal, DealsState } from "@/types/deals";
 import { useDataVisualization } from "@/hooks/useDataVisualization";
-import { LineChart, BarChart, AreaChart, PieChart, Line, Bar, Area, Pie, ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { 
+  LineChart, 
+  BarChart, 
+  AreaChart, 
+  PieChart, 
+  ScatterChart,
+  Line, 
+  Bar, 
+  Area, 
+  Pie,
+  Scatter,
+  ResponsiveContainer, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip,
+  Legend
+} from 'recharts';
 
 interface Message {
   id: number;
@@ -30,22 +47,45 @@ const VisualizationComponent = ({ type, data }: { type: string, data: any[] }) =
     case 'trend':
       return (
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart {...commonProps}>
+          <AreaChart {...commonProps}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
             <Tooltip />
-            <Line type="monotone" dataKey="value" stroke="#8884d8" />
-          </LineChart>
+            <Legend />
+            <Area type="monotone" dataKey="value" stroke="#8884d8" fill="#8884d8" fillOpacity={0.3} />
+          </AreaChart>
         </ResponsiveContainer>
       );
     case 'distribution':
       return (
         <ResponsiveContainer width="100%" height={300}>
           <PieChart {...commonProps}>
-            <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" fill="#8884d8" />
+            <Pie 
+              data={data} 
+              dataKey="value" 
+              nameKey="name" 
+              cx="50%" 
+              cy="50%" 
+              fill="#8884d8"
+              label
+            />
             <Tooltip />
+            <Legend />
           </PieChart>
+        </ResponsiveContainer>
+      );
+    case 'relationship':
+      return (
+        <ResponsiveContainer width="100%" height={300}>
+          <ScatterChart {...commonProps}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="x" name="Valor" />
+            <YAxis dataKey="y" name="Quantidade" />
+            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+            <Legend />
+            <Scatter name="Deals" data={data} fill="#8884d8" />
+          </ScatterChart>
         </ResponsiveContainer>
       );
     case 'comparison':
@@ -57,6 +97,7 @@ const VisualizationComponent = ({ type, data }: { type: string, data: any[] }) =
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
+            <Legend />
             <Bar dataKey="value" fill="#8884d8" />
           </BarChart>
         </ResponsiveContainer>
