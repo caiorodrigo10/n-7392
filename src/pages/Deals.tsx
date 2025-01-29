@@ -6,6 +6,8 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import { DragDropContext } from "@hello-pangea/dnd";
 import DateFilterDialog from "@/components/deals/DateFilterDialog";
 import { StatusSelector } from "@/components/deals/StatusSelector";
+import { ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface DealsProps {
   isCollapsed: boolean;
@@ -36,6 +38,12 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
   const statusColumns = ["won", "lost", "abandoned", "extended"].filter(
     status => visibleStatuses.includes(status)
   );
+
+  const handleExpandClick = () => {
+    if (visibleStatuses.length === 0) {
+      toggleStatus("won");
+    }
+  };
 
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
@@ -79,24 +87,42 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                         </DateFilterDialog>
                       </h2>
                     </div>
-                    <StatusSelector
-                      visibleStatuses={visibleStatuses}
-                      onToggleStatus={toggleStatus}
-                    />
-                  </div>
-                  <div className="flex gap-2 animate-fade-in">
-                    {statusColumns.map((status) => (
-                      <DealColumn
-                        key={status}
-                        id={status}
-                        title={status.charAt(0).toUpperCase() + status.slice(1)}
-                        deals={deals[status as keyof typeof deals]}
-                        total={formatCurrency(calculateColumnTotal(deals[status as keyof typeof deals]))}
+                    {visibleStatuses.length > 0 && (
+                      <StatusSelector
                         visibleStatuses={visibleStatuses}
                         onToggleStatus={toggleStatus}
                       />
-                    ))}
+                    )}
                   </div>
+                  {visibleStatuses.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-[calc(100vh-20rem)] w-[280px]">
+                      <div className="text-[#8E9196]/40 flex flex-col items-center gap-4">
+                        <span className="text-sm">Etapa vazia</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={handleExpandClick}
+                          className="hover:bg-transparent"
+                        >
+                          <ChevronRight className="h-5 w-5" />
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex gap-2 animate-fade-in">
+                      {statusColumns.map((status) => (
+                        <DealColumn
+                          key={status}
+                          id={status}
+                          title={status.charAt(0).toUpperCase() + status.slice(1)}
+                          deals={deals[status as keyof typeof deals]}
+                          total={formatCurrency(calculateColumnTotal(deals[status as keyof typeof deals]))}
+                          visibleStatuses={visibleStatuses}
+                          onToggleStatus={toggleStatus}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
