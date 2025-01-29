@@ -1,7 +1,10 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChatInput } from "@/components/ui/chat-input";
-import { Paperclip, Mic, CornerDownLeft } from "lucide-react";
+import { Paperclip, Mic, CornerDownLeft, Loader2 } from "lucide-react";
+import { AudioRecorder } from "@/services/audioRecorder";
+import { transcribeAudio } from "@/services/openai";
+import { toast } from "@/hooks/use-toast";
 
 interface ChatInputFormProps {
   input: string;
@@ -16,8 +19,46 @@ export function ChatInputForm({
   setInput,
   handleSubmit,
   handleAttachFile,
-  handleMicrophoneClick,
 }: ChatInputFormProps) {
+  const [isRecording, setIsRecording] = useState(false);
+  const [audioRecorder] = useState(() => new AudioRecorder());
+
+  const handleMicrophoneClick = async () => {
+    try {
+      if (!isRecording) {
+        await audioRecorder.startRecording();
+        setIsRecording(true);
+        toast({
+          title: "Gravação iniciada",
+          description: "Fale sua mensagem. Clique novamente para finalizar.",
+        });
+      } else {
+        setIsRecording(false);
+        const audioBlob = await audioRecorder.stopRecording();
+        toast({
+          title: "Processando áudio",
+          description: "Aguarde enquanto transcrevemos sua mensagem...",
+        });
+        
+        const transcription = await transcribeAudio(audioBlob);
+        setInput(transcription);
+        
+        toast({
+          title: "Transcrição concluída",
+          description: "Sua mensagem foi transcrita com sucesso!",
+        });
+      }
+    } catch (error) {
+      console.error('Error handling audio:', error);
+      toast({
+        title: "Erro",
+        description: "Ocorreu um erro ao processar o áudio. Tente novamente.",
+        variant: "destructive",
+      });
+      setIsRecording(false);
+    }
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -35,8 +76,18 @@ export function ChatInputForm({
             <Paperclip className="size-4" />
           </Button>
 
-          <Button variant="ghost" size="icon" type="button" onClick={handleMicrophoneClick}>
-            <Mic className="size-4" />
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            type="button" 
+            onClick={handleMicrophoneClick}
+            className={isRecording ? "text-red-500 animate-pulse" : ""}
+          >
+            {isRecording ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <Mic className="size-4" />
+            )}
           </Button>
         </div>
         <Button type="submit" size="sm" className="ml-auto gap-1.5">
