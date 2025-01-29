@@ -36,6 +36,17 @@ interface PipelineAnalysisProps {
 const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) => {
   const chartRef = useRef<HTMLDivElement>(null);
 
+  // Color scheme constants
+  const COLORS = {
+    lead: '#94A3B8',        // Slate-400: Início do funil
+    qualification: '#64748B', // Slate-500
+    meet: '#475569',        // Slate-600
+    negotiation: '#334155',  // Slate-700
+    closed: '#1E293B',      // Slate-800
+    won: '#22C55E',         // Success Green
+    count: '#CBD5E1',       // Lighter shade for count bars
+  };
+
   const calculateStageMetrics = () => {
     const stages = Object.entries(deals).map(([stage, dealsInStage]) => {
       const totalValue = dealsInStage.reduce((sum, deal) => {
@@ -47,19 +58,16 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
         stage: stage.charAt(0).toUpperCase() + stage.slice(1),
         count: dealsInStage.length,
         value: totalValue,
-        fill: stage === 'won' ? '#4CAF50' : '#EC6C04'
+        fill: COLORS[stage as keyof typeof COLORS] || COLORS.lead
       };
     });
 
     return stages;
   };
 
-  const data = calculateStageMetrics();
-
   const handleDownload = () => {
     if (!chartRef.current) return;
 
-    // Convert the chart div to a canvas
     import('html-to-image').then(htmlToImage => {
       htmlToImage.toPng(chartRef.current!, { quality: 1.0 })
         .then((dataUrl) => {
@@ -76,7 +84,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
 
   const renderBarChart = () => (
     <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+      <BarChart data={calculateStageMetrics()} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" vertical={false} />
         <XAxis 
           dataKey="stage" 
@@ -110,17 +118,20 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
         />
         <Bar 
           dataKey="value" 
-          fill="#EC6C04"
           yAxisId="left"
           radius={[4, 4, 0, 0]}
           name="Value ($)"
-        />
+        >
+          {calculateStageMetrics().map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={entry.fill} />
+          ))}
+        </Bar>
         <Bar 
           dataKey="count" 
-          fill="#B2FC6C"
           yAxisId="right"
           radius={[4, 4, 0, 0]}
           name="Number of Deals"
+          fill={COLORS.count}
         />
       </BarChart>
     </ResponsiveContainer>
@@ -132,11 +143,11 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
         <Tooltip />
         <Funnel
           dataKey="value"
-          data={data}
+          data={calculateStageMetrics()}
           isAnimationActive
         >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={`hsl(${200 + (index * 30)}, 70%, 50%)`} />
+          {calculateStageMetrics().map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={entry.fill} />
           ))}
         </Funnel>
       </FunnelChart>
@@ -145,7 +156,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
 
   const renderTrendChart = () => (
     <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={data}>
+      <LineChart data={calculateStageMetrics()}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="stage" />
         <YAxis />
@@ -158,7 +169,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
 
   const renderDistributionChart = () => (
     <ResponsiveContainer width="100%" height="100%">
-      <AreaChart data={data}>
+      <AreaChart data={calculateStageMetrics()}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="stage" />
         <YAxis />
