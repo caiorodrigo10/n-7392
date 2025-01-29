@@ -82,7 +82,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                       onToggleStatus={toggleStatus}
                     />
                   </div>
-                  <div className="flex gap-2 transition-all duration-300 ease-in-out">
+                  <div className="flex gap-2 animate-fade-in">
                     {statusColumns.map((status) => (
                       <DealColumn
                         key={status}
