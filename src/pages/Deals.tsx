@@ -51,9 +51,9 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
         >
-          <div className="flex-1 flex flex-col min-h-[calc(100vh-13rem)] overflow-x-auto">
-            <div className="flex-1">
-              <div className="flex gap-2 py-4 min-w-fit">
+          <div className="flex-1 flex flex-col min-h-[calc(100vh-13rem)]">
+            <div className="flex-1 px-6">
+              <div className="flex gap-2 py-4">
                 <div className="flex gap-2 border border-gray-200 rounded-lg p-2">
                   {columns.map((column) => (
                     <div key={column.id} className="flex flex-col">

@@ -49,7 +49,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   }
   
   return (
-    <div className="w-[280px] shrink-0 h-full">
+    <div className={`${isStatusColumn ? 'w-[280px] animate-scale-in' : 'w-[250px]'} shrink-0 h-full`}>
       <div className={`${isStatusColumn ? 'bg-white rounded-lg' : ''} w-full`}>
         {!isStatusColumn && (
           <h2 className="font-medium text-sm mb-4 mt-6 flex items-center gap-1 text-secondary/80">
@@ -62,21 +62,20 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
             <div
               ref={provided.innerRef}
               {...provided.droppableProps}
-              className={`h-[calc(100vh-13rem)] space-y-2 ${
+              className={`h-[calc(100vh-13rem)] space-y-2 px-2 pt-2 ${
                 getColumnBackground(id)
               } ${
                 snapshot.isDraggingOver ? "bg-opacity-80" : ""
               }`}
             >
               {isStatusColumn && (
-                <div className="flex items-center justify-between mb-2 px-2">
+                <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <input 
                       type="checkbox" 
                       className={`rounded border-gray-300 ${statusColor} focus:ring-${statusColor}`}
                       checked={visibleStatuses.includes(id)}
-                      onChange={() => onToggleStatus?.(id)}
-                      readOnly={!onToggleStatus}
+                      readOnly 
                     />
                     <span className="text-sm text-secondary/80">{title}</span>
                   </div>
@@ -89,20 +88,18 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                   </div>
                 </div>
               )}
-              <div className="px-2">
-                {deals.length > 0 ? (
-                  deals.map((deal, index) => (
-                    <DealCard 
-                      key={deal.id} 
-                      deal={deal} 
-                      index={index} 
-                      columnId={id}
-                    />
-                  ))
-                ) : (
-                  <EmptyColumn />
-                )}
-              </div>
+              {deals.length > 0 ? (
+                deals.map((deal, index) => (
+                  <DealCard 
+                    key={deal.id} 
+                    deal={deal} 
+                    index={index} 
+                    columnId={id}
+                  />
+                ))
+              ) : (
+                <EmptyColumn />
+              )}
               {provided.placeholder}
             </div>
           )}
