@@ -8,39 +8,23 @@ interface AnalysisContext {
   timeFrame?: TimeFrame;
   dimension?: string;
   filters?: Record<string, any>;
-  comparisonType?: string;
 }
 
 export function analyzeIntent(query: string): AnalysisContext {
   const context: AnalysisContext = {
-    metric: 'value'
+    metric: 'value' // default metric
   };
 
   // Análise temporal
-  if (query.toLowerCase().includes('evolução') || 
-      query.toLowerCase().includes('tendência') ||
-      query.toLowerCase().includes('ao longo do tempo')) {
+  if (query.includes('evolução') || query.includes('tendência')) {
     context.timeFrame = 'month';
   }
 
   // Análise dimensional
-  if (query.toLowerCase().includes('por região')) {
+  if (query.includes('por região')) {
     context.dimension = 'region';
-  } else if (query.toLowerCase().includes('por vendedor') || 
-             query.toLowerCase().includes('por responsável')) {
+  } else if (query.includes('por vendedor')) {
     context.dimension = 'assignee';
-  }
-
-  // Análise de relacionamento
-  if (query.toLowerCase().includes('relação') || 
-      query.toLowerCase().includes('correlação')) {
-    context.comparisonType = 'relationship';
-  }
-
-  // Análise de distribuição
-  if (query.toLowerCase().includes('distribuição') || 
-      query.toLowerCase().includes('proporção')) {
-    context.comparisonType = 'distribution';
   }
 
   console.log('Análise de contexto:', context);
@@ -48,17 +32,13 @@ export function analyzeIntent(query: string): AnalysisContext {
 }
 
 export function determineVisualizationType(context: AnalysisContext, data: any[]): DataType {
-  if (context.comparisonType === 'relationship') {
-    return 'relationship';
-  }
-  
+  // Determina o melhor tipo de visualização baseado no contexto
   if (context.timeFrame) {
     return 'trend';
   }
   
-  if (context.comparisonType === 'distribution' || 
-      (context.dimension && data.length > 5)) {
-    return 'distribution';
+  if (context.dimension) {
+    return data.length > 5 ? 'distribution' : 'comparison';
   }
 
   return 'comparison';
@@ -67,10 +47,7 @@ export function determineVisualizationType(context: AnalysisContext, data: any[]
 export function processDealsData(deals: DealsState, context: AnalysisContext) {
   const allDeals = Object.values(deals).flat();
   
-  if (context.comparisonType === 'relationship') {
-    return processRelationshipData(allDeals);
-  }
-  
+  // Processamento baseado no contexto
   if (context.dimension === 'assignee') {
     return processDataByAssignee(allDeals);
   }
@@ -80,14 +57,6 @@ export function processDealsData(deals: DealsState, context: AnalysisContext) {
   }
 
   return processDefaultView(allDeals);
-}
-
-function processRelationshipData(deals: Deal[]) {
-  return deals.map(deal => ({
-    x: parseFloat(deal.value.replace(/[^0-9.-]+/g, "")),
-    y: 1,
-    name: deal.title
-  }));
 }
 
 function processDataByAssignee(deals: Deal[]) {

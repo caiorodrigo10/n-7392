@@ -1,17 +1,16 @@
-import React, { useState } from "react";
-import { Mic, PaperclipIcon, SendHorizontal, Square } from "lucide-react";
+import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
+import { ChatInput } from "@/components/ui/chat-input";
+import { Paperclip, Mic, CornerDownLeft, Loader2 } from "lucide-react";
 import { AudioRecorder } from "@/services/audioRecorder";
 import { transcribeAudio } from "@/services/openai";
+import { toast } from "@/hooks/use-toast";
 
 interface ChatInputFormProps {
   input: string;
   setInput: (value: string) => void;
-  handleSubmit: (e: React.FormEvent) => void;
+  handleSubmit: (e: FormEvent) => void;
   handleAttachFile: () => void;
-  suggestions?: string[];
 }
 
 export function ChatInputForm({
@@ -19,101 +18,82 @@ export function ChatInputForm({
   setInput,
   handleSubmit,
   handleAttachFile,
-  suggestions,
 }: ChatInputFormProps) {
   const [isRecording, setIsRecording] = useState(false);
   const [audioRecorder] = useState(() => new AudioRecorder());
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit(e as any);
-    }
-  };
-
-  const handleAudioRecord = async () => {
-    if (isRecording) {
-      try {
+  const handleMicrophoneClick = async () => {
+    try {
+      if (!isRecording) {
+        await audioRecorder.startRecording();
+        setIsRecording(true);
+        toast({
+          title: "Gravação iniciada",
+          description: "Fale sua mensagem. Clique novamente para finalizar.",
+        });
+      } else {
+        setIsRecording(false);
         const audioBlob = await audioRecorder.stopRecording();
-        console.log("Áudio gravado:", audioBlob);
+        toast({
+          title: "Processando áudio",
+          description: "Aguarde enquanto transcrevemos sua mensagem...",
+        });
         
-        // Transcrever o áudio e adicionar ao campo de texto
         const transcription = await transcribeAudio(audioBlob);
         setInput(transcription);
         
-      } catch (error) {
-        console.error("Erro ao parar gravação:", error);
+        toast({
+          title: "Transcrição concluída",
+          description: "Sua mensagem foi transcrita com sucesso!",
+        });
       }
+    } catch (error) {
+      console.error('Error handling audio:', error);
+      toast({
+        title: "Erro",
+        description: "Ocorreu um erro ao processar o áudio. Tente novamente.",
+        variant: "destructive",
+      });
       setIsRecording(false);
-    } else {
-      try {
-        await audioRecorder.startRecording();
-        setIsRecording(true);
-      } catch (error) {
-        console.error("Erro ao iniciar gravação:", error);
-      }
     }
   };
 
   return (
-    <div className="relative">
-      {suggestions && suggestions.length > 0 && (
-        <div className="absolute bottom-full left-0 right-0 mb-2 flex flex-wrap gap-2">
-          {suggestions.map((suggestion, index) => (
-            <button
-              key={index}
-              className="bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm hover:bg-muted/80"
-              onClick={() => setInput(suggestion)}
-            >
-              {suggestion}
-            </button>
-          ))}
-        </div>
-      )}
-      <form onSubmit={handleSubmit} className="relative">
-        <div className="relative flex items-center">
-          <Textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={isRecording ? "Gravando áudio..." : "Digite sua mensagem..."}
-            className={cn(
-              "min-h-[40px] w-full resize-none rounded-md px-4 py-2 pr-20",
-              "focus:outline-none focus:ring-2 focus:ring-primary",
-              isRecording && "bg-red-50"
+    <form
+      onSubmit={handleSubmit}
+      className="relative rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring p-1"
+    >
+      <ChatInput
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Digite sua mensagem..."
+        className="min-h-12 resize-none rounded-lg bg-background border-0 p-3 shadow-none focus-visible:ring-0"
+      />
+      <div className="flex items-center p-3 pt-0 justify-between">
+        <div className="flex">
+          <Button variant="ghost" size="icon" type="button" onClick={handleAttachFile}>
+            <Paperclip className="size-4" />
+          </Button>
+
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            type="button" 
+            onClick={handleMicrophoneClick}
+            className={isRecording ? "text-red-500 animate-pulse" : ""}
+          >
+            {isRecording ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <Mic className="size-4" />
             )}
-            rows={1}
-            disabled={isRecording}
-          />
-          <div className="absolute right-1 top-1 flex items-center gap-1">
-            <Button
-              type="button"
-              variant={isRecording ? "destructive" : "ghost"}
-              size="icon"
-              className="h-8 w-8"
-              onClick={handleAudioRecord}
-            >
-              {isRecording ? (
-                <Square className="h-4 w-4" />
-              ) : (
-                <Mic className="h-4 w-4" />
-              )}
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              onClick={handleAttachFile}
-            >
-              <PaperclipIcon className="h-4 w-4" />
-            </Button>
-            <Button type="submit" variant="ghost" size="icon" className="h-8 w-8">
-              <SendHorizontal className="h-4 w-4" />
-            </Button>
-          </div>
+          </Button>
         </div>
-      </form>
-    </div>
+        <Button type="submit" size="sm" className="ml-auto gap-1.5">
+          Enviar Mensagem
+          <CornerDownLeft className="size-3.5" />
+        </Button>
+      </div>
+    </form>
   );
 }

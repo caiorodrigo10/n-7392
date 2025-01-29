@@ -1,79 +1,54 @@
-import { useState, FormEvent, useEffect } from "react";
+import { useState, FormEvent } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { getChatCompletion } from "@/services/openai";
-import { useDataVisualization } from "./useDataVisualization";
+import { ChatCompletionUserMessageParam, ChatCompletionAssistantMessageParam } from "openai/resources/chat/completions";
 
 interface Message {
   id: number;
   content: string;
   sender: "user" | "ai";
   showAnalysis?: boolean;
-  visualizationType?: 'comparison' | 'trend' | 'distribution' | 'relationship' | 'hierarchy' | 'flow';
-  analysisData?: any[];
+  chartType?: 'bar' | 'funnel' | 'trend' | 'distribution';
 }
-
-interface CachedAnalysis {
-  query: string;
-  result: {
-    type: string;
-    data: any[];
-  };
-  timestamp: number;
-}
-
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutos
-const analysisCache = new Map<string, CachedAnalysis>();
 
 export function useChatMessages() {
   const { toast } = useToast();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      content: "Olá! Sou Kai, seu assistente de vendas da Avantto. Como posso ajudar você hoje? Posso analisar seus dados de vendas, mostrar tendências ou responder suas dúvidas.",
+      content: "Olá! Sou Kai, seu assistente de vendas da Avantto. Como posso ajudar você hoje? Posso analisar seu pipeline de vendas, sugerir estratégias ou responder suas dúvidas.",
       sender: "ai",
     },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { analyzeData } = useDataVisualization({} as any);
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-
-  // Gera sugestões baseadas no contexto atual
-  const generateSuggestions = () => {
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage?.sender === "ai" && lastMessage?.analysisData) {
-      const newSuggestions = [
-        "Mostre a evolução desses dados ao longo do tempo",
-        "Compare esses resultados por vendedor",
-        "Qual a distribuição por valor dos negócios?",
-      ];
-      setSuggestions(newSuggestions);
-    }
-  };
-
-  useEffect(() => {
-    generateSuggestions();
-  }, [messages]);
-
-  const getCachedAnalysis = (query: string) => {
-    const cached = analysisCache.get(query);
-    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-      return cached.result;
-    }
-    return null;
-  };
-
-  const cacheAnalysis = (query: string, result: any) => {
-    analysisCache.set(query, {
-      query,
-      result,
-      timestamp: Date.now(),
-    });
-  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
+
+    console.log("Input recebido:", input);
+    console.log("Verificando palavras-chave para análise...");
+
+    const shouldShowAnalysis = input.toLowerCase().includes("análise") || 
+        input.toLowerCase().includes("pipeline") || 
+        input.toLowerCase().includes("relatório") ||
+        input.toLowerCase().includes("gráfico");
+
+    let chartType: 'bar' | 'funnel' | 'trend' | 'distribution' | undefined;
+    
+    if (input.toLowerCase().includes("funil")) {
+      chartType = 'funnel';
+    } else if (input.toLowerCase().includes("tendência") || input.toLowerCase().includes("evolução")) {
+      chartType = 'trend';
+    } else if (input.toLowerCase().includes("distribuição")) {
+      chartType = 'distribution';
+    } else if (shouldShowAnalysis) {
+      chartType = 'bar';
+    }
+
+    console.log("Deve mostrar análise?", shouldShowAnalysis);
+    console.log("Tipo de gráfico:", chartType);
 
     const userMessage = {
       id: messages.length + 1,
@@ -86,28 +61,24 @@ export function useChatMessages() {
     setIsLoading(true);
 
     try {
-      // Verifica cache primeiro
-      const cachedResult = getCachedAnalysis(input);
-      let analysis;
-      
-      if (cachedResult) {
-        analysis = cachedResult;
-        console.log("Usando análise em cache");
-      } else {
-        analysis = analyzeData(input);
-        cacheAnalysis(input, analysis);
-        console.log("Nova análise realizada e cacheada");
-      }
-      
-      const apiMessages = messages.map((msg) => ({
-        role: msg.sender === "user" ? "user" : "assistant",
-        content: msg.content
-      }));
+      const apiMessages = messages.map((msg) => {
+        if (msg.sender === "user") {
+          return {
+            role: "user",
+            content: msg.content
+          } as ChatCompletionUserMessageParam;
+        } else {
+          return {
+            role: "assistant",
+            content: msg.content
+          } as ChatCompletionAssistantMessageParam;
+        }
+      });
 
       apiMessages.push({
         role: "user",
         content: input
-      });
+      } as ChatCompletionUserMessageParam);
 
       const response = await getChatCompletion(apiMessages);
 
@@ -117,9 +88,8 @@ export function useChatMessages() {
           id: prev.length + 1,
           content: response,
           sender: "ai",
-          showAnalysis: true,
-          visualizationType: analysis.type,
-          analysisData: analysis.data
+          showAnalysis: shouldShowAnalysis,
+          chartType
         },
       ]);
     } catch (error) {
@@ -139,7 +109,6 @@ export function useChatMessages() {
     input,
     setInput,
     isLoading,
-    handleSubmit,
-    suggestions
+    handleSubmit
   };
 }
