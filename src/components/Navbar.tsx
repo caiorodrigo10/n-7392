@@ -64,7 +64,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
 
     if (isCollapsed) {
       return (
-        <TooltipProvider>
+        <TooltipProvider delayDuration={0}>
           <Tooltip>
             <TooltipTrigger asChild>
               {link}
