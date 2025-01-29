@@ -52,7 +52,7 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
             <div
               ref={provided.innerRef}
               {...provided.droppableProps}
-              className={`h-[calc(100vh-13rem)] space-y-2 px-2 ${
+              className={`h-[calc(100vh-13rem)] space-y-2 px-2 pt-2 ${
                 getColumnBackground(id)
               } ${
                 snapshot.isDraggingOver ? "bg-opacity-80" : ""
