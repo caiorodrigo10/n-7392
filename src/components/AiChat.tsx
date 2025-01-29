@@ -164,7 +164,7 @@ export function AiChat() {
         </ChatMessageList>
 
         {showAnalysis && deals && (
-          <div className="mt-4">
+          <div className="mt-4 mb-4 p-4 bg-white rounded-lg shadow-sm">
             <PipelineAnalysis deals={deals} />
           </div>
         )}
