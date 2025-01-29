@@ -77,7 +77,7 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           isOpen ? "transform rotate-180" : ""
         )} />}
       </CollapsibleTrigger>
-      <CollapsibleContent className="space-y-0.5 pl-2">
+      <CollapsibleContent className="space-y-0.5">
         {children}
       </CollapsibleContent>
     </Collapsible>
@@ -115,7 +115,10 @@ const Navbar = ({ isCollapsed, setIsCollapsed }: NavbarProps) => {
           </Button>
         </div>
         
-        <div className="space-y-0.5">
+        <div className={cn(
+          "space-y-0.5",
+          !isCollapsed && "pl-2"
+        )}>
           <NavLink to="/" icon={LayoutDashboard}>Dashboard</NavLink>
           <NavLink to="/notifications" icon={Bell}>Notifications</NavLink>
           <NavLink to="/tasks" icon={CheckSquare}>Tasks</NavLink>
