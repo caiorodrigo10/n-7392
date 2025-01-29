@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/dialog";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState } from "react";
 
 interface DateFilterDialogProps {
   children: React.ReactNode;
@@ -13,6 +14,8 @@ interface DateFilterDialogProps {
 }
 
 const DateFilterDialog = ({ children, onFilterChange }: DateFilterDialogProps) => {
+  const [open, setOpen] = useState(false);
+  
   const timeFrames = {
     quick: [
       { label: "All time", value: "all" },
@@ -50,10 +53,11 @@ const DateFilterDialog = ({ children, onFilterChange }: DateFilterDialogProps) =
 
   const handleOptionClick = (label: string) => {
     onFilterChange(label);
+    setOpen(false);
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <div className="flex items-center gap-2">
           {children}
