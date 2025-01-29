@@ -22,10 +22,10 @@ const getColumnBackground = (id: string) => {
     meet: "bg-[#ECEEF5]",
     negotiation: "bg-transparent",
     closed: "bg-[#ECEEF5]",
-    won: "bg-[#F0FDF4]",
-    lost: "bg-[#F0FDF4]",
-    abandoned: "bg-[#F5F5F5]",
-    extended: "bg-[#EFF6FF]"
+    won: "bg-white",
+    lost: "bg-white",
+    abandoned: "bg-white",
+    extended: "bg-white"
   };
   return backgrounds[id as keyof typeof backgrounds] || "bg-[#ECEEF5]";
 };
@@ -33,7 +33,7 @@ const getColumnBackground = (id: string) => {
 const getStatusColor = (status: string) => {
   const colors = {
     won: "text-[#22C55E]",
-    lost: "text-[#22C55E]",
+    lost: "text-[#EF4444]",
     abandoned: "text-[#6B7280]",
     extended: "text-[#60A5FA]"
   };
@@ -49,7 +49,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   }
   
   return (
-    <div className={`${isStatusColumn ? 'w-[280px]' : 'w-[250px]'} shrink-0 h-full`}>
+    <div className={`${isStatusColumn ? 'w-[280px] animate-scale-in' : 'w-[250px]'} shrink-0 h-full`}>
       <div className={`${isStatusColumn ? 'bg-white rounded-lg' : ''} w-full`}>
         {!isStatusColumn && (
           <h2 className="font-medium text-sm mb-4 mt-6 flex items-center gap-1 text-secondary/80">
