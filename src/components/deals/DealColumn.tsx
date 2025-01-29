@@ -62,14 +62,14 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
             <div
               ref={provided.innerRef}
               {...provided.droppableProps}
-              className={`h-[calc(100vh-13rem)] space-y-2 px-2 pt-2 ${
+              className={`h-[calc(100vh-13rem)] space-y-2 ${
                 getColumnBackground(id)
               } ${
                 snapshot.isDraggingOver ? "bg-opacity-80" : ""
               }`}
             >
               {isStatusColumn && (
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-between mb-2 px-2">
                   <div className="flex items-center gap-2">
                     <input 
                       type="checkbox" 
@@ -89,18 +89,20 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                   </div>
                 </div>
               )}
-              {deals.length > 0 ? (
-                deals.map((deal, index) => (
-                  <DealCard 
-                    key={deal.id} 
-                    deal={deal} 
-                    index={index} 
-                    columnId={id}
-                  />
-                ))
-              ) : (
-                <EmptyColumn />
-              )}
+              <div className="px-2">
+                {deals.length > 0 ? (
+                  deals.map((deal, index) => (
+                    <DealCard 
+                      key={deal.id} 
+                      deal={deal} 
+                      index={index} 
+                      columnId={id}
+                    />
+                  ))
+                ) : (
+                  <EmptyColumn />
+                )}
+              </div>
               {provided.placeholder}
             </div>
           )}
