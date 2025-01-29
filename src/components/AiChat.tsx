@@ -17,6 +17,8 @@ import { ChatMessageList } from "@/components/ui/chat-message-list";
 import { getChatCompletion } from "@/services/openai";
 import { useToast } from "@/components/ui/use-toast";
 import { ChatCompletionUserMessageParam, ChatCompletionAssistantMessageParam } from "openai/resources/chat/completions";
+import PipelineAnalysis from "./ai/PipelineAnalysis";
+import { useDealsState } from "@/hooks/useDealsState";
 
 interface Message {
   id: number;
@@ -26,6 +28,7 @@ interface Message {
 
 export function AiChat() {
   const { toast } = useToast();
+  const { deals } = useDealsState();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
@@ -42,6 +45,16 @@ export function AiChat() {
     e.preventDefault();
     if (!input.trim()) return;
 
+    console.log("Input recebido:", input);
+    console.log("Verificando palavras-chave para análise...");
+
+    // Se a mensagem contiver palavras-chave relacionadas a análise
+    const shouldShowAnalysis = input.toLowerCase().includes("análise") || 
+        input.toLowerCase().includes("pipeline") || 
+        input.toLowerCase().includes("relatório");
+
+    console.log("Deve mostrar análise?", shouldShowAnalysis);
+
     const userMessage = {
       id: messages.length + 1,
       content: input,
@@ -51,6 +64,11 @@ export function AiChat() {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
+
+    if (shouldShowAnalysis) {
+      console.log("Ativando exibição do gráfico");
+      setShowAnalysis(true);
+    }
 
     try {
       const apiMessages = messages.map((msg) => {
@@ -72,13 +90,6 @@ export function AiChat() {
         content: input
       } as ChatCompletionUserMessageParam);
 
-      // Se a mensagem contiver palavras-chave relacionadas a análise
-      if (input.toLowerCase().includes("análise") || 
-          input.toLowerCase().includes("pipeline") || 
-          input.toLowerCase().includes("relatório")) {
-        setShowAnalysis(true);
-      }
-
       const response = await getChatCompletion(apiMessages);
 
       setMessages((prev) => [
@@ -90,6 +101,7 @@ export function AiChat() {
         },
       ]);
     } catch (error) {
+      console.error("Erro ao obter resposta:", error);
       toast({
         title: "Erro",
         description: "Não foi possível obter resposta da IA. Por favor, tente novamente.",
@@ -150,6 +162,12 @@ export function AiChat() {
             </ChatBubble>
           )}
         </ChatMessageList>
+
+        {showAnalysis && deals && (
+          <div className="mt-4">
+            <PipelineAnalysis deals={deals} />
+          </div>
+        )}
       </ExpandableChatBody>
 
       <ExpandableChatFooter>
