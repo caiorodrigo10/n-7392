@@ -94,7 +94,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
       <BarChart
         data={calculateStageMetrics()}
         layout="vertical"
-        margin={{ top: 20, right: 40, left: 80, bottom: 5 }}
+        margin={{ top: 20, right: 30, left: 60, bottom: 5 }}
       >
         <CartesianGrid horizontal={false} strokeDasharray="3 3" />
         <XAxis 
@@ -111,7 +111,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
           axisLine={false}
           tickLine={false}
           tick={{ fill: '#1A1A1A', fontSize: 12 }}
-          width={70}
+          width={60}
         />
         <Tooltip 
           cursor={{ fill: 'rgba(0, 0, 0, 0.04)' }}
