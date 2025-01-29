@@ -70,7 +70,7 @@ const DateFilterDialog = ({ children, onFilterChange }: DateFilterDialogProps) =
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="max-w-[600px] bg-white/95">
+      <DialogContent className="max-w-[600px] bg-white/95 border border-gray-200">
         <Tabs defaultValue="relative" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-6">
             <TabsTrigger value="relative">Quick access</TabsTrigger>
@@ -85,7 +85,7 @@ const DateFilterDialog = ({ children, onFilterChange }: DateFilterDialogProps) =
                   <Button
                     key={option.value}
                     variant="outline"
-                    className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
+                    className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left hover:bg-gray-50"
                     onClick={() => handleOptionClick(option.label)}
                   >
                     {option.label}
@@ -101,7 +101,7 @@ const DateFilterDialog = ({ children, onFilterChange }: DateFilterDialogProps) =
                   <Button
                     key={option.value}
                     variant="outline"
-                    className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
+                    className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left hover:bg-gray-50"
                     onClick={() => handleOptionClick(option.label)}
                   >
                     {option.label}
@@ -117,7 +117,7 @@ const DateFilterDialog = ({ children, onFilterChange }: DateFilterDialogProps) =
                   <Button
                     key={option.value}
                     variant="outline"
-                    className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left"
+                    className="w-full h-auto py-2 px-3 justify-start font-normal whitespace-normal text-left hover:bg-gray-50"
                     onClick={() => handleOptionClick(option.label)}
                   >
                     {option.label}
@@ -128,7 +128,7 @@ const DateFilterDialog = ({ children, onFilterChange }: DateFilterDialogProps) =
 
             <Button 
               variant="outline" 
-              className="w-full justify-start font-normal"
+              className="w-full justify-start font-normal hover:bg-gray-50"
               onClick={() => handleOptionClick("January")}
             >
               Clear
@@ -140,10 +140,10 @@ const DateFilterDialog = ({ children, onFilterChange }: DateFilterDialogProps) =
               <div className="flex items-center justify-between mb-4">
                 <span className="text-lg font-medium">2025</span>
                 <div className="flex gap-2">
-                  <Button variant="ghost" size="sm" className="p-2">
+                  <Button variant="ghost" size="sm" className="p-2 hover:bg-gray-50">
                     <ChevronUp className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="p-2">
+                  <Button variant="ghost" size="sm" className="p-2 hover:bg-gray-50">
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </div>
@@ -154,8 +154,8 @@ const DateFilterDialog = ({ children, onFilterChange }: DateFilterDialogProps) =
                   <Button
                     key={month}
                     variant="outline"
-                    className={`w-full py-2 ${
-                      month === "January" ? "bg-blue-50 border-blue-200" : ""
+                    className={`w-full py-2 hover:bg-gray-50 ${
+                      month === "January" ? "bg-blue-50 border-blue-200 hover:bg-blue-100" : ""
                     }`}
                     onClick={() => handleOptionClick(month)}
                   >
@@ -166,7 +166,7 @@ const DateFilterDialog = ({ children, onFilterChange }: DateFilterDialogProps) =
 
               <Button 
                 variant="outline" 
-                className="w-full mt-4"
+                className="w-full mt-4 hover:bg-gray-50"
                 onClick={() => handleOptionClick("Custom")}
               >
                 Custom...
@@ -174,7 +174,7 @@ const DateFilterDialog = ({ children, onFilterChange }: DateFilterDialogProps) =
 
               <Button 
                 variant="outline" 
-                className="w-full"
+                className="w-full hover:bg-gray-50"
                 onClick={() => handleOptionClick("January")}
               >
                 Clear
