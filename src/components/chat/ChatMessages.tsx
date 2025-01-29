@@ -13,16 +13,15 @@ interface Message {
 interface ChatMessagesProps {
   messages: Message[];
   isLoading: boolean;
-  deals?: DealsState;  // Changed from Deal[] to DealsState
+  deals?: DealsState;
 }
 
 export function ChatMessages({ messages, isLoading, deals }: ChatMessagesProps) {
   return (
     <>
       {messages.map((message) => (
-        <>
+        <div key={message.id}>
           <ChatBubble
-            key={message.id}
             variant={message.sender === "user" ? "sent" : "received"}
           >
             <ChatBubbleAvatar
@@ -40,13 +39,15 @@ export function ChatMessages({ messages, isLoading, deals }: ChatMessagesProps) 
               <PipelineAnalysis deals={deals} chartType={message.chartType} />
             </div>
           )}
-        </>
+        </div>
       ))}
 
       {isLoading && (
         <ChatBubble variant="received">
           <ChatBubbleAvatar className="h-8 w-8 shrink-0" fallback="KA" />
-          <ChatBubbleMessage isLoading />
+          <ChatBubbleMessage variant="received">
+            Processando sua solicitação...
+          </ChatBubbleMessage>
         </ChatBubble>
       )}
     </>

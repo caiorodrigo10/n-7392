@@ -51,34 +51,6 @@ export function useChatMessages() {
     e.preventDefault();
     if (!input.trim()) return;
 
-    console.log("Input recebido:", input);
-
-    const isAskingAboutMeetings = input.toLowerCase().includes("agendamento") || 
-                                 input.toLowerCase().includes("reunião") ||
-                                 input.toLowerCase().includes("reuniões") ||
-                                 input.toLowerCase().includes("agenda");
-
-    const shouldShowAnalysis = input.toLowerCase().includes("análise") || 
-        input.toLowerCase().includes("pipeline") || 
-        input.toLowerCase().includes("relatório") ||
-        input.toLowerCase().includes("gráfico") ||
-        isAskingAboutMeetings;
-
-    let chartType: 'bar' | 'funnel' | 'trend' | 'distribution' | undefined;
-    
-    if (input.toLowerCase().includes("funil")) {
-      chartType = 'funnel';
-    } else if (input.toLowerCase().includes("tendência") || input.toLowerCase().includes("evolução")) {
-      chartType = 'trend';
-    } else if (input.toLowerCase().includes("distribuição")) {
-      chartType = 'distribution';
-    } else if (shouldShowAnalysis) {
-      chartType = 'bar';
-    }
-
-    console.log("Deve mostrar análise?", shouldShowAnalysis);
-    console.log("Tipo de gráfico:", chartType);
-
     const userMessage = {
       id: messages.length + 1,
       content: input,
@@ -90,34 +62,60 @@ export function useChatMessages() {
     setIsLoading(true);
 
     try {
-      const apiMessages = messages.map((msg) => {
-        if (msg.sender === "user") {
-          return {
-            role: "user",
-            content: msg.content
-          } as ChatCompletionUserMessageParam;
-        } else {
-          return {
-            role: "assistant",
-            content: msg.content
-          } as ChatCompletionAssistantMessageParam;
-        }
-      });
+      const isAskingAboutMeetings = input.toLowerCase().includes("agendamento") || 
+                                   input.toLowerCase().includes("reunião") ||
+                                   input.toLowerCase().includes("reuniões") ||
+                                   input.toLowerCase().includes("agenda");
 
-      apiMessages.push({
-        role: "user",
-        content: input
-      } as ChatCompletionUserMessageParam);
+      const shouldShowAnalysis = input.toLowerCase().includes("análise") || 
+          input.toLowerCase().includes("pipeline") || 
+          input.toLowerCase().includes("relatório") ||
+          input.toLowerCase().includes("gráfico") ||
+          isAskingAboutMeetings;
 
-      let response = await getChatCompletion(apiMessages);
+      let chartType: 'bar' | 'funnel' | 'trend' | 'distribution' | undefined;
+      
+      if (input.toLowerCase().includes("funil")) {
+        chartType = 'funnel';
+      } else if (input.toLowerCase().includes("tendência") || input.toLowerCase().includes("evolução")) {
+        chartType = 'trend';
+      } else if (input.toLowerCase().includes("distribuição")) {
+        chartType = 'distribution';
+      } else if (shouldShowAnalysis) {
+        chartType = 'bar';
+      }
 
-      // Se a pergunta for sobre agendamentos, adiciona informações específicas
+      let response: string;
+
+      // Primeiro verifica se é uma pergunta sobre agendamentos
       if (isAskingAboutMeetings) {
         const meetingsInfo = analyzeScheduledMeetings(window.currentDeals || {});
         response = `Nos últimos 30 dias temos ${meetingsInfo.total} agendamentos:\n\n` +
           meetingsInfo.meetings.map(meeting => 
             `- ${meeting.title} com ${meeting.company}\n  📅 ${meeting.date} às ${meeting.time}`
           ).join('\n\n');
+      } else {
+        // Se não for sobre agendamentos, processa normalmente com a API
+        const apiMessages = messages.map((msg) => {
+          if (msg.sender === "user") {
+            return {
+              role: "user",
+              content: msg.content
+            } as ChatCompletionUserMessageParam;
+          } else {
+            return {
+              role: "assistant",
+              content: msg.content
+            } as ChatCompletionAssistantMessageParam;
+          }
+        });
+
+        apiMessages.push({
+          role: "user",
+          content: input
+        } as ChatCompletionUserMessageParam);
+
+        response = await getChatCompletion(apiMessages);
       }
 
       setMessages((prev) => [
