@@ -22,10 +22,10 @@ const getColumnBackground = (id: string) => {
     meet: "bg-[#ECEEF5]",
     negotiation: "bg-transparent",
     closed: "bg-[#ECEEF5]",
-    won: "bg-white",
-    lost: "bg-white",
-    abandoned: "bg-white",
-    extended: "bg-white"
+    won: "bg-[#F0FDF4]",
+    lost: "bg-[#F0FDF4]",
+    abandoned: "bg-[#F5F5F5]",
+    extended: "bg-[#EFF6FF]"
   };
   return backgrounds[id as keyof typeof backgrounds] || "bg-[#ECEEF5]";
 };
@@ -33,7 +33,7 @@ const getColumnBackground = (id: string) => {
 const getStatusColor = (status: string) => {
   const colors = {
     won: "text-[#22C55E]",
-    lost: "text-[#EF4444]",
+    lost: "text-[#22C55E]",
     abandoned: "text-[#6B7280]",
     extended: "text-[#60A5FA]"
   };
