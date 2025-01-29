@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -32,6 +34,8 @@ interface PipelineAnalysisProps {
 }
 
 const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) => {
+  const chartRef = useRef<HTMLDivElement>(null);
+
   const calculateStageMetrics = () => {
     const stages = Object.entries(deals).map(([stage, dealsInStage]) => {
       const totalValue = dealsInStage.reduce((sum, deal) => {
@@ -51,6 +55,24 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
   };
 
   const data = calculateStageMetrics();
+
+  const handleDownload = () => {
+    if (!chartRef.current) return;
+
+    // Convert the chart div to a canvas
+    import('html-to-image').then(htmlToImage => {
+      htmlToImage.toPng(chartRef.current!, { quality: 1.0 })
+        .then((dataUrl) => {
+          const link = document.createElement('a');
+          link.download = `pipeline-analysis-${chartType}.png`;
+          link.href = dataUrl;
+          link.click();
+        })
+        .catch((error) => {
+          console.error('Error generating chart image:', error);
+        });
+    });
+  };
 
   const renderBarChart = () => (
     <ResponsiveContainer width="100%" height="100%">
@@ -161,8 +183,19 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
 
   return (
     <Card className="p-6 bg-white shadow-lg">
-      <h3 className="text-lg font-medium mb-4 text-secondary/60">Pipeline Analysis</h3>
-      <div className="h-[300px]">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-medium text-secondary/60">Pipeline Analysis</h3>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleDownload}
+          className="flex items-center gap-2"
+        >
+          <Download className="h-4 w-4" />
+          Download
+        </Button>
+      </div>
+      <div ref={chartRef} className="h-[300px]">
         {renderChart()}
       </div>
     </Card>
