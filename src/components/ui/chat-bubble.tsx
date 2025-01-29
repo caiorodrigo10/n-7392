@@ -59,12 +59,13 @@ export function ChatBubbleMessage({
         '<strong>$1</strong>'
       );
       
-      // Handle bullet points
+      // Handle bullet points - now the text stays on the same line
       if (paragraph.trim().startsWith('- ')) {
         return (
-          <li key={index} className="ml-4">
+          <div key={index} className="flex items-start gap-2 mb-2">
+            <span className="mt-1.5">•</span>
             <div dangerouslySetInnerHTML={{ __html: processedText.substring(2) }} />
-          </li>
+          </div>
         );
       }
       
