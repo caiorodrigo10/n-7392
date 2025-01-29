@@ -16,6 +16,7 @@ import {
 import { ChatMessageList } from "@/components/ui/chat-message-list";
 import { getChatCompletion } from "@/services/openai";
 import { useToast } from "@/components/ui/use-toast";
+import { ChatCompletionRole } from "openai/resources/chat/completions";
 
 interface Message {
   id: number;
@@ -62,11 +63,14 @@ export function AiChat() {
 
     try {
       const apiMessages = messages.map((msg) => ({
-        role: msg.sender === "user" ? "user" : "assistant",
+        role: (msg.sender === "user" ? "user" : "assistant") as ChatCompletionRole,
         content: msg.content,
       }));
 
-      apiMessages.push({ role: "user", content: input });
+      apiMessages.push({ 
+        role: "user" as ChatCompletionRole, 
+        content: input 
+      });
 
       const response = await getChatCompletion(apiMessages);
 
