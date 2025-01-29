@@ -10,6 +10,12 @@ interface DealsProps {
   setIsCollapsed: (value: boolean) => void;
 }
 
+declare global {
+  interface Window {
+    currentDeals: any;
+  }
+}
+
 const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
   const {
     deals,
@@ -20,6 +26,9 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
     onDragEnd,
     handleAddDeal
   } = useDealsState();
+
+  // Disponibiliza os deals globalmente para o chat
+  window.currentDeals = deals;
 
   const columns = [
     { id: "lead", title: "Lead" },

@@ -2,6 +2,7 @@ import { useState, FormEvent } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { getChatCompletion } from "@/services/openai";
 import { ChatCompletionUserMessageParam, ChatCompletionAssistantMessageParam } from "openai/resources/chat/completions";
+import { Deal, DealsState } from "@/types/deals";
 
 interface Message {
   id: number;
@@ -23,17 +24,45 @@ export function useChatMessages() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const analyzeScheduledMeetings = (deals: DealsState) => {
+    const allDeals = Object.values(deals).flat();
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today.setDate(today.getDate() - 30));
+    
+    const scheduledMeetings = allDeals
+      .filter(deal => deal.scheduledMeeting)
+      .filter(deal => {
+        const meetingDate = new Date(`${deal.scheduledMeeting!.date} 2024`);
+        return meetingDate >= thirtyDaysAgo && meetingDate <= today;
+      });
+
+    return {
+      total: scheduledMeetings.length,
+      meetings: scheduledMeetings.map(deal => ({
+        title: deal.title,
+        date: deal.scheduledMeeting!.date,
+        time: deal.scheduledMeeting!.time,
+        company: deal.company
+      }))
+    };
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
     console.log("Input recebido:", input);
-    console.log("Verificando palavras-chave para análise...");
+
+    const isAskingAboutMeetings = input.toLowerCase().includes("agendamento") || 
+                                 input.toLowerCase().includes("reunião") ||
+                                 input.toLowerCase().includes("reuniões") ||
+                                 input.toLowerCase().includes("agenda");
 
     const shouldShowAnalysis = input.toLowerCase().includes("análise") || 
         input.toLowerCase().includes("pipeline") || 
         input.toLowerCase().includes("relatório") ||
-        input.toLowerCase().includes("gráfico");
+        input.toLowerCase().includes("gráfico") ||
+        isAskingAboutMeetings;
 
     let chartType: 'bar' | 'funnel' | 'trend' | 'distribution' | undefined;
     
@@ -80,7 +109,16 @@ export function useChatMessages() {
         content: input
       } as ChatCompletionUserMessageParam);
 
-      const response = await getChatCompletion(apiMessages);
+      let response = await getChatCompletion(apiMessages);
+
+      // Se a pergunta for sobre agendamentos, adiciona informações específicas
+      if (isAskingAboutMeetings) {
+        const meetingsInfo = analyzeScheduledMeetings(window.currentDeals || {});
+        response = `Nos últimos 30 dias temos ${meetingsInfo.total} agendamentos:\n\n` +
+          meetingsInfo.meetings.map(meeting => 
+            `- ${meeting.title} com ${meeting.company}\n  📅 ${meeting.date} às ${meeting.time}`
+          ).join('\n\n');
+      }
 
       setMessages((prev) => [
         ...prev,
