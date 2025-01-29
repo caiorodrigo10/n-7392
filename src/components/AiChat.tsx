@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { Send, Bot, Paperclip, Mic, CornerDownLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,9 +14,18 @@ import {
   ExpandableChatFooter,
 } from "@/components/ui/expandable-chat";
 import { ChatMessageList } from "@/components/ui/chat-message-list";
+import { getChatCompletion } from "@/services/openai";
+import { useToast } from "@/components/ui/use-toast";
+
+interface Message {
+  id: number;
+  content: string;
+  sender: "user" | "ai";
+}
 
 export function AiChat() {
-  const [messages, setMessages] = useState([
+  const { toast } = useToast();
+  const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
       content: "Olá! Como posso ajudar você hoje?",
@@ -27,32 +36,57 @@ export function AiChat() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  useEffect(() => {
+    const apiKey = localStorage.getItem("OPENAI_API_KEY");
+    if (!apiKey) {
+      const key = prompt("Por favor, insira sua chave API do OpenAI:");
+      if (key) {
+        localStorage.setItem("OPENAI_API_KEY", key);
+      }
+    }
+  }, []);
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: prev.length + 1,
-        content: input,
-        sender: "user",
-      },
-    ]);
+    const userMessage = {
+      id: messages.length + 1,
+      content: input,
+      sender: "user" as const,
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      const apiMessages = messages.map((msg) => ({
+        role: msg.sender === "user" ? "user" : "assistant",
+        content: msg.content,
+      }));
+
+      apiMessages.push({ role: "user", content: input });
+
+      const response = await getChatCompletion(apiMessages);
+
       setMessages((prev) => [
         ...prev,
         {
           id: prev.length + 1,
-          content: "Esta é uma resposta da IA para sua mensagem.",
+          content: response,
           sender: "ai",
         },
       ]);
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível obter resposta da IA. Verifique sua chave API.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const handleAttachFile = () => {
