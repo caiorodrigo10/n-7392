@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { AudioRecorder } from "@/services/audioRecorder";
+import { transcribeAudio } from "@/services/openai";
 
 interface ChatInputFormProps {
   input: string;
@@ -35,8 +36,11 @@ export function ChatInputForm({
       try {
         const audioBlob = await audioRecorder.stopRecording();
         console.log("Áudio gravado:", audioBlob);
-        // Aqui você pode implementar o envio do áudio
-        // Por exemplo: handleAudioSubmit(audioBlob);
+        
+        // Transcrever o áudio e adicionar ao campo de texto
+        const transcription = await transcribeAudio(audioBlob);
+        setInput(transcription);
+        
       } catch (error) {
         console.error("Erro ao parar gravação:", error);
       }
