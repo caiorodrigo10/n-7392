@@ -36,9 +36,11 @@ const DealColumn = ({ id, title, deals, total }: DealColumnProps) => {
             <div className="flex items-center gap-2">
               <h2 className="font-medium text-sm text-secondary/80">
                 Completed in{" "}
-                <DateFilterDialog>
-                  <span className="text-blue-500 cursor-pointer">January</span>
-                </DateFilterDialog>
+                <span className="inline-flex items-center">
+                  <DateFilterDialog>
+                    <span className="text-blue-500 cursor-pointer">January</span>
+                  </DateFilterDialog>
+                </span>
               </h2>
             </div>
             <Button
