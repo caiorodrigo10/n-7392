@@ -23,44 +23,50 @@ export function useChatMessages() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const shouldShowPipelineAnalysis = (input: string): { show: boolean; type?: 'bar' | 'funnel' | 'trend' | 'distribution' } => {
+    const input_lower = input.toLowerCase();
+    
+    // Keywords that indicate a request for pipeline visualization
+    const visualizationKeywords = [
+      'mostrar pipeline',
+      'ver pipeline',
+      'análise do pipeline',
+      'análise de vendas',
+      'funil de vendas',
+      'mostrar funil',
+      'ver funil',
+      'gráfico',
+      'visualizar vendas',
+      'status das vendas',
+      'oportunidades',
+      'deals'
+    ];
+
+    // Check if the input contains visualization keywords
+    const requestingVisualization = visualizationKeywords.some(keyword => 
+      input_lower.includes(keyword)
+    );
+
+    if (!requestingVisualization) {
+      return { show: false };
+    }
+
+    // Determine the type of visualization based on specific keywords
+    if (input_lower.includes('barra') || input_lower.includes('barras')) {
+      return { show: true, type: 'bar' };
+    } else if (input_lower.includes('tendência') || input_lower.includes('evolução')) {
+      return { show: true, type: 'trend' };
+    } else if (input_lower.includes('distribuição')) {
+      return { show: true, type: 'distribution' };
+    }
+
+    // Default to funnel visualization
+    return { show: true, type: 'funnel' };
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
-
-    console.log("Input recebido:", input);
-    console.log("Verificando palavras-chave para análise...");
-
-    const pipelineKeywords = [
-      'pipeline',
-      'funil',
-      'vendas',
-      'oportunidades',
-      'criar grafico',
-      'mostrar grafico',
-      'ver grafico'
-    ];
-
-    const shouldShowAnalysis = pipelineKeywords.some(keyword => 
-      input.toLowerCase().includes(keyword)
-    );
-
-    let chartType: 'bar' | 'funnel' | 'trend' | 'distribution' | undefined;
-    
-    // Se for uma solicitação relacionada a pipeline/funil, usar o funil horizontal por padrão
-    if (shouldShowAnalysis && !input.toLowerCase().includes('barra') && 
-        !input.toLowerCase().includes('tendência') && 
-        !input.toLowerCase().includes('distribuição')) {
-      chartType = 'funnel';
-    } else if (input.toLowerCase().includes('barra')) {
-      chartType = 'bar';
-    } else if (input.toLowerCase().includes('tendência') || input.toLowerCase().includes('evolução')) {
-      chartType = 'trend';
-    } else if (input.toLowerCase().includes('distribuição')) {
-      chartType = 'distribution';
-    }
-
-    console.log("Deve mostrar análise?", shouldShowAnalysis);
-    console.log("Tipo de gráfico:", chartType);
 
     const userMessage = {
       id: messages.length + 1,
@@ -93,6 +99,7 @@ export function useChatMessages() {
       } as ChatCompletionUserMessageParam);
 
       const response = await getChatCompletion(apiMessages);
+      const { show: shouldShow, type: chartType } = shouldShowPipelineAnalysis(input);
 
       setMessages((prev) => [
         ...prev,
@@ -100,7 +107,7 @@ export function useChatMessages() {
           id: prev.length + 1,
           content: response,
           sender: "ai",
-          showAnalysis: shouldShowAnalysis,
+          showAnalysis: shouldShow,
           chartType
         },
       ]);
