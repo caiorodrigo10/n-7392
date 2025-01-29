@@ -42,10 +42,14 @@ const getStatusColor = (status: string) => {
   return colors[status as keyof typeof colors] || "text-[#22C55E]";
 };
 
-const DealColumn = ({ id, title, deals, total, visibleStatuses, onToggleStatus }: DealColumnProps) => {
+const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleStatus }: DealColumnProps) => {
   const isStatusColumn = ["won", "lost", "abandoned", "extended"].includes(id);
   const [selectedFilter, setSelectedFilter] = useState("January");
   const statusColor = getStatusColor(id);
+  
+  if (isStatusColumn && !visibleStatuses.includes(id)) {
+    return null;
+  }
   
   return (
     <div className={`${isStatusColumn ? 'w-[280px]' : 'w-[250px]'} shrink-0 h-full`}>
@@ -62,7 +66,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses, onToggleStatus }
             </div>
             {id === "won" && (
               <StatusSelector
-                visibleStatuses={visibleStatuses || []}
+                visibleStatuses={visibleStatuses}
                 onToggleStatus={onToggleStatus || (() => {})}
               />
             )}
@@ -90,7 +94,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses, onToggleStatus }
                     <input 
                       type="checkbox" 
                       className={`rounded border-gray-300 ${statusColor} focus:ring-${statusColor}`}
-                      checked 
+                      checked={visibleStatuses.includes(id)}
                       readOnly 
                     />
                     <span className="text-sm text-secondary/80">{title}</span>
