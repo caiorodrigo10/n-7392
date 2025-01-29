@@ -29,13 +29,14 @@ export function AiChat() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      content: "Olá! Sou Kai, seu assistente de vendas da Avantto. Como posso ajudar você hoje?",
+      content: "Olá! Sou Kai, seu assistente de vendas da Avantto. Como posso ajudar você hoje? Posso analisar seu pipeline de vendas, sugerir estratégias ou responder suas dúvidas.",
       sender: "ai",
     },
   ]);
 
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showAnalysis, setShowAnalysis] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -70,6 +71,13 @@ export function AiChat() {
         role: "user",
         content: input
       } as ChatCompletionUserMessageParam);
+
+      // Se a mensagem contiver palavras-chave relacionadas a análise
+      if (input.toLowerCase().includes("análise") || 
+          input.toLowerCase().includes("pipeline") || 
+          input.toLowerCase().includes("relatório")) {
+        setShowAnalysis(true);
+      }
 
       const response = await getChatCompletion(apiMessages);
 

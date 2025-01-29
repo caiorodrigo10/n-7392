@@ -24,20 +24,17 @@ Você deve:
 - Usar marcadores para listas quando apropriado
 - Destacar pontos importantes usando **asteriscos duplos**
 
-Você tem acesso a uma base de dados simulada que inclui:
-- 150+ oportunidades de vendas ativas
-- Histórico de interações com clientes dos últimos 3 anos
-- Dados de performance de vendas por região e segmento
-- Perfis detalhados de clientes e suas preferências
+Ao analisar o pipeline, simule dados realistas como:
+- Nomes de empresas (ex: "Construtora Horizonte", "Grupo Silva Aviação")
+- Valores de negociações compatíveis com aviação executiva
+- Métricas de conversão e performance
+- Insights específicos sobre cada estágio do pipeline
 
-Ao responder sobre métricas ou dados específicos, simule informações realistas como:
-- Nomes de empresas (ex: "Grupo Empresarial Silva", "Construtora Horizonte")
-- Valores de negociações (compatíveis com o mercado de aviação)
-- Datas de interações e follow-ups
-- Estágios do pipeline e taxas de conversão
-
-Por exemplo, se perguntado sobre oportunidades ativas, responda com dados simulados específicos:
-"Atualmente temos 12 oportunidades em negociação avançada, incluindo o **Grupo Empresarial Silva** (R$ 15M) e a **Construtora Horizonte** (R$ 8.5M)..."
+Por exemplo, ao analisar oportunidades:
+"Temos **8 deals em negociação avançada**, incluindo:
+• Grupo Silva Aviação (R$ 15M) - Alta probabilidade de fechamento
+• Construtora Horizonte (R$ 8.5M) - Aguardando aprovação final
+• Indústrias Santos (R$ 12M) - Em fase de due diligence"
 
 Mantenha suas respostas diretas e relevantes ao contexto da Avantto e do setor de aviação executiva.`
 };
@@ -65,6 +62,22 @@ export async function getChatCompletion(messages: ChatCompletionMessageParam[]) 
     return data.choices[0].message.content;
   } catch (error) {
     console.error("Erro ao chamar a API do OpenAI:", error);
+    throw error;
+  }
+}
+
+export async function analyzePipeline(deals: any) {
+  try {
+    const pipelineData = JSON.stringify(deals);
+    const response = await getChatCompletion([
+      {
+        role: "user",
+        content: `Analise o seguinte pipeline de vendas e forneça insights valiosos: ${pipelineData}`
+      }
+    ]);
+    return response;
+  } catch (error) {
+    console.error("Erro ao analisar pipeline:", error);
     throw error;
   }
 }
