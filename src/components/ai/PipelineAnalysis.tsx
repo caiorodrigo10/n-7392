@@ -90,11 +90,11 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
   };
 
   const renderHorizontalFunnel = () => (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="100%" height={300}>
       <BarChart
         data={calculateStageMetrics()}
         layout="vertical"
-        margin={{ top: 20, right: 30, left: 60, bottom: 5 }}
+        margin={{ top: 20, right: 20, left: 40, bottom: 5 }}
       >
         <CartesianGrid horizontal={false} strokeDasharray="3 3" />
         <XAxis 
@@ -111,7 +111,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
           axisLine={false}
           tickLine={false}
           tick={{ fill: '#1A1A1A', fontSize: 12 }}
-          width={60}
+          width={40}
         />
         <Tooltip 
           cursor={{ fill: 'rgba(0, 0, 0, 0.04)' }}
@@ -244,7 +244,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
           Download
         </Button>
       </div>
-      <div ref={chartRef} className="h-[300px] w-full">
+      <div ref={chartRef} className="w-full">
         {renderChart()}
       </div>
     </Card>
