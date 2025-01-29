@@ -60,10 +60,10 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses, onToggleStatus }
                 </DateFilterDialog>
               </h2>
             </div>
-            {id === "won" && visibleStatuses && onToggleStatus && (
+            {id === "won" && (
               <StatusSelector
-                visibleStatuses={visibleStatuses}
-                onToggleStatus={onToggleStatus}
+                visibleStatuses={visibleStatuses || []}
+                onToggleStatus={onToggleStatus || (() => {})}
               />
             )}
           </div>
