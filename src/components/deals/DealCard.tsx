@@ -15,7 +15,36 @@ interface DealCardProps {
 const DealCard = ({ deal, index, columnId }: DealCardProps) => {
   const showMeetingBadge = ["meet", "negotiation", "closed"].includes(columnId);
   const needsAttention = deal.value.replace(/[^0-9]/g, '') > "50000";
-  const isWonDeal = columnId === "won";
+  
+  const getCardBackground = () => {
+    switch (columnId) {
+      case "won":
+        return "bg-[#F0FDF4]";
+      case "lost":
+        return "bg-red-50";
+      case "abandoned":
+        return "bg-gray-50";
+      case "extended":
+        return "bg-blue-50";
+      default:
+        return "bg-white";
+    }
+  };
+
+  const getTextColor = () => {
+    switch (columnId) {
+      case "won":
+        return "text-[#22C55E]";
+      case "lost":
+        return "text-red-500";
+      case "abandoned":
+        return "text-gray-500";
+      case "extended":
+        return "text-blue-500";
+      default:
+        return "text-secondary";
+    }
+  };
 
   return (
     <Draggable key={deal.id} draggableId={deal.id} index={index}>
@@ -25,7 +54,7 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           className={`p-3 cursor-move transition-all duration-300 animate-enter ${
-            isWonDeal ? "bg-[#F0FDF4] border-secondary/20" : "bg-white"
+            getCardBackground()
           } ${
             snapshot.isDragging ? "shadow-lg scale-105" : "hover:shadow-md"
           }`}
@@ -33,17 +62,17 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
           <div className="flex justify-between items-start">
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <h3 className={`text-sm font-normal ${isWonDeal ? "text-secondary" : "text-secondary"}`}>
+                <h3 className={`text-sm font-normal ${getTextColor()}`}>
                   {deal.title}
                 </h3>
-                {needsAttention && !isWonDeal && (
+                {needsAttention && columnId !== "won" && (
                   <AlertTriangle className="w-4 h-4 text-yellow-500" />
                 )}
               </div>
-              <p className={`text-xs ${isWonDeal ? "text-secondary/60" : "text-secondary/60"} mt-0.5`}>
+              <p className="text-xs text-secondary/60 mt-0.5">
                 {deal.company}
               </p>
-              <p className={`text-sm mt-2 font-normal ${isWonDeal ? "text-secondary" : "text-secondary/60"}`}>
+              <p className={`text-sm mt-2 font-normal ${getTextColor()}`}>
                 {deal.value}
               </p>
             </div>
@@ -53,7 +82,7 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
             </Avatar>
           </div>
           <div className="flex justify-between items-center mt-2">
-            <p className={`text-xs ${isWonDeal ? "text-secondary/60" : "text-secondary/60"}`}>
+            <p className="text-xs text-secondary/60">
               {formatDistanceToNow(deal.stageEnteredAt, { addSuffix: true })}
             </p>
             {showMeetingBadge && deal.scheduledMeeting && (
