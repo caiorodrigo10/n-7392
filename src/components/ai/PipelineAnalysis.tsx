@@ -12,9 +12,6 @@ import {
   ResponsiveContainer,
   AreaChart,
   Area,
-  FunnelChart,
-  Funnel,
-  FunnelProps,
   Cell,
   LineChart,
   Line
@@ -36,15 +33,15 @@ interface PipelineAnalysisProps {
 const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) => {
   const chartRef = useRef<HTMLDivElement>(null);
 
-  // Color scheme constants
+  // Color scheme constants - usando uma progressão mais clara de cores
   const COLORS = {
-    lead: '#94A3B8',        // Slate-400: Início do funil
-    qualification: '#64748B', // Slate-500
-    meet: '#475569',        // Slate-600
-    negotiation: '#334155',  // Slate-700
-    closed: '#1E293B',      // Slate-800
+    lead: '#E2E8F0',        // Slate-200
+    qualification: '#CBD5E1', // Slate-300
+    meet: '#94A3B8',        // Slate-400
+    negotiation: '#64748B',  // Slate-500
+    closed: '#475569',      // Slate-600
     won: '#22C55E',         // Success Green
-    count: '#CBD5E1',       // Lighter shade for count bars
+    count: '#F1F5F9',       // Lighter shade for count bars
   };
 
   const calculateStageMetrics = () => {
@@ -81,6 +78,52 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
         });
     });
   };
+
+  const renderHorizontalFunnel = () => (
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart
+        data={calculateStageMetrics()}
+        layout="vertical"
+        margin={{ top: 20, right: 30, left: 100, bottom: 5 }}
+      >
+        <CartesianGrid horizontal={false} strokeDasharray="3 3" />
+        <XAxis 
+          type="number"
+          axisLine={false}
+          tickLine={false}
+          tick={{ fill: '#1A1A1A', fontSize: 12 }}
+          tickFormatter={(value) => `$${value.toLocaleString()}`}
+        />
+        <YAxis 
+          type="category"
+          dataKey="stage"
+          axisLine={false}
+          tickLine={false}
+          tick={{ fill: '#1A1A1A', fontSize: 12 }}
+          width={90}
+        />
+        <Tooltip 
+          cursor={{ fill: 'rgba(0, 0, 0, 0.04)' }}
+          contentStyle={{
+            background: 'white',
+            border: '1px solid #f0f0f0',
+            borderRadius: '8px',
+            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+          }}
+          formatter={(value: number) => [`$${value.toLocaleString()}`, 'Value']}
+        />
+        <Bar 
+          dataKey="value" 
+          radius={[0, 4, 4, 0]}
+          maxBarSize={35}
+        >
+          {calculateStageMetrics().map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={entry.fill} />
+          ))}
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
+  );
 
   const renderBarChart = () => (
     <ResponsiveContainer width="100%" height="100%">
@@ -137,23 +180,6 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
     </ResponsiveContainer>
   );
 
-  const renderFunnelChart = () => (
-    <ResponsiveContainer width="100%" height="100%">
-      <FunnelChart>
-        <Tooltip />
-        <Funnel
-          dataKey="value"
-          data={calculateStageMetrics()}
-          isAnimationActive
-        >
-          {calculateStageMetrics().map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={entry.fill} />
-          ))}
-        </Funnel>
-      </FunnelChart>
-    </ResponsiveContainer>
-  );
-
   const renderTrendChart = () => (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart data={calculateStageMetrics()}>
@@ -182,7 +208,7 @@ const PipelineAnalysis = ({ deals, chartType = 'bar' }: PipelineAnalysisProps) =
   const renderChart = () => {
     switch (chartType) {
       case 'funnel':
-        return renderFunnelChart();
+        return renderHorizontalFunnel();
       case 'trend':
         return renderTrendChart();
       case 'distribution':
