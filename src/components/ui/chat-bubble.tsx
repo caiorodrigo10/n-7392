@@ -45,10 +45,39 @@ export function ChatBubbleMessage({
   className,
   children,
 }: ChatBubbleMessageProps) {
+  // Function to process text content and convert markdown-style formatting
+  const processContent = (content: string) => {
+    if (typeof content !== 'string') return content;
+    
+    // Split by double line breaks to handle paragraphs
+    const paragraphs = content.split('\n\n');
+    
+    return paragraphs.map((paragraph, index) => {
+      // Convert **text** to bold
+      const processedText = paragraph.replace(
+        /\*\*(.*?)\*\*/g,
+        '<strong>$1</strong>'
+      );
+      
+      // Handle bullet points
+      if (paragraph.trim().startsWith('- ')) {
+        return (
+          <li key={index} className="ml-4">
+            <div dangerouslySetInnerHTML={{ __html: processedText.substring(2) }} />
+          </li>
+        );
+      }
+      
+      return (
+        <p key={index} className="mb-2" dangerouslySetInnerHTML={{ __html: processedText }} />
+      );
+    });
+  };
+
   return (
     <div
       className={cn(
-        "rounded-lg p-3",
+        "rounded-lg p-3 whitespace-pre-wrap",
         variant === "sent" ? "bg-primary text-primary-foreground" : "bg-muted",
         className
       )}
@@ -58,7 +87,7 @@ export function ChatBubbleMessage({
           <MessageLoading />
         </div>
       ) : (
-        children
+        typeof children === 'string' ? processContent(children) : children
       )}
     </div>
   )
