@@ -39,7 +39,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
 
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
-      <div className="h-full flex flex-col">
+      <div className="h-full flex flex-col min-w-full">
         <PageHeader
           title="Deals Pipeline"
           subtitle="Track and manage your deals"
@@ -52,8 +52,8 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
           onDragEnd={onDragEnd}
         >
           <div className="flex-1 flex flex-col min-h-[calc(100vh-13rem)]">
-            <div className="flex-1 px-6">
-              <div className="flex gap-2 py-4">
+            <div className="flex-1 px-6 overflow-x-auto min-w-full">
+              <div className="flex gap-2 py-4 min-w-max">
                 <div className="flex gap-2 border border-gray-200 rounded-lg p-2">
                   {columns.map((column) => (
                     <div key={column.id} className="flex flex-col">
