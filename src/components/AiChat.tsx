@@ -19,10 +19,6 @@ export function AiChat() {
     // Implement file attachment logic
   };
 
-  const handleMicrophoneClick = () => {
-    // Implement voice input logic
-  };
-
   return (
     <ExpandableChat
       size="lg"
@@ -52,7 +48,6 @@ export function AiChat() {
           setInput={setInput}
           handleSubmit={handleSubmit}
           handleAttachFile={handleAttachFile}
-          handleMicrophoneClick={handleMicrophoneClick}
         />
       </ExpandableChatFooter>
     </ExpandableChat>
