@@ -89,7 +89,7 @@ export function useChatMessages() {
     const userMessage = {
       id: messages.length + 1,
       content: input,
-      sender: "user" as const,
+      sender: "user",
     };
 
     setMessages((prev) => [...prev, userMessage]);
@@ -110,6 +110,12 @@ export function useChatMessages() {
           } as ChatCompletionAssistantMessageParam;
         }
       });
+
+      // Adiciona contexto sobre a visualização do gráfico
+      apiMessages.push({
+        role: "system",
+        content: "Quando você fornecer dados sobre pipeline ou funil de vendas, não mencione que vai criar ou mostrar um gráfico, pois ele será exibido automaticamente abaixo da sua resposta. Apenas forneça os dados e insights relevantes."
+      } as ChatCompletionAssistantMessageParam);
 
       apiMessages.push({
         role: "user",
