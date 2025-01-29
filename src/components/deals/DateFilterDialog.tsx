@@ -4,6 +4,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogTrigger,
 } from "@/components/ui/dialog";
 
@@ -20,6 +21,9 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
       <DialogContent className="w-[280px]">
         <DialogHeader>
           <DialogTitle>Select Period</DialogTitle>
+          <DialogDescription>
+            Choose a time period to filter your deals
+          </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
           <div>
