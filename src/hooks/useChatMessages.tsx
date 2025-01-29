@@ -1,7 +1,12 @@
 import { useState, FormEvent } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { getChatCompletion } from "@/services/openai";
-import { ChatCompletionUserMessageParam, ChatCompletionAssistantMessageParam, ChatCompletionSystemMessageParam } from "openai/resources/chat/completions";
+import { 
+  ChatCompletionUserMessageParam, 
+  ChatCompletionAssistantMessageParam, 
+  ChatCompletionSystemMessageParam,
+  ChatCompletionMessageParam 
+} from "openai/resources/chat/completions";
 
 interface Message {
   id: number;
@@ -97,7 +102,7 @@ export function useChatMessages() {
     setIsLoading(true);
 
     try {
-      const apiMessages = messages.map((msg) => {
+      const apiMessages: ChatCompletionMessageParam[] = messages.map((msg) => {
         if (msg.sender === "user") {
           return {
             role: "user",
@@ -111,7 +116,7 @@ export function useChatMessages() {
         }
       });
 
-      // Adiciona contexto sobre a visualização do gráfico
+      // Add system message
       apiMessages.push({
         role: "system",
         content: "Quando você fornecer dados sobre pipeline ou funil de vendas, não mencione que vai criar ou mostrar um gráfico, pois ele será exibido automaticamente abaixo da sua resposta. Apenas forneça os dados e insights relevantes."
