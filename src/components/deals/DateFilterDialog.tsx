@@ -4,7 +4,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface DateFilterDialogProps {
@@ -41,6 +41,11 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
       { label: "Next month", value: "next_month" },
     ],
   };
+
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
 
   return (
     <Dialog>
@@ -116,8 +121,39 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
           
           <TabsContent value="choose">
             <div className="space-y-4">
-              {/* Calendar content will be implemented in a future update */}
-              <p className="text-sm text-gray-500">Calendar view coming soon...</p>
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-lg font-medium">2025</span>
+                <div className="flex gap-2">
+                  <Button variant="ghost" size="sm" className="p-2">
+                    <ChevronUp className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="sm" className="p-2">
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-3 gap-3">
+                {months.map((month) => (
+                  <Button
+                    key={month}
+                    variant="outline"
+                    className={`w-full py-2 ${
+                      month === "January" ? "bg-blue-50 border-blue-200" : ""
+                    }`}
+                  >
+                    {month}
+                  </Button>
+                ))}
+              </div>
+
+              <Button variant="outline" className="w-full mt-4">
+                Custom...
+              </Button>
+
+              <Button variant="outline" className="w-full">
+                Clear
+              </Button>
             </div>
           </TabsContent>
         </Tabs>
