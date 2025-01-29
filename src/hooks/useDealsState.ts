@@ -157,7 +157,7 @@ const initialDeals: DealsState = {
 export const useDealsState = () => {
   const [deals, setDeals] = useState<DealsState>(initialDeals);
   const [isDragging, setIsDragging] = useState(false);
-  const [visibleStatuses, setVisibleStatuses] = useState<string[]>(["won"]); // Won is checked by default
+  const [visibleStatuses, setVisibleStatuses] = useState<string[]>(["won"]);
 
   const calculateColumnTotal = (deals: Deal[]) => {
     return deals.reduce((total, deal) => {
@@ -171,6 +171,17 @@ export const useDealsState = () => {
       style: 'currency',
       currency: 'USD',
     }).format(amount);
+  };
+
+  const toggleStatus = (status: string) => {
+    console.log('toggleStatus called with:', status); // Debug log
+    setVisibleStatuses(prev => {
+      const newStatuses = prev.includes(status)
+        ? prev.filter(s => s !== status)
+        : [...prev, status];
+      console.log('New visibleStatuses:', newStatuses); // Debug log
+      return newStatuses;
+    });
   };
 
   const handleDealStatusChange = (dealId: string, status: string): boolean => {
@@ -213,15 +224,6 @@ export const useDealsState = () => {
     }
 
     return false;
-  };
-
-  const toggleStatus = (status: string) => {
-    setVisibleStatuses((prev) => {
-      if (prev.includes(status)) {
-        return prev.filter((s) => s !== status);
-      }
-      return [...prev, status];
-    });
   };
 
   const onDragStart = () => {
@@ -283,11 +285,11 @@ export const useDealsState = () => {
     deals,
     isDragging,
     visibleStatuses,
+    toggleStatus,
     calculateColumnTotal,
     formatCurrency,
     onDragStart,
     onDragEnd,
-    handleAddDeal,
-    toggleStatus
+    handleAddDeal
   };
 };

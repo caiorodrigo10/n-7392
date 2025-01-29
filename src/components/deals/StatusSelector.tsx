@@ -21,6 +21,8 @@ const statuses = [
 ];
 
 export const StatusSelector = ({ visibleStatuses, onToggleStatus }: StatusSelectorProps) => {
+  console.log('Current visibleStatuses:', visibleStatuses); // Debug log
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -40,15 +42,20 @@ export const StatusSelector = ({ visibleStatuses, onToggleStatus }: StatusSelect
             className="flex items-center space-x-2"
             onSelect={(e) => {
               e.preventDefault();
+              console.log('Toggling status:', status.id); // Debug log
               onToggleStatus(status.id);
             }}
           >
             <Checkbox
               id={status.id}
               checked={visibleStatuses.includes(status.id)}
+              onCheckedChange={() => {
+                console.log('Checkbox changed for:', status.id); // Debug log
+                onToggleStatus(status.id);
+              }}
               className={`${status.color} border-gray-300`}
             />
-            <span className="text-sm text-secondary/80">{status.label}</span>
+            <span className="text-sm text-secondary">{status.label}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

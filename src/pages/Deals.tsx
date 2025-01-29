@@ -14,6 +14,8 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
   const {
     deals,
     isDragging,
+    visibleStatuses,
+    toggleStatus,
     calculateColumnTotal,
     formatCurrency,
     onDragStart,
@@ -27,8 +29,11 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
     { id: "meet", title: "Meet" },
     { id: "negotiation", title: "Negotiation" },
     { id: "closed", title: "Closing" },
-    { id: "won", title: "Won" },
   ];
+
+  const statusColumns = ["won", "lost", "abandoned", "extended"].filter(
+    status => visibleStatuses.includes(status)
+  );
 
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
@@ -48,7 +53,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
             <div className="flex-1 overflow-x-auto scrollbar-thin px-6">
               <div className="inline-flex gap-2 py-4">
                 <div className="flex gap-2 border border-gray-200 rounded-lg p-2">
-                  {columns.slice(0, -1).map((column) => (
+                  {columns.map((column) => (
                     <div key={column.id} className="flex flex-col">
                       <DealColumn
                         id={column.id}
@@ -59,14 +64,18 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                     </div>
                   ))}
                 </div>
-                <div key="won" className="flex flex-col">
-                  <DealColumn
-                    id="won"
-                    title="Won"
-                    deals={deals.won}
-                    total={formatCurrency(calculateColumnTotal(deals.won))}
-                  />
-                </div>
+                {statusColumns.map((status) => (
+                  <div key={status} className="flex flex-col">
+                    <DealColumn
+                      id={status}
+                      title={status.charAt(0).toUpperCase() + status.slice(1)}
+                      deals={deals[status as keyof typeof deals]}
+                      total={formatCurrency(calculateColumnTotal(deals[status as keyof typeof deals]))}
+                      visibleStatuses={visibleStatuses}
+                      onToggleStatus={toggleStatus}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
             {isDragging && <DealStatusDropZone isDropDisabled={!isDragging} isCollapsed={isCollapsed} />}
