@@ -55,7 +55,7 @@ const DateFilterDialog = ({ children }: DateFilterDialogProps) => {
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="max-w-[400px] bg-white/95">
+      <DialogContent className="max-w-[600px] bg-white/95">
         <div className="space-y-6">
           <div>
             <h3 className="text-sm font-medium mb-3">Quick access</h3>
