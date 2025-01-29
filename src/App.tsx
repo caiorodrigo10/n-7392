@@ -8,6 +8,7 @@ import Deals from "./pages/Deals";
 import Goals from "./pages/Goals";
 import FunnelGoalsOverview from "./pages/FunnelGoalsOverview";
 import ContactDetails from "./pages/ContactDetails";
+import { AiChat } from "./components/AiChat";
 
 function App() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -24,6 +25,7 @@ function App() {
         <Route path="/funnel-goals-overview" element={<FunnelGoalsOverview isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
         <Route path="/contact/:id" element={<ContactDetails isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />} />
       </Routes>
+      <AiChat />
     </Router>
   );
 }
