@@ -25,6 +25,7 @@ interface Message {
   content: string;
   sender: "user" | "ai";
   showAnalysis?: boolean;
+  chartType?: 'bar' | 'funnel' | 'trend' | 'distribution';
 }
 
 export function AiChat() {
@@ -50,9 +51,23 @@ export function AiChat() {
 
     const shouldShowAnalysis = input.toLowerCase().includes("análise") || 
         input.toLowerCase().includes("pipeline") || 
-        input.toLowerCase().includes("relatório");
+        input.toLowerCase().includes("relatório") ||
+        input.toLowerCase().includes("gráfico");
+
+    let chartType: 'bar' | 'funnel' | 'trend' | 'distribution' | undefined;
+    
+    if (input.toLowerCase().includes("funil")) {
+      chartType = 'funnel';
+    } else if (input.toLowerCase().includes("tendência") || input.toLowerCase().includes("evolução")) {
+      chartType = 'trend';
+    } else if (input.toLowerCase().includes("distribuição")) {
+      chartType = 'distribution';
+    } else if (shouldShowAnalysis) {
+      chartType = 'bar';
+    }
 
     console.log("Deve mostrar análise?", shouldShowAnalysis);
+    console.log("Tipo de gráfico:", chartType);
 
     const userMessage = {
       id: messages.length + 1,
@@ -92,7 +107,8 @@ export function AiChat() {
           id: prev.length + 1,
           content: response,
           sender: "ai",
-          showAnalysis: shouldShowAnalysis
+          showAnalysis: shouldShowAnalysis,
+          chartType
         },
       ]);
     } catch (error) {
@@ -148,7 +164,7 @@ export function AiChat() {
               </ChatBubble>
               {message.showAnalysis && deals && (
                 <div className="mt-4 mb-4 p-4 bg-white rounded-lg shadow-sm">
-                  <PipelineAnalysis deals={deals} />
+                  <PipelineAnalysis deals={deals} chartType={message.chartType} />
                 </div>
               )}
             </>
