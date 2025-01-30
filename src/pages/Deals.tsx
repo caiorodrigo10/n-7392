@@ -95,9 +95,12 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                   )}
                   {visibleStatuses.length === 0 ? (
                     <div className="w-[60px] h-full flex flex-col justify-between py-8">
-                      <span className="-rotate-90 whitespace-nowrap text-base font-medium text-secondary/80 tracking-wide transform translate-y-16">
+                      <button 
+                        onClick={handleExpandClick}
+                        className="-rotate-90 whitespace-nowrap text-base font-medium text-secondary/80 tracking-wide transform translate-y-16 cursor-pointer hover:text-secondary/60 transition-colors"
+                      >
                         Completed in
-                      </span>
+                      </button>
                       <button 
                         onClick={handleExpandClick}
                         className="-rotate-90 whitespace-nowrap transform translate-y-16 text-secondary/60 hover:text-secondary/80 transition-colors"
