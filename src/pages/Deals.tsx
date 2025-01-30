@@ -7,7 +7,6 @@ import { DragDropContext } from "@hello-pangea/dnd";
 import DateFilterDialog from "@/components/deals/DateFilterDialog";
 import { StatusSelector } from "@/components/deals/StatusSelector";
 import { ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 interface DealsProps {
   isCollapsed: boolean;
@@ -97,14 +96,14 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                   {visibleStatuses.length === 0 ? (
                     <div className="w-[80px] h-full transition-all duration-300">
                       <div className="flex flex-col h-full items-center justify-between py-8 px-2">
-                        <span className="-rotate-90 whitespace-nowrap text-sm font-light text-secondary/80">
+                        <span className="-rotate-90 whitespace-nowrap text-sm font-medium text-secondary/80 tracking-wide uppercase transform translate-y-20">
                           Finalizadas em
                         </span>
                         <button 
                           onClick={handleExpandClick}
-                          className="text-secondary/60 hover:text-secondary/80 transition-colors"
+                          className="text-secondary/60 hover:text-secondary/80 transition-colors mt-auto"
                         >
-                          <ChevronRight className="h-4 w-4" />
+                          <ChevronRight className="h-5 w-5" />
                         </button>
                       </div>
                     </div>
