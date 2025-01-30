@@ -78,22 +78,22 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                 </div>
 
                 <div className="bg-white rounded-lg p-4 flex-shrink-0">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <h2 className="font-medium text-sm text-secondary/80">
-                        Completed in{" "}
-                        <DateFilterDialog onFilterChange={() => {}}>
-                          <span className="text-blue-500 cursor-pointer">January</span>
-                        </DateFilterDialog>
-                      </h2>
-                    </div>
-                    {visibleStatuses.length > 0 && (
+                  {visibleStatuses.length > 0 && (
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <h2 className="font-medium text-sm text-secondary/80">
+                          Completed in{" "}
+                          <DateFilterDialog onFilterChange={() => {}}>
+                            <span className="text-blue-500 cursor-pointer">January</span>
+                          </DateFilterDialog>
+                        </h2>
+                      </div>
                       <StatusSelector
                         visibleStatuses={visibleStatuses}
                         onToggleStatus={toggleStatus}
                       />
-                    )}
-                  </div>
+                    </div>
+                  )}
                   {visibleStatuses.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-[calc(100vh-20rem)] w-[280px]">
                       <div className="text-[#8E9196]/40 flex flex-col items-center gap-4">
