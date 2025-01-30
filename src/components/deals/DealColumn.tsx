@@ -73,7 +73,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
       className={`${isStatusColumn ? 'w-[280px]' : 'w-[250px]'} shrink-0 h-full transition-all duration-300`}
       data-status={id}
     >
-      <div className={`${isStatusColumn ? 'bg-white rounded-lg' : ''} w-full h-full`}>
+      <div className={`${isStatusColumn ? 'bg-white rounded-lg' : ''} w-full h-full flex flex-col min-h-0`}>
         {!isStatusColumn && (
           <h2 className="font-medium text-sm mb-4 mt-6 flex items-center gap-1 text-secondary/80">
             {title} <span className="text-secondary/60">({deals.length})</span> - <span className="text-secondary/60">{total}</span>
@@ -85,7 +85,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
             <div
               ref={provided.innerRef}
               {...provided.droppableProps}
-              className={`h-[calc(100vh-13rem)] ${
+              className={`flex-1 min-h-0 overflow-y-auto ${
                 getColumnBackground(id)
               } ${
                 snapshot.isDraggingOver ? "bg-opacity-80 border-2 border-primary/50 rounded-lg" : ""
