@@ -44,7 +44,26 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   const isStatusColumn = ["won", "lost", "abandoned", "extended"].includes(id);
   const statusColor = getStatusColor(id);
   const isCollapsed = visibleStatuses.length === 0;
-  const isFirstMount = React.useRef(true);
+  const columnRef = React.useRef<HTMLDivElement>(null);
+  const [isFirstRender, setIsFirstRender] = React.useState(true);
+  
+  React.useEffect(() => {
+    if (isFirstRender) {
+      setIsFirstRender(false);
+      return;
+    }
+
+    if (isStatusColumn && visibleStatuses.includes(id) && columnRef.current) {
+      // Use requestAnimationFrame to ensure the DOM has updated
+      requestAnimationFrame(() => {
+        columnRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'end'
+        });
+      });
+    }
+  }, [id, visibleStatuses, isStatusColumn, isFirstRender]);
   
   if (isStatusColumn && !visibleStatuses.includes(id)) {
     return null;
@@ -69,29 +88,10 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
       </div>
     );
   }
-
-  const handleColumnMount = () => {
-    if (isStatusColumn && visibleStatuses.includes(id) && !isFirstMount.current) {
-      requestAnimationFrame(() => {
-        const columnElement = document.querySelector(`[data-status="${id}"]`);
-        if (columnElement) {
-          columnElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest',
-            inline: 'end'
-          });
-        }
-      });
-    }
-  };
-  
-  React.useEffect(() => {
-    handleColumnMount();
-    isFirstMount.current = false;
-  }, [id, visibleStatuses]);
   
   return (
     <div 
+      ref={columnRef}
       className={`${isStatusColumn ? 'w-[280px]' : 'w-[250px]'} shrink-0 h-full transition-all duration-300`}
       data-status={id}
     >
@@ -120,7 +120,8 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                       type="checkbox" 
                       className={`rounded border-gray-300 ${statusColor} focus:ring-${statusColor}`}
                       checked={visibleStatuses.includes(id)}
-                      readOnly 
+                      onChange={() => onToggleStatus?.(id)}
+                      readOnly={false}
                     />
                     <span className="text-sm text-secondary/80">{title}</span>
                   </div>
