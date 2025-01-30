@@ -27,41 +27,6 @@ const getColumnBackground = (id: string) => {
     abandoned: "bg-white",
     extended: "bg-white"
   };
-  return backgrounds[id as keyof typeof backgrounds] || "bg-[#ECEEF
-
-<lov-code>
-Let's update the `DealColumn.tsx` file to fix the scroll behavior while maintaining the prevention of initial scroll:
-
-<lov-write file_path="src/components/deals/DealColumn.tsx">
-import React from 'react';
-import { Droppable } from "@hello-pangea/dnd";
-import { Deal } from "@/types/deals";
-import DealCard from "./DealCard";
-import { EmptyColumn } from "./EmptyColumn";
-import { Trophy, ChevronRight } from "lucide-react";
-
-interface DealColumnProps {
-  id: string;
-  title: string;
-  deals: Deal[];
-  total: string;
-  visibleStatuses?: string[];
-  onToggleStatus?: (status: string) => void;
-  showDateFilter?: boolean;
-}
-
-const getColumnBackground = (id: string) => {
-  const backgrounds = {
-    lead: "bg-[#ECEEF5]",
-    qualification: "bg-transparent",
-    meet: "bg-[#ECEEF5]",
-    negotiation: "bg-transparent",
-    closed: "bg-[#ECEEF5]",
-    won: "bg-white",
-    lost: "bg-white",
-    abandoned: "bg-white",
-    extended: "bg-white"
-  };
   return backgrounds[id as keyof typeof backgrounds] || "bg-[#ECEEF5]";
 };
 
