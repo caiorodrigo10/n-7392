@@ -17,7 +17,7 @@ export function PageHeader({
   onAddClick 
 }: PageHeaderProps) {
   return (
-    <div className="px-6 pt-4 pb-4 w-full">
+    <div className="px-6 pt-4 pb-4 w-full bg-[#F1F3FA]">
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold">
