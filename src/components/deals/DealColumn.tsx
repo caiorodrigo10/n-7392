@@ -27,6 +27,41 @@ const getColumnBackground = (id: string) => {
     abandoned: "bg-white",
     extended: "bg-white"
   };
+  return backgrounds[id as keyof typeof backgrounds] || "bg-[#ECEEF
+
+<lov-code>
+Let's update the `DealColumn.tsx` file to fix the scroll behavior while maintaining the prevention of initial scroll:
+
+<lov-write file_path="src/components/deals/DealColumn.tsx">
+import React from 'react';
+import { Droppable } from "@hello-pangea/dnd";
+import { Deal } from "@/types/deals";
+import DealCard from "./DealCard";
+import { EmptyColumn } from "./EmptyColumn";
+import { Trophy, ChevronRight } from "lucide-react";
+
+interface DealColumnProps {
+  id: string;
+  title: string;
+  deals: Deal[];
+  total: string;
+  visibleStatuses?: string[];
+  onToggleStatus?: (status: string) => void;
+  showDateFilter?: boolean;
+}
+
+const getColumnBackground = (id: string) => {
+  const backgrounds = {
+    lead: "bg-[#ECEEF5]",
+    qualification: "bg-transparent",
+    meet: "bg-[#ECEEF5]",
+    negotiation: "bg-transparent",
+    closed: "bg-[#ECEEF5]",
+    won: "bg-white",
+    lost: "bg-white",
+    abandoned: "bg-white",
+    extended: "bg-white"
+  };
   return backgrounds[id as keyof typeof backgrounds] || "bg-[#ECEEF5]";
 };
 
@@ -46,6 +81,26 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   const isCollapsed = visibleStatuses.length === 0;
   const columnRef = React.useRef<HTMLDivElement>(null);
   const [hasInteracted, setHasInteracted] = React.useState(false);
+  const [isFirstRender, setIsFirstRender] = React.useState(true);
+  
+  React.useEffect(() => {
+    if (isFirstRender) {
+      setIsFirstRender(false);
+      return;
+    }
+
+    if (isStatusColumn && visibleStatuses.includes(id) && columnRef.current) {
+      const timeout = setTimeout(() => {
+        columnRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'end'
+        });
+      }, 100);
+      
+      return () => clearTimeout(timeout);
+    }
+  }, [id, visibleStatuses, isStatusColumn, isFirstRender]);
   
   if (isStatusColumn && !visibleStatuses.includes(id)) {
     return null;
@@ -73,20 +128,6 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
       </div>
     );
   }
-
-  React.useEffect(() => {
-    if (isStatusColumn && visibleStatuses.includes(id) && columnRef.current && hasInteracted) {
-      const timeout = setTimeout(() => {
-        columnRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'end'
-        });
-      }, 100);
-      
-      return () => clearTimeout(timeout);
-    }
-  }, [id, visibleStatuses, isStatusColumn, hasInteracted]);
   
   return (
     <div 
@@ -119,10 +160,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                       type="checkbox" 
                       className={`rounded border-gray-300 ${statusColor} focus:ring-${statusColor}`}
                       checked={visibleStatuses.includes(id)}
-                      onChange={() => {
-                        setHasInteracted(true);
-                        onToggleStatus?.(id);
-                      }}
+                      onChange={() => onToggleStatus?.(id)}
                       readOnly={false}
                     />
                     <span className="text-sm text-secondary/80">{title}</span>
