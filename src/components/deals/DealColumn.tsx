@@ -44,46 +44,17 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   const isStatusColumn = ["won", "lost", "abandoned", "extended"].includes(id);
   const statusColor = getStatusColor(id);
   const isCollapsed = visibleStatuses.length === 0;
-  const columnRef = React.useRef<HTMLDivElement>(null);
-  const [hasInteracted, setHasInteracted] = React.useState(false);
-  const [isFirstRender, setIsFirstRender] = React.useState(true);
-  
-  React.useEffect(() => {
-    if (isFirstRender) {
-      setIsFirstRender(false);
-      return;
-    }
-
-    if (isStatusColumn && visibleStatuses.includes(id) && columnRef.current) {
-      const timeout = setTimeout(() => {
-        columnRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'end'
-        });
-      }, 100);
-      
-      return () => clearTimeout(timeout);
-    }
-  }, [id, visibleStatuses, isStatusColumn, isFirstRender]);
   
   if (isStatusColumn && !visibleStatuses.includes(id)) {
-    return null;
-  }
-
-  if (isStatusColumn && isCollapsed) {
     return (
-      <div className="w-[80px] shrink-0 h-full transition-all duration-300">
+      <div className="w-[80px] shrink-0 h-full transition-all duration-300 ease-in-out">
         <div className="bg-white rounded-lg w-full h-full">
           <div className="flex flex-col h-full items-center justify-between py-8 px-2">
             <span className="-rotate-90 whitespace-nowrap text-sm font-light text-secondary/80">
               Finalizadas em
             </span>
             <button 
-              onClick={() => {
-                setHasInteracted(true);
-                onToggleStatus?.('won');
-              }}
+              onClick={() => onToggleStatus?.('won')}
               className="text-secondary/60 hover:text-secondary/80 transition-colors"
             >
               <ChevronRight className="w-4 h-4" />
@@ -96,8 +67,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   
   return (
     <div 
-      ref={columnRef}
-      className={`${isStatusColumn ? 'w-[280px]' : 'w-[250px]'} shrink-0 h-full transition-all duration-300`}
+      className="w-[280px] shrink-0 h-full transition-all duration-300 ease-in-out"
       data-status={id}
     >
       <div className={`${isStatusColumn ? 'bg-white rounded-lg' : ''} w-full h-full`}>
@@ -116,7 +86,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                 getColumnBackground(id)
               } ${
                 snapshot.isDraggingOver ? "bg-opacity-80 border-2 border-primary/50 rounded-lg" : ""
-              } transition-all duration-200`}
+              } transition-all duration-300 ease-in-out`}
             >
               {isStatusColumn && !isCollapsed && (
                 <div className="flex items-center justify-between mb-2 px-2 pt-2">
@@ -126,7 +96,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                       className={`rounded border-gray-300 ${statusColor} focus:ring-${statusColor}`}
                       checked={visibleStatuses.includes(id)}
                       onChange={() => onToggleStatus?.(id)}
-                      readOnly={false}
+                      readOnly 
                     />
                     <span className="text-sm text-secondary/80">{title}</span>
                   </div>
