@@ -100,9 +100,9 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                       </span>
                       <button 
                         onClick={handleExpandClick}
-                        className="mt-auto hover:text-secondary/80 transition-colors"
+                        className="-rotate-90 whitespace-nowrap transform translate-y-16 text-secondary/60 hover:text-secondary/80 transition-colors"
                       >
-                        <Maximize2 className="h-5 w-5 text-secondary/60" />
+                        <Maximize2 className="h-5 w-5" />
                       </button>
                     </div>
                   ) : (
