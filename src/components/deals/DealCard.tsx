@@ -19,6 +19,7 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
   const isLostDeal = columnId === "lost";
   const isExtendedDeal = columnId === "extended";
   const isAbandonedDeal = columnId === "abandoned";
+  const isCompletedDeal = isWonDeal || isLostDeal || isExtendedDeal || isAbandonedDeal;
 
   const getCardBackground = () => {
     if (isWonDeal) return "bg-[#F0FDF4]";
@@ -35,9 +36,9 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className={`p-3 cursor-move transition-all duration-300 animate-enter ${getCardBackground()} border-secondary/20 ${
-            snapshot.isDragging ? "shadow-lg scale-105" : "hover:shadow-md"
-          }`}
+          className={`p-3 cursor-move transition-all duration-300 animate-enter ${getCardBackground()} 
+            ${isCompletedDeal ? 'border-secondary/20' : 'border-0'} 
+            ${snapshot.isDragging ? "shadow-lg scale-105" : isCompletedDeal ? "hover:shadow-md" : ""}`}
         >
           <div className="flex justify-between items-start">
             <div className="flex-1">
