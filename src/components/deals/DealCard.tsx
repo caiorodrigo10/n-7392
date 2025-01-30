@@ -45,14 +45,14 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
                 ? "hover:shadow-md" 
                 : ""
             }
-            ${snapshot.isDragging ? "" : "transition-all duration-75 ease-in"}
+            ${snapshot.isDragging ? "" : "transition-all duration-150 ease-in-out"}
           `}
           style={{
             ...provided.draggableProps.style,
             transformOrigin: '50% 50%',
             transition: snapshot.isDragging 
               ? undefined 
-              : 'transform 75ms ease-in, box-shadow 75ms ease-in',
+              : 'all 150ms ease-in-out',
           }}
         >
           <div className="flex justify-between items-start">
