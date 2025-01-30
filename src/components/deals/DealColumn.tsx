@@ -54,14 +54,21 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
     }
 
     if (isStatusColumn && visibleStatuses.includes(id) && columnRef.current) {
-      // Use requestAnimationFrame to ensure the DOM has updated
-      requestAnimationFrame(() => {
-        columnRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'end'
+      // Add a small delay to ensure DOM is updated
+      setTimeout(() => {
+        // Use double requestAnimationFrame to ensure complete render
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            if (columnRef.current) {
+              columnRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'end'
+              });
+            }
+          });
         });
-      });
+      }, 100);
     }
   }, [id, visibleStatuses, isStatusColumn, isFirstRender]);
   
