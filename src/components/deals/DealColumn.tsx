@@ -45,6 +45,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   const statusColor = getStatusColor(id);
   const isCollapsed = visibleStatuses.length === 0;
   const columnRef = React.useRef<HTMLDivElement>(null);
+  const [hasInteracted, setHasInteracted] = React.useState(false);
   
   if (isStatusColumn && !visibleStatuses.includes(id)) {
     return null;
@@ -59,7 +60,10 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
               Finalizadas em
             </span>
             <button 
-              onClick={() => onToggleStatus?.('won')}
+              onClick={() => {
+                setHasInteracted(true);
+                onToggleStatus?.('won');
+              }}
               className="text-secondary/60 hover:text-secondary/80 transition-colors"
             >
               <ChevronRight className="w-4 h-4" />
@@ -71,7 +75,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   }
 
   React.useEffect(() => {
-    if (isStatusColumn && visibleStatuses.includes(id) && columnRef.current) {
+    if (isStatusColumn && visibleStatuses.includes(id) && columnRef.current && hasInteracted) {
       const timeout = setTimeout(() => {
         columnRef.current?.scrollIntoView({
           behavior: 'smooth',
@@ -82,7 +86,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
       
       return () => clearTimeout(timeout);
     }
-  }, [id, visibleStatuses, isStatusColumn]);
+  }, [id, visibleStatuses, isStatusColumn, hasInteracted]);
   
   return (
     <div 
@@ -115,7 +119,10 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                       type="checkbox" 
                       className={`rounded border-gray-300 ${statusColor} focus:ring-${statusColor}`}
                       checked={visibleStatuses.includes(id)}
-                      onChange={() => onToggleStatus?.(id)}
+                      onChange={() => {
+                        setHasInteracted(true);
+                        onToggleStatus?.(id);
+                      }}
                       readOnly={false}
                     />
                     <span className="text-sm text-secondary/80">{title}</span>
