@@ -96,14 +96,14 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                   {visibleStatuses.length === 0 ? (
                     <div className="w-[60px] h-full transition-all duration-300">
                       <div className="flex flex-col h-full items-center justify-between py-8 px-2">
-                        <span className="-rotate-90 whitespace-nowrap text-sm font-medium text-secondary/80 tracking-wide transform translate-y-20">
-                          Finalizadas em
+                        <span className="-rotate-90 whitespace-nowrap text-base font-medium text-secondary/80 tracking-wide transform translate-y-16">
+                          Completed in
                         </span>
                         <button 
                           onClick={handleExpandClick}
                           className="text-secondary/60 hover:text-secondary/80 transition-colors mt-auto"
                         >
-                          <ChevronRight className="h-5 w-5" />
+                          <ChevronRight className="h-6 w-6" />
                         </button>
                       </div>
                     </div>
