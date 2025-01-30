@@ -12,29 +12,33 @@ const DealStatusDropZone = ({ isDropDisabled, isCollapsed }: DealStatusDropZoneP
     { 
       id: "won", 
       label: "Won", 
-      color: "bg-[#22C55E]", 
-      hoverColor: "hover:bg-[#22C55E]/90",
+      color: "bg-green-100", 
+      textColor: "text-green-700",
+      hoverColor: "hover:bg-green-200",
       icon: CheckCircle 
     },
     { 
       id: "lost", 
       label: "Lost", 
-      color: "bg-[#EF4444]", 
-      hoverColor: "hover:bg-[#EF4444]/90",
+      color: "bg-red-100", 
+      textColor: "text-red-700",
+      hoverColor: "hover:bg-red-200",
       icon: XCircle 
     },
     { 
       id: "abandoned", 
       label: "Abandoned", 
-      color: "bg-[#6B7280]", 
-      hoverColor: "hover:bg-[#6B7280]/90",
+      color: "bg-gray-100", 
+      textColor: "text-gray-700",
+      hoverColor: "hover:bg-gray-200",
       icon: Trash2 
     },
     { 
       id: "extended", 
       label: "Extended", 
-      color: "bg-[#60A5FA]", 
-      hoverColor: "hover:bg-[#60A5FA]/90",
+      color: "bg-blue-100", 
+      textColor: "text-blue-700",
+      hoverColor: "hover:bg-blue-200",
       icon: CalendarPlus 
     },
   ];
@@ -56,17 +60,17 @@ const DealStatusDropZone = ({ isDropDisabled, isCollapsed }: DealStatusDropZoneP
                 ref={provided.innerRef}
                 {...provided.droppableProps}
                 className={cn(
-                  "w-full max-w-[300px] h-32 rounded-lg border-2 border-dashed transition-all duration-200",
+                  "w-full max-w-[300px] h-24 rounded-lg border-2 border-dashed transition-all duration-200",
                   status.color,
                   status.hoverColor,
-                  "text-white",
-                  snapshot.isDraggingOver && "scale-105 border-solid border-white",
+                  status.textColor,
+                  snapshot.isDraggingOver && "scale-105 border-solid",
                   isDropDisabled && "opacity-50 cursor-not-allowed"
                 )}
               >
                 <div className="flex items-center justify-center h-full gap-2">
-                  <status.icon className="w-6 h-6" />
-                  <span className="text-xl font-semibold">{status.label}</span>
+                  <status.icon className="w-5 h-5" />
+                  <span className="text-lg font-semibold">{status.label}</span>
                 </div>
                 {provided.placeholder}
               </div>
