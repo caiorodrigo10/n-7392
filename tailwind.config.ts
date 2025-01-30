@@ -19,7 +19,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Geist Sans', 'sans-serif'],
+        sans: ['InterVar', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
       },
       colors: {
         border: "hsl(var(--border))",
