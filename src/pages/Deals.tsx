@@ -58,12 +58,12 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
         >
-          <div className="flex-1 flex flex-col min-h-0">
+          <div className="flex-1 flex flex-col min-h-[calc(100vh-13rem)]">
             <div className="flex-1 px-6 overflow-x-auto">
-              <div className="flex gap-2 py-4 min-w-max h-full">
-                <div className="flex gap-2 border border-gray-200 rounded-lg p-2 h-full">
+              <div className="flex gap-2 py-4 min-w-max">
+                <div className="flex gap-2 border border-gray-200 rounded-lg p-2">
                   {columns.map((column) => (
-                    <div key={column.id} className="flex flex-col h-full">
+                    <div key={column.id} className="flex flex-col">
                       <DealColumn
                         id={column.id}
                         title={column.title}
@@ -74,7 +74,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                   ))}
                 </div>
 
-                <div className="bg-white rounded-lg p-4 flex-shrink-0 h-full">
+                <div className="bg-white rounded-lg p-4 flex-shrink-0">
                   {visibleStatuses.length > 0 && (
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
@@ -107,7 +107,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                       </button>
                     </div>
                   ) : (
-                    <div className="flex gap-2 animate-fade-in h-full">
+                    <div className="flex gap-2 animate-fade-in">
                       {statusColumns.map((status) => (
                         <DealColumn
                           key={status}
