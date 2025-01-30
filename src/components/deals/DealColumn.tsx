@@ -44,6 +44,8 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   const statusColor = getStatusColor(id);
   const isCollapsed = visibleStatuses.length === 0;
   
+  console.log(`DealColumn ${id}:`, { isStatusColumn, visibleStatuses, isCollapsed }); // Debug log
+  
   if (isStatusColumn && !visibleStatuses.includes(id)) {
     return null;
   }

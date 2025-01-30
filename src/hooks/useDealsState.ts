@@ -159,6 +159,8 @@ export const useDealsState = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [visibleStatuses, setVisibleStatuses] = useState<string[]>(["won"]);
 
+  console.log('Current visibleStatuses:', visibleStatuses); // Debug log
+
   const calculateColumnTotal = (deals: Deal[]) => {
     return deals.reduce((total, deal) => {
       const value = parseFloat(deal.value.replace(/[$,]/g, ''));
