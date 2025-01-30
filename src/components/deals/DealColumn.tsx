@@ -46,12 +46,8 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   const isCollapsed = visibleStatuses.length === 0;
   
   if (isStatusColumn && !visibleStatuses.includes(id)) {
-    return null;
-  }
-
-  if (isStatusColumn && isCollapsed) {
     return (
-      <div className="w-[80px] shrink-0 h-full transition-all duration-300">
+      <div className="w-[80px] shrink-0 h-full transition-all duration-300 ease-in-out">
         <div className="bg-white rounded-lg w-full h-full">
           <div className="flex flex-col h-full items-center justify-between py-8 px-2">
             <span className="-rotate-90 whitespace-nowrap text-sm font-light text-secondary/80">
@@ -71,7 +67,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   
   return (
     <div 
-      className="w-[280px] shrink-0 h-full transition-all duration-300"
+      className="w-[280px] shrink-0 h-full transition-all duration-300 ease-in-out"
       data-status={id}
     >
       <div className={`${isStatusColumn ? 'bg-white rounded-lg' : ''} w-full h-full`}>
@@ -90,7 +86,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                 getColumnBackground(id)
               } ${
                 snapshot.isDraggingOver ? "bg-opacity-80 border-2 border-primary/50 rounded-lg" : ""
-              } transition-all duration-200`}
+              } transition-all duration-300 ease-in-out`}
             >
               {isStatusColumn && !isCollapsed && (
                 <div className="flex items-center justify-between mb-2 px-2 pt-2">
@@ -99,6 +95,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                       type="checkbox" 
                       className={`rounded border-gray-300 ${statusColor} focus:ring-${statusColor}`}
                       checked={visibleStatuses.includes(id)}
+                      onChange={() => onToggleStatus?.(id)}
                       readOnly 
                     />
                     <span className="text-sm text-secondary/80">{title}</span>
