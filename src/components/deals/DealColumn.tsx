@@ -44,10 +44,34 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   const isStatusColumn = ["won", "lost", "abandoned", "extended"].includes(id);
   const statusColor = getStatusColor(id);
   const isCollapsed = visibleStatuses.length === 0;
+  const columnRef = React.useRef<HTMLDivElement>(null);
+  const [isFirstRender, setIsFirstRender] = React.useState(true);
+  
+  React.useEffect(() => {
+    if (isFirstRender) {
+      setIsFirstRender(false);
+      return;
+    }
+
+    if (isStatusColumn && visibleStatuses.includes(id) && columnRef.current) {
+      // Use requestAnimationFrame to ensure the DOM has updated
+      requestAnimationFrame(() => {
+        columnRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'end'
+        });
+      });
+    }
+  }, [id, visibleStatuses, isStatusColumn, isFirstRender]);
   
   if (isStatusColumn && !visibleStatuses.includes(id)) {
+    return null;
+  }
+
+  if (isStatusColumn && isCollapsed) {
     return (
-      <div className="w-[80px] shrink-0 h-full transition-all duration-300 ease-in-out">
+      <div className="w-[80px] shrink-0 h-full transition-all duration-300">
         <div className="bg-white rounded-lg w-full h-full">
           <div className="flex flex-col h-full items-center justify-between py-8 px-2">
             <span className="-rotate-90 whitespace-nowrap text-sm font-light text-secondary/80">
@@ -67,7 +91,8 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   
   return (
     <div 
-      className="w-[280px] shrink-0 h-full transition-all duration-300 ease-in-out"
+      ref={columnRef}
+      className={`${isStatusColumn ? 'w-[280px]' : 'w-[250px]'} shrink-0 h-full transition-all duration-300`}
       data-status={id}
     >
       <div className={`${isStatusColumn ? 'bg-white rounded-lg' : ''} w-full h-full`}>
@@ -86,7 +111,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                 getColumnBackground(id)
               } ${
                 snapshot.isDraggingOver ? "bg-opacity-80 border-2 border-primary/50 rounded-lg" : ""
-              } transition-all duration-300 ease-in-out`}
+              } transition-all duration-200`}
             >
               {isStatusColumn && !isCollapsed && (
                 <div className="flex items-center justify-between mb-2 px-2 pt-2">
@@ -96,7 +121,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
                       className={`rounded border-gray-300 ${statusColor} focus:ring-${statusColor}`}
                       checked={visibleStatuses.includes(id)}
                       onChange={() => onToggleStatus?.(id)}
-                      readOnly 
+                      readOnly={false}
                     />
                     <span className="text-sm text-secondary/80">{title}</span>
                   </div>
