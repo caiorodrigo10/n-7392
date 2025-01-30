@@ -37,7 +37,7 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           className={`p-3 cursor-move transition-all duration-300 animate-enter ${getCardBackground()} 
-            ${isCompletedDeal ? 'border-secondary/20' : 'border-0'} 
+            ${isCompletedDeal ? 'border-secondary/20' : 'border-transparent'} 
             ${snapshot.isDragging ? "shadow-lg scale-105" : isCompletedDeal ? "hover:shadow-md" : ""}`}
         >
           <div className="flex justify-between items-start">
