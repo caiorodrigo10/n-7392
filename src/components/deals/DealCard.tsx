@@ -29,14 +29,6 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
     return "bg-white";
   };
 
-  const getBorderColor = () => {
-    if (isWonDeal) return "border-green-500";
-    if (isLostDeal) return "border-red-500";
-    if (isExtendedDeal) return "border-blue-500";
-    if (isAbandonedDeal) return "border-secondary/20";
-    return "border-transparent";
-  };
-
   return (
     <Draggable key={deal.id} draggableId={deal.id} index={index}>
       {(provided, snapshot) => (
@@ -46,11 +38,11 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
           {...provided.dragHandleProps}
           className={`p-3 cursor-move h-[120px] flex flex-col justify-between mb-2 
             ${getCardBackground()} 
-            ${isCompletedDeal ? getBorderColor() : 'border-transparent'} 
+            ${isCompletedDeal ? 'border-secondary/20' : 'border-transparent'} 
             ${snapshot.isDragging 
               ? "shadow-lg scale-105 border-2 border-primary/70" 
               : isCompletedDeal 
-                ? "hover:shadow-md border" 
+                ? "hover:shadow-md" 
                 : ""
             }
             ${snapshot.isDragging ? "" : "transition-all duration-150 ease-in-out"}
