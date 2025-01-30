@@ -47,14 +47,12 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
       <div className="h-full flex flex-col">
-        <div className="sticky top-0 z-10 bg-[#F1F3FA]">
-          <PageHeader
-            title="Deals Pipeline"
-            subtitle="Track and manage your deals"
-            buttonLabel="Add Deal"
-            onAddClick={handleAddDeal}
-          />
-        </div>
+        <PageHeader
+          title="Deals Pipeline"
+          subtitle="Track and manage your deals"
+          buttonLabel="Add Deal"
+          onAddClick={handleAddDeal}
+        />
 
         <DragDropContext 
           onDragStart={onDragStart}
