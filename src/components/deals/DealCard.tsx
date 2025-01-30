@@ -36,7 +36,7 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className={`p-3 cursor-move transition-all duration-300 animate-enter mb-3 ${getCardBackground()} 
+          className={`p-3 cursor-move transition-all duration-300 animate-enter h-[120px] flex flex-col justify-between ${getCardBackground()} 
             ${isCompletedDeal ? 'border-secondary/20' : 'border-transparent'} 
             ${snapshot.isDragging ? "shadow-lg scale-105 border border-primary/50" : isCompletedDeal ? "hover:shadow-md" : ""}`}
         >
@@ -62,7 +62,7 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
               <AvatarFallback>{deal.assignee.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
             </Avatar>
           </div>
-          <div className="flex justify-between items-center mt-2">
+          <div className="flex justify-between items-center mt-auto">
             <p className="text-xs text-secondary/60">
               {formatDistanceToNow(deal.stageEnteredAt, { addSuffix: true })}
             </p>
