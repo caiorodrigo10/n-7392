@@ -61,7 +61,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
           onDragEnd={onDragEnd}
         >
           <div className="flex-1 flex flex-col min-h-[calc(100vh-13rem)]">
-            <div className="flex-1 px-6 overflow-x-auto">
+            <div className="flex-1 px-6 overflow-x-auto fixed-scrollbar-container scrollbar-thin">
               <div className="flex gap-2 py-4 min-w-max">
                 <div className="flex gap-2 border border-gray-200 rounded-lg p-2">
                   {columns.map((column) => (
