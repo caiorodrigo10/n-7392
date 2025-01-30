@@ -88,7 +88,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
               className={`h-[calc(100vh-13rem)] ${
                 getColumnBackground(id)
               } ${
-                snapshot.isDraggingOver ? "bg-opacity-80 border border-primary/30 rounded-lg" : ""
+                snapshot.isDraggingOver ? "bg-opacity-80 border-2 border-primary/50 rounded-lg" : ""
               } transition-all duration-200`}
             >
               {isStatusColumn && !isCollapsed && (
