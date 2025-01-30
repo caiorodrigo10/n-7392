@@ -44,6 +44,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   const isStatusColumn = ["won", "lost", "abandoned", "extended"].includes(id);
   const statusColor = getStatusColor(id);
   const isCollapsed = visibleStatuses.length === 0;
+  const isFirstMount = React.useRef(true);
   
   if (isStatusColumn && !visibleStatuses.includes(id)) {
     return null;
@@ -70,7 +71,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   }
 
   const handleColumnMount = () => {
-    if (isStatusColumn && visibleStatuses.includes(id)) {
+    if (isStatusColumn && visibleStatuses.includes(id) && !isFirstMount.current) {
       requestAnimationFrame(() => {
         const columnElement = document.querySelector(`[data-status="${id}"]`);
         if (columnElement) {
@@ -86,6 +87,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   
   React.useEffect(() => {
     handleColumnMount();
+    isFirstMount.current = false;
   }, [id, visibleStatuses]);
   
   return (
