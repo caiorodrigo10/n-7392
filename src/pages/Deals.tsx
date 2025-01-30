@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import { DragDropContext } from "@hello-pangea/dnd";
 import DateFilterDialog from "@/components/deals/DateFilterDialog";
 import { StatusSelector } from "@/components/deals/StatusSelector";
-import { ChevronRight } from "lucide-react";
+import { Maximize2 } from "lucide-react";
 
 interface DealsProps {
   isCollapsed: boolean;
@@ -94,18 +94,16 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                     </div>
                   )}
                   {visibleStatuses.length === 0 ? (
-                    <div className="w-[60px] h-full transition-all duration-300">
-                      <div className="flex flex-col h-full items-center justify-between py-8 px-2">
-                        <span className="-rotate-90 whitespace-nowrap text-base font-medium text-secondary/80 tracking-wide transform translate-y-16">
-                          Completed in
-                        </span>
-                        <button 
-                          onClick={handleExpandClick}
-                          className="-rotate-90 whitespace-nowrap text-base font-medium text-secondary/80 tracking-wide transform translate-y-16"
-                        >
-                          <ChevronRight className="h-6 w-6" />
-                        </button>
-                      </div>
+                    <div className="w-[60px] h-full flex flex-col justify-between py-8">
+                      <span className="-rotate-90 whitespace-nowrap text-base font-medium text-secondary/80 tracking-wide transform translate-y-16">
+                        Completed in
+                      </span>
+                      <button 
+                        onClick={handleExpandClick}
+                        className="mt-auto hover:text-secondary/80 transition-colors"
+                      >
+                        <Maximize2 className="h-5 w-5 text-secondary/60" />
+                      </button>
                     </div>
                   ) : (
                     <div className="flex gap-2 animate-fade-in">
