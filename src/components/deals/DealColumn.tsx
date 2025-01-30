@@ -44,7 +44,10 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   const statusColor = getStatusColor(id);
   const isCollapsed = visibleStatuses.length === 0;
   
-  // Se for uma coluna de status e estiver colapsada, mostra apenas o botão de expandir
+  if (isStatusColumn && !visibleStatuses.includes(id)) {
+    return null;
+  }
+
   if (isStatusColumn && isCollapsed) {
     return (
       <div className="w-[80px] shrink-0 h-full transition-all duration-300">
@@ -63,11 +66,6 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
         </div>
       </div>
     );
-  }
-
-  // Se for uma coluna de status e o status não estiver visível, não renderiza
-  if (isStatusColumn && !visibleStatuses.includes(id)) {
-    return null;
   }
   
   return (

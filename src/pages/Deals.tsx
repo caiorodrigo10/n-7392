@@ -77,23 +77,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                 </div>
 
                 <div className="bg-white rounded-lg p-4 flex-shrink-0">
-                  {visibleStatuses.length === 0 ? (
-                    <div className="w-[60px] h-full transition-all duration-300">
-                      <div className="flex flex-col h-full items-center justify-between py-8 px-2">
-                        <span className="-rotate-90 whitespace-nowrap text-base font-medium text-secondary/80 tracking-wide transform translate-y-16">
-                          Completed in
-                        </span>
-                        <div className="mt-auto flex items-center justify-center w-full">
-                          <button 
-                            onClick={handleExpandClick}
-                            className="text-secondary/60 hover:text-secondary/80 transition-colors"
-                          >
-                            <ChevronRight className="h-6 w-6" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
+                  {visibleStatuses.length > 0 && (
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
                         <h2 className="font-medium text-sm text-secondary/80">
@@ -107,6 +91,35 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                         visibleStatuses={visibleStatuses}
                         onToggleStatus={toggleStatus}
                       />
+                    </div>
+                  )}
+                  {visibleStatuses.length === 0 ? (
+                    <div className="w-[60px] h-full transition-all duration-300">
+                      <div className="flex flex-col h-full items-center justify-between py-8 px-2">
+                        <span className="-rotate-90 whitespace-nowrap text-base font-medium text-secondary/80 tracking-wide transform translate-y-16">
+                          Completed in
+                        </span>
+                        <button 
+                          onClick={handleExpandClick}
+                          className="text-secondary/60 hover:text-secondary/80 transition-colors mt-auto"
+                        >
+                          <ChevronRight className="h-6 w-6" />
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex gap-2 animate-fade-in">
+                      {statusColumns.map((status) => (
+                        <DealColumn
+                          key={status}
+                          id={status}
+                          title={status.charAt(0).toUpperCase() + status.slice(1)}
+                          deals={deals[status as keyof typeof deals]}
+                          total={formatCurrency(calculateColumnTotal(deals[status as keyof typeof deals]))}
+                          visibleStatuses={visibleStatuses}
+                          onToggleStatus={toggleStatus}
+                        />
+                      ))}
                     </div>
                   )}
                 </div>
