@@ -95,17 +95,17 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                     </div>
                   )}
                   {visibleStatuses.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-[calc(100vh-20rem)] w-[280px]">
-                      <div className="text-[#8E9196]/40 flex flex-col items-center gap-4">
-                        <span className="text-sm">Etapa vazia</span>
-                        <Button
-                          variant="ghost"
-                          size="sm"
+                    <div className="w-[80px] h-full transition-all duration-300">
+                      <div className="flex flex-col h-full items-center justify-between py-8 px-2">
+                        <span className="-rotate-90 whitespace-nowrap text-sm font-light text-secondary/80">
+                          Finalizadas em
+                        </span>
+                        <button 
                           onClick={handleExpandClick}
-                          className="hover:bg-transparent"
+                          className="text-secondary/60 hover:text-secondary/80 transition-colors"
                         >
-                          <ChevronRight className="h-5 w-5" />
-                        </Button>
+                          <ChevronRight className="h-4 w-4" />
+                        </button>
                       </div>
                     </div>
                   ) : (
