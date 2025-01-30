@@ -1,5 +1,6 @@
 import { Droppable } from "@hello-pangea/dnd";
 import { cn } from "@/lib/utils";
+import { CheckCircle, XCircle, Trash2, CalendarPlus } from "lucide-react";
 
 interface DealStatusDropZoneProps {
   isDropDisabled: boolean;
@@ -8,9 +9,34 @@ interface DealStatusDropZoneProps {
 
 const DealStatusDropZone = ({ isDropDisabled, isCollapsed }: DealStatusDropZoneProps) => {
   const statuses = [
-    { id: "won", label: "Won", color: "bg-green-500/10 hover:bg-green-500/20" },
-    { id: "lost", label: "Lost", color: "bg-red-500/10 hover:bg-red-500/20" },
-    { id: "abandoned", label: "Abandoned", color: "bg-gray-500/10 hover:bg-gray-500/20" },
+    { 
+      id: "won", 
+      label: "Won", 
+      color: "bg-[#0FA0CE]", 
+      hoverColor: "hover:bg-[#0FA0CE]/90",
+      icon: CheckCircle 
+    },
+    { 
+      id: "lost", 
+      label: "Lost", 
+      color: "bg-[#ea384c]", 
+      hoverColor: "hover:bg-[#ea384c]/90",
+      icon: XCircle 
+    },
+    { 
+      id: "abandoned", 
+      label: "Abandoned", 
+      color: "bg-[#8E9196]", 
+      hoverColor: "hover:bg-[#8E9196]/90",
+      icon: Trash2 
+    },
+    { 
+      id: "extended", 
+      label: "Prorrogar", 
+      color: "bg-[#F97316]", 
+      hoverColor: "hover:bg-[#F97316]/90",
+      icon: CalendarPlus 
+    },
   ];
 
   return (
@@ -30,13 +56,16 @@ const DealStatusDropZone = ({ isDropDisabled, isCollapsed }: DealStatusDropZoneP
                 ref={provided.innerRef}
                 {...provided.droppableProps}
                 className={cn(
-                  "w-full max-w-[300px] h-32 rounded-lg border-2 border-dashed transition-colors",
+                  "w-full max-w-[300px] h-32 rounded-lg border-2 border-dashed transition-all duration-200",
                   status.color,
-                  snapshot.isDraggingOver && "scale-105",
+                  status.hoverColor,
+                  "text-white",
+                  snapshot.isDraggingOver && "scale-105 border-solid border-white",
                   isDropDisabled && "opacity-50 cursor-not-allowed"
                 )}
               >
-                <div className="flex items-center justify-center h-full">
+                <div className="flex items-center justify-center h-full gap-2">
+                  <status.icon className="w-6 h-6" />
                   <span className="text-xl font-semibold">{status.label}</span>
                 </div>
                 {provided.placeholder}
