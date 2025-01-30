@@ -88,8 +88,8 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
               className={`h-[calc(100vh-13rem)] ${
                 getColumnBackground(id)
               } ${
-                snapshot.isDraggingOver ? "bg-opacity-80" : ""
-              }`}
+                snapshot.isDraggingOver ? "bg-opacity-80 border border-primary/30 rounded-lg" : ""
+              } transition-all duration-200`}
             >
               {isStatusColumn && !isCollapsed && (
                 <div className="flex items-center justify-between mb-2 px-2 pt-2">

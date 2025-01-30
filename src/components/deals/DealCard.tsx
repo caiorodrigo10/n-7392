@@ -36,9 +36,9 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className={`p-3 cursor-move transition-all duration-300 animate-enter mb-2 ${getCardBackground()} 
+          className={`p-3 cursor-move transition-all duration-300 animate-enter mb-3 ${getCardBackground()} 
             ${isCompletedDeal ? 'border-secondary/20' : 'border-transparent'} 
-            ${snapshot.isDragging ? "shadow-lg scale-105" : isCompletedDeal ? "hover:shadow-md" : ""}`}
+            ${snapshot.isDragging ? "shadow-lg scale-105 border border-primary/50" : isCompletedDeal ? "hover:shadow-md" : ""}`}
         >
           <div className="flex justify-between items-start">
             <div className="flex-1">
