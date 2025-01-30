@@ -69,7 +69,7 @@ const DealCard = ({ deal, index, columnId }: DealCardProps) => {
             {showMeetingBadge && deal.scheduledMeeting && (
               <Badge 
                 variant="secondary" 
-                className="bg-[#333333] text-white hover:bg-[#333333] text-xs px-2 py-0.5"
+                className="bg-transparent border border-secondary/30 text-secondary/80 hover:bg-transparent text-[10px] px-2 py-0.5"
               >
                 📅 {deal.scheduledMeeting.date} {deal.scheduledMeeting.time}
               </Badge>
