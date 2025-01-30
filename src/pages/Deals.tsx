@@ -101,7 +101,7 @@ const Deals = ({ isCollapsed, setIsCollapsed }: DealsProps) => {
                         </span>
                         <button 
                           onClick={handleExpandClick}
-                          className="text-secondary/60 hover:text-secondary/80 transition-colors mt-auto"
+                          className="-rotate-90 text-base font-medium text-secondary/80 tracking-wide mt-auto"
                         >
                           <ChevronRight className="h-6 w-6" />
                         </button>
