@@ -12,29 +12,29 @@ const DealStatusDropZone = ({ isDropDisabled, isCollapsed }: DealStatusDropZoneP
     { 
       id: "won", 
       label: "Won", 
-      color: "bg-[#0FA0CE]", 
-      hoverColor: "hover:bg-[#0FA0CE]/90",
+      color: "bg-[#22C55E]", 
+      hoverColor: "hover:bg-[#22C55E]/90",
       icon: CheckCircle 
     },
     { 
       id: "lost", 
       label: "Lost", 
-      color: "bg-[#ea384c]", 
-      hoverColor: "hover:bg-[#ea384c]/90",
+      color: "bg-[#EF4444]", 
+      hoverColor: "hover:bg-[#EF4444]/90",
       icon: XCircle 
     },
     { 
       id: "abandoned", 
       label: "Abandoned", 
-      color: "bg-[#8E9196]", 
-      hoverColor: "hover:bg-[#8E9196]/90",
+      color: "bg-[#6B7280]", 
+      hoverColor: "hover:bg-[#6B7280]/90",
       icon: Trash2 
     },
     { 
       id: "extended", 
-      label: "Prorrogar", 
-      color: "bg-[#F97316]", 
-      hoverColor: "hover:bg-[#F97316]/90",
+      label: "Extended", 
+      color: "bg-[#60A5FA]", 
+      hoverColor: "hover:bg-[#60A5FA]/90",
       icon: CalendarPlus 
     },
   ];
