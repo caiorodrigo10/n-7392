@@ -13,7 +13,7 @@ const initialDeals: DealsState = {
       company: "Tech Corp",
       assignee: {
         name: "Sarah Wilson",
-        avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+        avatar: ""
       },
       stageEnteredAt: new Date(2024, 2, 15)
     },
@@ -24,7 +24,7 @@ const initialDeals: DealsState = {
       company: "StartUp Inc",
       assignee: {
         name: "John Smith",
-        avatar: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952"
+        avatar: ""
       },
       stageEnteredAt: new Date(2024, 3, 1)
     },
@@ -37,7 +37,7 @@ const initialDeals: DealsState = {
       company: "Learning Co",
       assignee: {
         name: "Mike Johnson",
-        avatar: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+        avatar: ""
       },
       stageEnteredAt: new Date(2024, 3, 5)
     },
@@ -50,7 +50,7 @@ const initialDeals: DealsState = {
       company: "Hardware Ltd",
       assignee: {
         name: "Emma Davis",
-        avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
+        avatar: ""
       },
       stageEnteredAt: new Date(2024, 2, 20),
       scheduledMeeting: {
@@ -65,7 +65,7 @@ const initialDeals: DealsState = {
       company: "Cloud Systems Inc",
       assignee: {
         name: "Robert Chen",
-        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
+        avatar: ""
       },
       stageEnteredAt: new Date(2024, 3, 12),
       scheduledMeeting: {
@@ -82,7 +82,7 @@ const initialDeals: DealsState = {
       company: "Consulting Co",
       assignee: {
         name: "Sarah Wilson",
-        avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+        avatar: ""
       },
       stageEnteredAt: new Date(2024, 3, 10)
     },
@@ -95,7 +95,7 @@ const initialDeals: DealsState = {
       company: "Education Ltd",
       assignee: {
         name: "John Smith",
-        avatar: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952"
+        avatar: ""
       },
       stageEnteredAt: new Date(2024, 2, 28)
     },
@@ -108,7 +108,7 @@ const initialDeals: DealsState = {
       company: "Big Corp Ltd",
       assignee: {
         name: "Sarah Wilson",
-        avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+        avatar: ""
       },
       stageEnteredAt: new Date(2024, 2, 25)
     },
@@ -121,7 +121,7 @@ const initialDeals: DealsState = {
       company: "Failed Corp",
       assignee: {
         name: "Emma Davis",
-        avatar: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
+        avatar: ""
       },
       stageEnteredAt: new Date(2024, 2, 20)
     },
@@ -134,7 +134,7 @@ const initialDeals: DealsState = {
       company: "Left Inc",
       assignee: {
         name: "Robert Chen",
-        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
+        avatar: ""
       },
       stageEnteredAt: new Date(2024, 2, 15)
     },
@@ -147,7 +147,7 @@ const initialDeals: DealsState = {
       company: "Delay Corp",
       assignee: {
         name: "Sarah Wilson",
-        avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+        avatar: ""
       },
       stageEnteredAt: new Date(2024, 3, 1)
     },
