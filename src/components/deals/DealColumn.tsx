@@ -69,7 +69,10 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   }
   
   return (
-    <div className={`${isStatusColumn ? 'w-[280px]' : 'w-[250px]'} shrink-0 h-full transition-all duration-300`}>
+    <div 
+      className={`${isStatusColumn ? 'w-[280px]' : 'w-[250px]'} shrink-0 h-full transition-all duration-300`}
+      data-status={id}
+    >
       <div className={`${isStatusColumn ? 'bg-white rounded-lg' : ''} w-full h-full`}>
         {!isStatusColumn && (
           <h2 className="font-medium text-sm mb-4 mt-6 flex items-center gap-1 text-secondary/80">

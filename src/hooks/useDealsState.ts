@@ -174,12 +174,19 @@ export const useDealsState = () => {
   };
 
   const toggleStatus = (status: string) => {
-    console.log('toggleStatus called with:', status); // Debug log
     setVisibleStatuses(prev => {
       const newStatuses = prev.includes(status)
         ? prev.filter(s => s !== status)
         : [...prev, status];
-      console.log('New visibleStatuses:', newStatuses); // Debug log
+      
+      // If we're adding a status (expanding), scroll to it
+      if (!prev.includes(status)) {
+        setTimeout(() => {
+          const expandedColumn = document.querySelector(`[data-status="${status}"]`);
+          expandedColumn?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'end' });
+        }, 100);
+      }
+      
       return newStatuses;
     });
   };
