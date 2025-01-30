@@ -179,13 +179,11 @@ export const useDealsState = () => {
         ? prev.filter(s => s !== status)
         : [...prev, status];
       
-      // If we're adding a status (expanding), scroll to it
-      if (!prev.includes(status)) {
-        setTimeout(() => {
-          const expandedColumn = document.querySelector(`[data-status="${status}"]`);
-          expandedColumn?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'end' });
-        }, 100);
-      }
+      // Force immediate re-render
+      requestAnimationFrame(() => {
+        const expandedColumn = document.querySelector(`[data-status="${status}"]`);
+        expandedColumn?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'end' });
+      });
       
       return newStatuses;
     });
