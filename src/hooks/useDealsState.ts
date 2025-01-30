@@ -179,12 +179,6 @@ export const useDealsState = () => {
         ? prev.filter(s => s !== status)
         : [...prev, status];
       
-      // Force immediate re-render
-      requestAnimationFrame(() => {
-        const expandedColumn = document.querySelector(`[data-status="${status}"]`);
-        expandedColumn?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'end' });
-      });
-      
       return newStatuses;
     });
   };
@@ -205,6 +199,7 @@ export const useDealsState = () => {
       setDeals((prevDeals) => ({
         ...prevDeals,
         [sourceColumn!]: prevDeals[sourceColumn!].filter((d) => d.id !== dealId),
+        [status]: [...prevDeals[status as keyof DealsState], foundDeal!]
       }));
 
       const statusMessages = {
@@ -220,6 +215,10 @@ export const useDealsState = () => {
         triggerWinConfetti();
       }
       
+      if (!visibleStatuses.includes(status)) {
+        setVisibleStatuses(prev => [...prev, status]);
+      }
+
       toast({
         title: message?.title || `Deal marked as ${status}`,
         description: message?.description || `${foundDeal.title} has been marked as ${status}`,
