@@ -68,25 +68,6 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
       </div>
     );
   }
-
-  const handleColumnMount = () => {
-    if (isStatusColumn && visibleStatuses.includes(id)) {
-      requestAnimationFrame(() => {
-        const columnElement = document.querySelector(`[data-status="${id}"]`);
-        if (columnElement) {
-          columnElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest',
-            inline: 'end'
-          });
-        }
-      });
-    }
-  };
-  
-  React.useEffect(() => {
-    handleColumnMount();
-  }, [id, visibleStatuses]);
   
   return (
     <div 
