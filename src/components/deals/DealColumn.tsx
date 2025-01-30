@@ -1,3 +1,4 @@
+import React from 'react';
 import { Droppable } from "@hello-pangea/dnd";
 import { Deal } from "@/types/deals";
 import DealCard from "./DealCard";
