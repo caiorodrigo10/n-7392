@@ -11,19 +11,19 @@ interface CalendarTabsProps {
 
 export const CalendarTabs = ({ events, previousEvents }: CalendarTabsProps) => {
   return (
-    <Tabs defaultValue="proximos" className="w-full">
+    <Tabs defaultValue="upcoming" className="w-full">
       <div className="flex items-center justify-between">
         <TabsList className="bg-gray-100 p-1">
-          <TabsTrigger value="proximos" className="px-4">Próximos</TabsTrigger>
-          <TabsTrigger value="nao-confirmado" className="px-4">Não confirmado</TabsTrigger>
-          <TabsTrigger value="recorrente" className="px-4">Recorrente</TabsTrigger>
-          <TabsTrigger value="anteriores" className="px-4">Anteriores</TabsTrigger>
-          <TabsTrigger value="cancelado" className="px-4">Cancelado</TabsTrigger>
+          <TabsTrigger value="upcoming" className="px-4">Upcoming</TabsTrigger>
+          <TabsTrigger value="unconfirmed" className="px-4">Unconfirmed</TabsTrigger>
+          <TabsTrigger value="recurring" className="px-4">Recurring</TabsTrigger>
+          <TabsTrigger value="previous" className="px-4">Previous</TabsTrigger>
+          <TabsTrigger value="canceled" className="px-4">Canceled</TabsTrigger>
         </TabsList>
         
         <Button variant="outline" size="sm" className="text-sm font-normal">
           <Filter className="h-4 w-4 mr-2" />
-          Filtros
+          Filters
         </Button>
       </div>
 

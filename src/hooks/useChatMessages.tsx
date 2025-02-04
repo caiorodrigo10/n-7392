@@ -1,12 +1,7 @@
 import { useState, FormEvent } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { getChatCompletion } from "@/services/openai";
-import { 
-  ChatCompletionUserMessageParam, 
-  ChatCompletionAssistantMessageParam, 
-  ChatCompletionSystemMessageParam,
-  ChatCompletionMessageParam 
-} from "openai/resources/chat/completions";
+import { getChatCompletion, TogetherMessage } from "@/services/together";
+
 
 interface Message {
   id: number;
@@ -21,7 +16,7 @@ export function useChatMessages() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      content: "Olá! Sou Kai, seu assistente de vendas da Avantto. Como posso ajudar você hoje? Posso analisar seu pipeline de vendas, sugerir estratégias ou responder suas dúvidas.",
+      content: "Hi! I'm Kai, your Avantto sales assistant. How can I help you today? I can analyze your sales pipeline, suggest strategies, or answer your questions.",
       sender: "ai",
     },
   ]);
@@ -102,32 +97,28 @@ export function useChatMessages() {
     setIsLoading(true);
 
     try {
-      const apiMessages: ChatCompletionMessageParam[] = messages.map((msg) => {
-        if (msg.sender === "user") {
-          return {
-            role: "user",
-            content: msg.content
-          } as ChatCompletionUserMessageParam;
-        } else {
-          return {
-            role: "assistant",
-            content: msg.content
-          } as ChatCompletionAssistantMessageParam;
+      // Create messages array with system message first
+      const apiMessages: TogetherMessage[] = [
+        {
+          role: "system",
+          content: "You are Kai, an AI sales assistant for Avantto. When providing sales pipeline or funnel data, do not mention that you will create or show a chart, as it will be displayed automatically below your response. Just provide the relevant data and insights."
+        },
+        ...messages.map((msg) => ({
+          role: msg.sender === "user" ? "user" : "assistant",
+          content: msg.content
+        })),
+        {
+          role: "user",
+          content: input
         }
-      });
+      ];
 
-      // Add system message
-      apiMessages.push({
-        role: "system",
-        content: "Quando você fornecer dados sobre pipeline ou funil de vendas, não mencione que vai criar ou mostrar um gráfico, pois ele será exibido automaticamente abaixo da sua resposta. Apenas forneça os dados e insights relevantes."
-      } as ChatCompletionSystemMessageParam);
+      console.log('Prepared messages for API:', apiMessages);
 
-      apiMessages.push({
-        role: "user",
-        content: input
-      } as ChatCompletionUserMessageParam);
-
+      console.log('Sending chat request...');
       const response = await getChatCompletion(apiMessages);
+      console.log('Received response:', response);
+      
       const { show: shouldShow, type: chartType } = shouldShowPipelineAnalysis(input, response);
 
       setMessages((prev) => [
@@ -141,10 +132,10 @@ export function useChatMessages() {
         },
       ]);
     } catch (error) {
-      console.error("Erro ao obter resposta:", error);
+      console.error("Error getting response:", error);
       toast({
-        title: "Erro",
-        description: "Não foi possível obter resposta da IA. Por favor, tente novamente.",
+        title: "Error",
+        description: "Could not get AI response. Please try again.",
         variant: "destructive",
       });
     } finally {

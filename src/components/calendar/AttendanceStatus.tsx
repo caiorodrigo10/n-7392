@@ -42,7 +42,7 @@ export const AttendanceStatus = ({ isPreviousEvent }: AttendanceStatusProps) => 
             className="bg-red-100 border-red-200 text-red-700 hover:bg-red-200 hover:text-red-800 font-normal"
           >
             <X className="h-4 w-4 mr-2 text-red-600" />
-            Não comparecido
+            Not attended
             <ChevronDown className="h-4 w-4 ml-2" />
           </Button>
         );

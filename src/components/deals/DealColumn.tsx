@@ -4,6 +4,7 @@ import { Deal } from "@/types/deals";
 import DealCard from "./DealCard";
 import { EmptyColumn } from "./EmptyColumn";
 import { Trophy, ChevronRight } from "lucide-react";
+import '@/styles/scrollbar.css';
 
 interface DealColumnProps {
   id: string;
@@ -43,18 +44,29 @@ const getStatusColor = (status: string) => {
 const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleStatus, showDateFilter }: DealColumnProps) => {
   const isStatusColumn = ["won", "lost", "abandoned", "extended"].includes(id);
   const statusColor = getStatusColor(id);
-  const isCollapsed = visibleStatuses.length === 0;
+  const isCollapsed = !visibleStatuses.includes(id);
   const columnRef = React.useRef<HTMLDivElement>(null);
-  const [isFirstRender, setIsFirstRender] = React.useState(true);
   
-  React.useEffect(() => {
-    if (isFirstRender) {
-      setIsFirstRender(false);
-      return;
+  const columnClasses = React.useMemo(() => {
+    const baseClasses = [
+      'relative h-full flex flex-col',
+      getColumnBackground(id),
+      isCollapsed ? 'w-[50px]' : 'w-[400px]'
+    ];
+
+    // Don't add transition only for Won on first load
+    const isInitialWon = id === 'won' && visibleStatuses.includes('won') && visibleStatuses.length === 1;
+    if (!isInitialWon || isCollapsed) {
+      baseClasses.push('transition-[width] duration-300');
     }
 
-    if (isStatusColumn && visibleStatuses.includes(id) && columnRef.current) {
-      // Use requestAnimationFrame to ensure the DOM has updated
+    return baseClasses.join(' ');
+  }, [id, isCollapsed, visibleStatuses]);
+
+  // Scroll para todas as interações exceto o Won inicial
+  React.useEffect(() => {
+    const isInitialWon = id === 'won' && visibleStatuses.length === 1;
+    if (!isCollapsed && !isInitialWon) {
       requestAnimationFrame(() => {
         columnRef.current?.scrollIntoView({
           behavior: 'smooth',
@@ -63,7 +75,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
         });
       });
     }
-  }, [id, visibleStatuses, isStatusColumn, isFirstRender]);
+  }, [isCollapsed, id, visibleStatuses]);
   
   if (isStatusColumn && !visibleStatuses.includes(id)) {
     return null;
@@ -92,7 +104,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
   return (
     <div 
       ref={columnRef}
-      className={`${isStatusColumn ? 'w-[280px]' : 'w-[250px]'} shrink-0 h-full transition-all duration-300`}
+      className={`w-[300px] shrink-0 h-full transition-all duration-300`}
       data-status={id}
     >
       <div className={`${isStatusColumn ? 'bg-white rounded-lg' : ''} w-full h-full`}>
@@ -107,7 +119,7 @@ const DealColumn = ({ id, title, deals, total, visibleStatuses = [], onToggleSta
             <div
               ref={provided.innerRef}
               {...provided.droppableProps}
-              className={`h-[calc(100vh-13rem)] ${
+              className={`h-[calc(100vh-13rem)] custom-scrollbar overflow-y-auto px-4 box-content ${
                 getColumnBackground(id)
               } ${
                 snapshot.isDraggingOver ? "bg-opacity-80 border-2 border-primary/50 rounded-lg" : ""
