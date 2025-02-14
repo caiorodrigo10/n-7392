@@ -1,3 +1,4 @@
+
 const TOGETHER_API_KEY = '15c8a049f77f5928fc545c5dbc06f4236fce384c9ebd6c919bbc4f63a9db9361';
 const TOGETHER_API_URL = 'https://api.together.xyz/v1/chat/completions';
 
@@ -42,12 +43,8 @@ export async function getChatCompletion(messages: TogetherMessage[]) {
       statusText: response.statusText,
       error: responseText
     });
-    try {
-      const error = JSON.parse(errorText);
-      throw new Error(`Together API Error: ${error.message || error.error || 'Unknown error'}`);
-    } catch {
-      throw new Error(`Together API Error: ${errorText}`);
-    }
+    const error = JSON.parse(responseText);
+    throw new Error(`Together API Error: ${error.message || error.error || 'Unknown error'}`);
   }
 
   const data = JSON.parse(responseText);

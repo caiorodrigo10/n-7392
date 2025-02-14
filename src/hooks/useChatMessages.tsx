@@ -1,7 +1,7 @@
+
 import { useState, FormEvent } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { getChatCompletion, TogetherMessage } from "@/services/together";
-
 
 interface Message {
   id: number;
@@ -27,7 +27,6 @@ export function useChatMessages() {
     const input_lower = input.toLowerCase();
     const response_lower = response.toLowerCase();
     
-    // Keywords that indicate a request for pipeline visualization
     const visualizationKeywords = [
       'mostrar pipeline',
       'ver pipeline',
@@ -43,7 +42,6 @@ export function useChatMessages() {
       'deals'
     ];
 
-    // Keywords that indicate pipeline data in the response
     const responseKeywords = [
       'leads',
       'qualificados',
@@ -54,22 +52,18 @@ export function useChatMessages() {
       'funil'
     ];
 
-    // Check if the input contains visualization keywords
     const requestingVisualization = visualizationKeywords.some(keyword => 
       input_lower.includes(keyword)
     );
 
-    // Check if the response contains pipeline data
     const containsPipelineData = responseKeywords.some(keyword =>
       response_lower.includes(keyword)
     );
 
-    // Show visualization if either condition is met
     if (!requestingVisualization && !containsPipelineData) {
       return { show: false };
     }
 
-    // Determine the type of visualization based on specific keywords
     if (input_lower.includes('barra') || input_lower.includes('barras')) {
       return { show: true, type: 'bar' };
     } else if (input_lower.includes('tendência') || input_lower.includes('evolução')) {
@@ -78,7 +72,6 @@ export function useChatMessages() {
       return { show: true, type: 'distribution' };
     }
 
-    // Default to funnel visualization
     return { show: true, type: 'funnel' };
   };
 
@@ -97,7 +90,6 @@ export function useChatMessages() {
     setIsLoading(true);
 
     try {
-      // Create messages array with system message first
       const apiMessages: TogetherMessage[] = [
         {
           role: "system",
@@ -106,7 +98,7 @@ export function useChatMessages() {
         ...messages.map((msg) => ({
           role: msg.sender === "user" ? "user" : "assistant",
           content: msg.content
-        })),
+        } as TogetherMessage)),
         {
           role: "user",
           content: input
