@@ -1,3 +1,4 @@
+
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Event } from "@/entities/Event";
 import { EventList } from "./EventList";
@@ -27,11 +28,11 @@ export const CalendarTabs = ({ events, previousEvents }: CalendarTabsProps) => {
         </Button>
       </div>
 
-      <TabsContent value="proximos" className="space-y-3">
+      <TabsContent value="upcoming" className="space-y-3">
         <EventList events={events} />
       </TabsContent>
 
-      <TabsContent value="anteriores" className="space-y-3">
+      <TabsContent value="previous" className="space-y-3">
         <EventList events={previousEvents} isPreviousEvents={true} />
       </TabsContent>
     </Tabs>
