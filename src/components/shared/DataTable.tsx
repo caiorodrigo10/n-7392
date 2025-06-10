@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import {
@@ -231,7 +230,8 @@ export function DataTable<T>({
                     key={header.id}
                     className={cn(
                       "py-1 text-xs text-muted-foreground font-normal relative h-6",
-                      header.id === "select" && "w-[32px] px-0",
+                      header.id === "select" && "w-[32px] px-0 sticky left-0 z-20 bg-white",
+                      header.id === "name" && "sticky left-[32px] z-20 bg-white",
                       header.id !== "select" && "before:absolute before:right-0 before:top-0 before:h-full before:w-px before:bg-border"
                     )}
                     style={{ width: header.getSize() }}
