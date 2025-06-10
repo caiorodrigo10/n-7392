@@ -47,13 +47,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     enableResizing: false,
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Company Name"
-        abbreviatedLabel="Name"
-      />
-    ),
+    header: "Company Name",
     accessorKey: "name",
     size: 220,
     minSize: 180,
@@ -63,13 +57,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Website URL"
-        abbreviatedLabel="Website"
-      />
-    ),
+    header: "Website",
     accessorKey: "website",
     size: 240,
     minSize: 200,
@@ -89,13 +77,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Last Activity"
-        abbreviatedLabel="Activity"
-      />
-    ),
+    header: "Last Activity",
     accessorKey: "lastActivity",
     size: 150,
     minSize: 120,
@@ -107,13 +89,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Linked Contacts"
-        abbreviatedLabel="Contacts"
-      />
-    ),
+    header: "Contacts",
     accessorKey: "linkedContacts",
     size: 140,
     minSize: 120,
@@ -126,13 +102,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Score"
-        abbreviatedLabel="Score"
-      />
-    ),
+    header: "Score",
     accessorKey: "score",
     size: 100,
     minSize: 80,
@@ -144,13 +114,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Social Media Links"
-        abbreviatedLabel="Social"
-      />
-    ),
+    header: "Social",
     id: "social",
     size: 150,
     minSize: 120,
@@ -168,13 +132,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Employee Count"
-        abbreviatedLabel="Employees"
-      />
-    ),
+    header: "Employees",
     accessorKey: "employees",
     size: 120,
     minSize: 100,

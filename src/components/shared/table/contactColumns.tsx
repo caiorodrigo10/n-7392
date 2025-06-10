@@ -49,13 +49,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     enableResizing: false,
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Full Name"
-        abbreviatedLabel="Name"
-      />
-    ),
+    header: "Full Name",
     accessorKey: "name",
     size: 220,
     minSize: 180,
@@ -65,13 +59,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Email Address"
-        abbreviatedLabel="Email"
-      />
-    ),
+    header: "Email Address",
     accessorKey: "email",
     size: 240,
     minSize: 200,
@@ -81,13 +69,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Location"
-        abbreviatedLabel="Location"
-      />
-    ),
+    header: "Location",
     accessorKey: "location",
     size: 180,
     minSize: 150,
@@ -100,13 +82,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Status"
-        abbreviatedLabel="Status"
-      />
-    ),
+    header: "Status",
     accessorKey: "status",
     size: 120,
     minSize: 100,
@@ -118,13 +94,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Account Balance"
-        abbreviatedLabel="Balance"
-      />
-    ),
+    header: "Balance",
     accessorKey: "balance",
     size: 130,
     minSize: 100,
@@ -136,13 +106,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Department"
-        abbreviatedLabel="Dept"
-      />
-    ),
+    header: "Department",
     accessorKey: "department",
     size: 150,
     minSize: 120,
@@ -152,13 +116,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Job Role"
-        abbreviatedLabel="Role"
-      />
-    ),
+    header: "Role",
     accessorKey: "role",
     size: 150,
     minSize: 120,
@@ -168,13 +126,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Join Date"
-        abbreviatedLabel="Joined"
-      />
-    ),
+    header: "Join Date",
     accessorKey: "joinDate",
     size: 130,
     minSize: 100,
@@ -186,13 +138,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Last Active"
-        abbreviatedLabel="Active"
-      />
-    ),
+    header: "Last Active",
     accessorKey: "lastActive",
     size: 130,
     minSize: 100,
@@ -204,13 +150,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     ),
   },
   {
-    header: ({ header }) => (
-      <ResponsiveColumnHeader
-        header={header}
-        fullLabel="Performance Rating"
-        abbreviatedLabel="Performance"
-      />
-    ),
+    header: "Performance",
     accessorKey: "performance",
     size: 130,
     minSize: 100,
