@@ -66,7 +66,7 @@ export function DataTable<T>({
       maxSize: 1000,
       enableResizing: false,
       header: () => (
-        <div className="h-8 flex items-center gap-2 px-4 min-w-[200px] border-r">
+        <div className="h-6 flex items-center gap-2 px-4 min-w-[200px] border-r">
           <AddColumnMenu onAddColumn={(type) => console.log(`Add ${type} column`)} />
         </div>
       ),
@@ -140,12 +140,12 @@ export function DataTable<T>({
           <Table className="table-fixed w-full">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id} className="bg-white h-8">
+                <TableRow key={headerGroup.id} className="bg-white h-6">
                   {headerGroup.headers.map((header) => (
                     <TableHead
                       key={header.id}
                       className={cn(
-                        "relative select-none [&>.cursor-col-resize]:last:opacity-0 h-8 py-0",
+                        "relative select-none [&>.cursor-col-resize]:last:opacity-0 h-6 py-0",
                         header.id === "select" && "w-[32px] px-0 sticky left-0 z-20 bg-white",
                         header.id === "name" && "sticky left-[32px] z-20 bg-white",
                         header.id !== "select" && "border-r border-b"
@@ -153,7 +153,7 @@ export function DataTable<T>({
                       style={{
                         width: header.id === 'addColumn' ? '100%' : header.getSize(),
                         flex: header.id === 'addColumn' ? '1' : undefined,
-                        height: '36px'
+                        height: '24px'
                       }}
                     >
                       {header.isPlaceholder ? null : header.id === "select" || header.id === "addColumn" ? (
@@ -198,13 +198,13 @@ export function DataTable<T>({
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className={cn("h-8", row.getIsSelected() && "bg-muted/50")}
+                    className={cn("h-6", row.getIsSelected() && "bg-muted/50")}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
                         className={cn(
-                          "truncate relative font-medium",
+                          "truncate relative font-medium h-6 py-1",
                           cell.column.id === "select" && "w-[32px] px-0 sticky left-0 z-20 bg-white",
                           cell.column.id === "name" && "sticky left-[32px] z-20 bg-white",
                           cell.column.id !== "select" && "border-r"
@@ -225,12 +225,12 @@ export function DataTable<T>({
               )}
             </TableBody>
             <TableFooter>
-              <TableRow className="border-t hover:bg-transparent">
+              <TableRow className="border-t hover:bg-transparent h-6">
                 {table.getHeaderGroups()[0].headers.map((header) => (
                   <TableCell
                     key={header.id}
                     className={cn(
-                      "py-1.5 text-xs text-muted-foreground font-normal relative",
+                      "py-1 text-xs text-muted-foreground font-normal relative h-6",
                       header.id === "select" && "w-[32px] px-0",
                       header.id !== "select" && "before:absolute before:right-0 before:top-0 before:h-full before:w-px before:bg-border"
                     )}

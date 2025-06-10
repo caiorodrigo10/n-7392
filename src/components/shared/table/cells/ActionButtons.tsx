@@ -26,20 +26,20 @@ export function ActionButtons({ onView, onEdit, onDelete, customActions = [] }: 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8">
-          <MoreHorizontal className="h-4 w-4" />
+        <Button variant="ghost" size="icon" className="h-6 w-6">
+          <MoreHorizontal className="h-3 w-3" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {onView && (
           <DropdownMenuItem onClick={onView}>
-            <Eye className="h-4 w-4 mr-2" />
+            <Eye className="h-3 w-3 mr-2" />
             View Details
           </DropdownMenuItem>
         )}
         {onEdit && (
           <DropdownMenuItem onClick={onEdit}>
-            <Edit className="h-4 w-4 mr-2" />
+            <Edit className="h-3 w-3 mr-2" />
             Edit
           </DropdownMenuItem>
         )}
@@ -62,7 +62,7 @@ export function ActionButtons({ onView, onEdit, onDelete, customActions = [] }: 
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={onDelete} className="text-red-600">
-              <Trash2 className="h-4 w-4 mr-2" />
+              <Trash2 className="h-3 w-3 mr-2" />
               Delete
             </DropdownMenuItem>
           </>

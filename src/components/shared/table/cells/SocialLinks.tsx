@@ -22,7 +22,7 @@ export function SocialLinks({ links }: SocialLinksProps) {
   ];
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-1">
       {socialPlatforms.map(platform => {
         const url = links[platform.key as keyof typeof links];
         if (!url) return null;
@@ -36,7 +36,7 @@ export function SocialLinks({ links }: SocialLinksProps) {
             className={`transition-colors ${platform.color}`}
             title={platform.label}
           >
-            <Link className="h-4 w-4" />
+            <Link className="h-3 w-3" />
           </a>
         );
       })}

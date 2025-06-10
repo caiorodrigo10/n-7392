@@ -19,9 +19,9 @@ export function ScoreBadge({ score, maxScore = 10, showIcon = true }: ScoreBadge
   };
 
   return (
-    <div className="flex items-center gap-2">
-      {showIcon && <ChartBar className="h-4 w-4" />}
-      <div className={cn('font-medium', getScoreColor())}>
+    <div className="flex items-center gap-1">
+      {showIcon && <ChartBar className="h-3 w-3" />}
+      <div className={cn('font-medium text-xs', getScoreColor())}>
         {score}/{maxScore}
       </div>
     </div>

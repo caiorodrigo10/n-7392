@@ -53,7 +53,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     minSize: 180,
     maxSize: 300,
     cell: ({ row }) => (
-      <div className="font-medium truncate px-3">{row.getValue("name")}</div>
+      <div className="font-medium truncate px-1">{row.getValue("name")}</div>
     ),
   },
   {
@@ -63,13 +63,13 @@ export const companyColumns: ColumnDef<Company>[] = [
     minSize: 200,
     maxSize: 300,
     cell: ({ row }) => (
-      <div className="flex items-center gap-2 px-3">
-        <Globe className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+      <div className="flex items-center gap-1 px-1">
+        <Globe className="h-3 w-3 text-muted-foreground flex-shrink-0" />
         <a 
           href={row.getValue("website")} 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="text-blue-600 hover:underline truncate text-sm"
+          className="text-blue-600 hover:underline truncate text-xs"
         >
           {row.getValue("website")}
         </a>
@@ -83,7 +83,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     minSize: 120,
     maxSize: 180,
     cell: ({ row }) => (
-      <div className="px-3">
+      <div className="px-1">
         <DateCell date={row.getValue("lastActivity")} formatType="relative" />
       </div>
     ),
@@ -95,9 +95,9 @@ export const companyColumns: ColumnDef<Company>[] = [
     minSize: 120,
     maxSize: 160,
     cell: ({ row }) => (
-      <div className="flex items-center gap-2 px-3">
-        <Users className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-        <span className="text-sm">{row.getValue("linkedContacts")}</span>
+      <div className="flex items-center gap-1 px-1">
+        <Users className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+        <span className="text-xs">{row.getValue("linkedContacts")}</span>
       </div>
     ),
   },
@@ -108,7 +108,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     minSize: 80,
     maxSize: 120,
     cell: ({ row }) => (
-      <div className="px-3">
+      <div className="px-1">
         <ScoreBadge score={Number(row.getValue("score"))} />
       </div>
     ),
@@ -120,7 +120,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     minSize: 120,
     maxSize: 180,
     cell: ({ row }) => (
-      <div className="px-3">
+      <div className="px-1">
         <SocialLinks
           links={{
             linkedin: row.original.linkedin,
@@ -138,9 +138,9 @@ export const companyColumns: ColumnDef<Company>[] = [
     minSize: 100,
     maxSize: 140,
     cell: ({ row }) => (
-      <div className="flex items-center gap-2 px-3">
-        <Users className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-        <span className="text-sm">{row.getValue("employees")}</span>
+      <div className="flex items-center gap-1 px-1">
+        <Users className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+        <span className="text-xs">{row.getValue("employees")}</span>
       </div>
     ),
   },
@@ -151,7 +151,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     maxSize: 60,
     header: "",
     cell: ({ row }) => (
-      <div className="px-2">
+      <div className="px-1">
         <ActionButtons
           onView={() => console.log("View company", row.original.id)}
           onEdit={() => console.log("Edit company", row.original.id)}

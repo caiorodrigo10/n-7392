@@ -55,7 +55,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     minSize: 180,
     maxSize: 300,
     cell: ({ row }) => (
-      <div className="truncate font-medium px-3">{row.getValue("name")}</div>
+      <div className="truncate font-medium px-1">{row.getValue("name")}</div>
     ),
   },
   {
@@ -65,7 +65,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     minSize: 200,
     maxSize: 300,
     cell: ({ row }) => (
-      <div className="truncate text-sm px-3">{row.getValue("email")}</div>
+      <div className="truncate text-xs px-1">{row.getValue("email")}</div>
     ),
   },
   {
@@ -75,9 +75,9 @@ export const contactColumns: ColumnDef<Contact>[] = [
     minSize: 150,
     maxSize: 220,
     cell: ({ row }) => (
-      <div className="truncate px-3">
-        <span className="text-lg leading-none mr-2">{row.original.flag}</span>
-        <span className="text-sm">{row.getValue("location")}</span>
+      <div className="truncate px-1">
+        <span className="text-sm leading-none mr-1">{row.original.flag}</span>
+        <span className="text-xs">{row.getValue("location")}</span>
       </div>
     ),
   },
@@ -88,7 +88,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     minSize: 100,
     maxSize: 150,
     cell: ({ row }) => (
-      <div className="px-3">
+      <div className="px-1">
         <StatusBadge status={row.getValue("status")} />
       </div>
     ),
@@ -100,7 +100,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     minSize: 100,
     maxSize: 160,
     cell: ({ row }) => (
-      <div className="px-3">
+      <div className="px-1">
         <CurrencyCell amount={row.getValue("balance")} />
       </div>
     ),
@@ -112,7 +112,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     minSize: 120,
     maxSize: 180,
     cell: ({ row }) => (
-      <div className="truncate text-sm px-3">{row.getValue("department")}</div>
+      <div className="truncate text-xs px-1">{row.getValue("department")}</div>
     ),
   },
   {
@@ -122,7 +122,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     minSize: 120,
     maxSize: 180,
     cell: ({ row }) => (
-      <div className="truncate text-sm px-3">{row.getValue("role")}</div>
+      <div className="truncate text-xs px-1">{row.getValue("role")}</div>
     ),
   },
   {
@@ -132,7 +132,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     minSize: 100,
     maxSize: 150,
     cell: ({ row }) => (
-      <div className="px-3">
+      <div className="px-1">
         <DateCell date={row.getValue("joinDate")} formatType="short" />
       </div>
     ),
@@ -144,7 +144,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     minSize: 100,
     maxSize: 150,
     cell: ({ row }) => (
-      <div className="px-3">
+      <div className="px-1">
         <DateCell date={row.getValue("lastActive")} formatType="relative" />
       </div>
     ),
@@ -156,7 +156,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     minSize: 100,
     maxSize: 160,
     cell: ({ row }) => (
-      <div className="px-3">
+      <div className="px-1">
         <StatusBadge status={row.getValue("performance")} />
       </div>
     ),
@@ -168,7 +168,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     maxSize: 60,
     header: "",
     cell: ({ row }) => (
-      <div className="px-2">
+      <div className="px-1">
         <ActionButtons
           onView={() => console.log("View contact", row.original.id)}
           onEdit={() => console.log("Edit contact", row.original.id)}

@@ -34,7 +34,7 @@ export function StatusBadge({ status, variant = 'default' }: StatusBadgeProps) {
 
   return (
     <div className={cn(
-      'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
+      'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium',
       getVariantStyles()
     )}>
       {status}
