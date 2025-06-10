@@ -50,10 +50,7 @@ export function DataTable<T>({
       enableResizing: false,
       header: () => (
         <div className="h-8 flex items-center gap-2 px-4 min-w-[200px] border-r">
-          <div className="flex items-center gap-2">
-            <Plus className="h-4 w-4 text-muted-foreground" />
-            <span className="font-medium text-sm whitespace-nowrap">Add column</span>
-          </div>
+          <AddColumnMenu onAddColumn={(type) => console.log(`Add ${type} column`)} />
         </div>
       ),
       cell: ({ row }) => (
