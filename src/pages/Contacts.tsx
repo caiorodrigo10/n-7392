@@ -55,6 +55,11 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
              config.id === 'performance' ? 'Performance Rating' : config.id
     }));
 
+  const handleAddColumn = (columnType: string) => {
+    console.log(`Adding ${columnType} column`);
+    // TODO: Implement column addition logic
+  };
+
   return (
     <Layout isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed}>
       <div className="flex flex-col h-screen">
@@ -78,6 +83,7 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
             onShowColumn={handleShowColumn}
             onHideColumn={handleHideColumn}
             availableColumns={availableColumns}
+            onAddColumn={handleAddColumn}
           />
 
           <div className="flex-1 flex flex-col">

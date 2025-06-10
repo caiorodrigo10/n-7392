@@ -1,5 +1,5 @@
+
 import { useState } from "react";
-import { Plus } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -22,7 +22,6 @@ import {
 } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
 import { ColumnHeaderMenu } from "./ColumnHeaderMenu";
-import { AddColumnMenu } from "./AddColumnMenu";
 
 interface DataTableProps<T> {
   columns: ColumnDef<T>[];
@@ -55,26 +54,10 @@ export function DataTable<T>({
   const [hiddenColumns, setHiddenColumns] = useState<string[]>([]);
   const [columnLabels, setColumnLabels] = useState<Record<string, string>>({});
 
-  // Filtrar colunas ocultas
-  const visibleColumns = [
-    ...columns.filter(col => !hiddenColumns.includes(col.id || (col as any).accessorKey as string)),
-    {
-      id: 'addColumn',
-      size: 200,
-      minSize: 200,
-      maxSize: 1000,
-      enableResizing: false,
-      header: () => (
-        <div className="h-6 flex items-center gap-2 px-4 min-w-[200px] border-r">
-          <AddColumnMenu onAddColumn={(type) => console.log(`Add ${type} column`)} />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="h-full min-w-[200px] border-r" />
-      ),
-      footer: () => null
-    }
-  ];
+  // Filter out hidden columns
+  const visibleColumns = columns.filter(col => 
+    !hiddenColumns.includes(col.id || (col as any).accessorKey as string)
+  );
 
   // Define default column widths based on ID/type
   const columnsWithDefaultSize = visibleColumns.map(col => {
@@ -86,7 +69,7 @@ export function DataTable<T>({
     }
     // Special columns by accessorKey
     else if ((col as any).accessorKey === 'name') {
-      defaultSize = 250; // Adjusted size for smaller avatar
+      defaultSize = 250;
     }
     else if ((col as any).accessorKey === 'email' || (col as any).accessorKey === 'website') {
       defaultSize = 250;
@@ -102,7 +85,7 @@ export function DataTable<T>({
 
     return {
       ...col,
-      size: col.size || defaultSize, // Mantém o tamanho definido se já existir
+      size: col.size || defaultSize,
     };
   });
 
@@ -135,120 +118,124 @@ export function DataTable<T>({
   return (
     <div className="relative rounded-md border bg-white overflow-hidden">
       <div className="overflow-x-auto">
-        <div className="min-w-full border-separate border-spacing-0">
-          <Table className="table-fixed w-full">
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id} className="bg-white h-6">
-                  {headerGroup.headers.map((header) => (
-                    <TableHead
-                      key={header.id}
-                      className={cn(
-                        "relative select-none [&>.cursor-col-resize]:last:opacity-0 h-6 py-0",
-                        header.id === "select" && "w-[32px] px-0 sticky left-0 z-20 bg-white",
-                        header.id === "name" && "sticky left-[32px] z-20 bg-white",
-                        header.id !== "select" && "border-r border-b"
-                      )}
-                      style={{
-                        width: header.id === 'addColumn' ? '100%' : header.getSize(),
-                        flex: header.id === 'addColumn' ? '1' : undefined,
-                        height: '24px'
-                      }}
-                    >
-                      {header.isPlaceholder ? null : header.id === "select" || header.id === "addColumn" ? (
-                        flexRender(header.column.columnDef.header, header.getContext())
-                      ) : (
-                        <ColumnHeaderMenu 
-                          header={header}
-                          onEditLabel={() => {
-                            const columnId = header.id || (header.column as any).accessorKey as string;
-                            const currentLabel = columnLabels[columnId] || header.column.columnDef.header;
-                            const newLabel = window.prompt("Enter new column label:", currentLabel as string);
-                            
-                            if (newLabel && newLabel !== currentLabel) {
-                              setColumnLabels(prev => ({
-                                ...prev,
-                                [columnId]: newLabel
-                              }));
-                            }
-                          }}
-                          onHideColumn={() => {
-                            const columnId = header.id || (header.column as any).accessorKey as string;
-                            setHiddenColumns(prev => [...prev, columnId]);
-                          }}
-                        />
-                      )}
-                      {header.column.getCanResize() && header.id !== "select" && (
-                        <div
-                          onDoubleClick={() => header.column.resetSize()}
-                          onMouseDown={header.getResizeHandler()}
-                          onTouchStart={header.getResizeHandler()}
-                          className="absolute top-0 h-full w-4 cursor-col-resize user-select-none touch-none -right-2 z-10 flex justify-center before:absolute before:w-px before:inset-y-0 before:bg-border before:right-2"
-                        />
-                      )}
-                    </TableHead>
-                  ))}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                    className={cn("h-6", row.getIsSelected() && "bg-muted/50")}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className={cn(
-                          "truncate relative font-medium h-6 py-1",
-                          cell.column.id === "select" && "w-[32px] px-0 sticky left-0 z-20 bg-white",
-                          cell.column.id === "name" && "sticky left-[32px] z-20 bg-white",
-                          cell.column.id !== "select" && "border-r"
-                        )}
-                        style={{ width: cell.column.getSize() }}
-                      >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={columns.length} className="h-24 text-center">
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-            <TableFooter>
-              <TableRow className="border-t hover:bg-transparent h-6">
-                {table.getHeaderGroups()[0].headers.map((header) => (
-                  <TableCell
+        <Table className="w-full">
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id} className="bg-white h-6">
+                {headerGroup.headers.map((header) => (
+                  <TableHead
                     key={header.id}
                     className={cn(
-                      "py-1 text-xs text-muted-foreground font-normal relative h-6",
-                      header.id === "select" && "w-[32px] px-0 sticky left-0 z-20 bg-white",
-                      header.id === "name" && "sticky left-[32px] z-20 bg-white",
-                      header.id !== "select" && "before:absolute before:right-0 before:top-0 before:h-full before:w-px before:bg-border"
+                      "relative select-none h-6 py-0 border-r border-b",
+                      header.id === "select" && "w-[40px] px-0 sticky left-0 z-20 bg-white border-l-0"
                     )}
-                    style={{ width: header.getSize() }}
+                    style={{
+                      width: header.getSize(),
+                      minWidth: header.getSize(),
+                      maxWidth: header.getSize(),
+                    }}
                   >
-                    {header.id === "select" ? null : header.id === "name" ? (
-                      <div className="flex justify-end w-full overflow-hidden">
-                        <span className="text-xs text-muted-foreground truncate min-w-0">{table.getFilteredRowModel().rows.length} count</span>
+                    {header.isPlaceholder ? null : header.id === "select" ? (
+                      <div className="flex items-center justify-center h-full">
+                        {flexRender(header.column.columnDef.header, header.getContext())}
                       </div>
-                    ) : header.id === "addColumn" ? null : (
-                      <AddCalculationButton onClick={() => console.log(`Add calculation for ${header.id}`)} />
+                    ) : (
+                      <ColumnHeaderMenu 
+                        header={header}
+                        onEditLabel={() => {
+                          const columnId = header.id || (header.column as any).accessorKey as string;
+                          const currentLabel = columnLabels[columnId] || header.column.columnDef.header;
+                          const newLabel = window.prompt("Enter new column label:", currentLabel as string);
+                          
+                          if (newLabel && newLabel !== currentLabel) {
+                            setColumnLabels(prev => ({
+                              ...prev,
+                              [columnId]: newLabel
+                            }));
+                          }
+                        }}
+                        onHideColumn={() => {
+                          const columnId = header.id || (header.column as any).accessorKey as string;
+                          setHiddenColumns(prev => [...prev, columnId]);
+                        }}
+                      />
                     )}
-                  </TableCell>
+                    {header.column.getCanResize() && header.id !== "select" && (
+                      <div
+                        onDoubleClick={() => header.column.resetSize()}
+                        onMouseDown={header.getResizeHandler()}
+                        onTouchStart={header.getResizeHandler()}
+                        className="absolute top-0 h-full w-4 cursor-col-resize user-select-none touch-none -right-2 z-10 flex justify-center before:absolute before:w-px before:inset-y-0 before:bg-border before:right-2"
+                      />
+                    )}
+                  </TableHead>
                 ))}
               </TableRow>
-            </TableFooter>
-          </Table>
-        </div>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className={cn("h-6", row.getIsSelected() && "bg-muted/50")}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className={cn(
+                        "truncate relative font-medium h-6 py-1 border-r",
+                        cell.column.id === "select" && "w-[40px] px-0 sticky left-0 z-20 bg-white border-l-0"
+                      )}
+                      style={{ 
+                        width: cell.column.getSize(),
+                        minWidth: cell.column.getSize(),
+                        maxWidth: cell.column.getSize(),
+                      }}
+                    >
+                      {cell.column.id === "select" ? (
+                        <div className="flex items-center justify-center h-full">
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </div>
+                      ) : (
+                        flexRender(cell.column.columnDef.cell, cell.getContext())
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={visibleColumns.length} className="h-24 text-center">
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+          <TableFooter>
+            <TableRow className="border-t hover:bg-transparent h-6">
+              {table.getHeaderGroups()[0].headers.map((header) => (
+                <TableCell
+                  key={header.id}
+                  className={cn(
+                    "py-1 text-xs text-muted-foreground font-normal relative h-6 border-r",
+                    header.id === "select" && "w-[40px] px-0 sticky left-0 z-20 bg-white border-l-0"
+                  )}
+                  style={{ 
+                    width: header.getSize(),
+                    minWidth: header.getSize(),
+                    maxWidth: header.getSize(),
+                  }}
+                >
+                  {header.id === "select" ? null : (
+                    <AddCalculationButton onClick={() => console.log(`Add calculation for ${header.id}`)} />
+                  )}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableFooter>
+        </Table>
       </div>
       
       {showPagination && (
