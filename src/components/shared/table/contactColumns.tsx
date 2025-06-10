@@ -10,7 +10,7 @@ import { ResponsiveColumnHeader } from "./ResponsiveColumnHeader";
 
 export const contactColumnConfigs = [
   { id: "select", priority: "essential" as const, minWidth: 40, defaultWidth: 40, hideOnMobile: false },
-  { id: "name", priority: "essential" as const, minWidth: 180, defaultWidth: 220, hideOnMobile: false, isFixed: true },
+  { id: "name", priority: "essential" as const, minWidth: 180, defaultWidth: 220, hideOnMobile: false },
   { id: "email", priority: "important" as const, minWidth: 200, defaultWidth: 240, hideOnMobile: true },
   { id: "location", priority: "important" as const, minWidth: 150, defaultWidth: 180, hideOnMobile: true },
   { id: "status", priority: "essential" as const, minWidth: 100, defaultWidth: 120, hideOnMobile: false },
@@ -49,7 +49,6 @@ export const contactColumns: ColumnDef<Contact>[] = [
     enableResizing: false,
   },
   {
-    id: "name",
     header: "Full Name",
     accessorKey: "name",
     size: 220,

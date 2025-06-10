@@ -3,7 +3,6 @@ import React from 'react';
 import { SearchBar } from '../SearchBar';
 import { TableFilters, FilterGroup } from './TableFilters';
 import { ColumnVisibilityMenu } from './ColumnVisibilityMenu';
-import { AddColumnMenu } from '../AddColumnMenu';
 
 interface TableToolbarProps {
   searchValue: string;
@@ -18,7 +17,6 @@ interface TableToolbarProps {
   onShowColumn?: (columnId: string) => void;
   onHideColumn?: (columnId: string) => void;
   availableColumns?: Array<{ id: string; label: string; }>;
-  onAddColumn?: (columnType: string) => void;
 }
 
 export function TableToolbar({
@@ -34,7 +32,6 @@ export function TableToolbar({
   onShowColumn = () => {},
   onHideColumn = () => {},
   availableColumns = [],
-  onAddColumn = () => {},
 }: TableToolbarProps) {
   return (
     <div className="flex items-center justify-between gap-4 mb-4">
@@ -62,7 +59,6 @@ export function TableToolbar({
             onHideColumn={onHideColumn}
           />
         )}
-        <AddColumnMenu onAddColumn={onAddColumn} />
       </div>
       {rightContent && <div className="flex items-center gap-2">{rightContent}</div>}
     </div>
