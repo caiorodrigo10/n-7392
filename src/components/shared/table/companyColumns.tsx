@@ -6,7 +6,6 @@ import { Globe, Users } from "lucide-react";
 import { ScoreBadge } from "./cells/ScoreBadge";
 import { SocialLinks } from "./cells/SocialLinks";
 import { DateCell } from "./cells/DateCell";
-import { ActionButtons } from "./cells/ActionButtons";
 import { ResponsiveColumnHeader } from "./ResponsiveColumnHeader";
 
 export const companyColumnConfigs = [
@@ -18,7 +17,6 @@ export const companyColumnConfigs = [
   { id: "score", priority: "essential" as const, minWidth: 80, defaultWidth: 100, hideOnMobile: false },
   { id: "social", priority: "optional" as const, minWidth: 120, defaultWidth: 150, hideOnMobile: true, hideOnTablet: true },
   { id: "employees", priority: "optional" as const, minWidth: 100, defaultWidth: 120, hideOnMobile: true, hideOnTablet: true },
-  { id: "actions", priority: "essential" as const, minWidth: 60, defaultWidth: 60, hideOnMobile: false },
 ];
 
 export const companyColumns: ColumnDef<Company>[] = [
@@ -143,23 +141,5 @@ export const companyColumns: ColumnDef<Company>[] = [
         <span className="text-xs">{row.getValue("employees")}</span>
       </div>
     ),
-  },
-  {
-    id: "actions",
-    size: 60,
-    minSize: 60,
-    maxSize: 60,
-    header: "",
-    cell: ({ row }) => (
-      <div className="px-1">
-        <ActionButtons
-          onView={() => console.log("View company", row.original.id)}
-          onEdit={() => console.log("Edit company", row.original.id)}
-          onDelete={() => console.log("Delete company", row.original.id)}
-        />
-      </div>
-    ),
-    enableSorting: false,
-    enableResizing: false,
   },
 ];
