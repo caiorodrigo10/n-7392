@@ -11,7 +11,7 @@ import { ResponsiveColumnHeader } from "./ResponsiveColumnHeader";
 
 export const companyColumnConfigs = [
   { id: "select", priority: "essential" as const, minWidth: 40, defaultWidth: 40, hideOnMobile: false },
-  { id: "name", priority: "essential" as const, minWidth: 180, defaultWidth: 220, hideOnMobile: false },
+  { id: "name", priority: "essential" as const, minWidth: 180, defaultWidth: 220, hideOnMobile: false, isFixed: true },
   { id: "website", priority: "important" as const, minWidth: 200, defaultWidth: 240, hideOnMobile: true },
   { id: "lastActivity", priority: "important" as const, minWidth: 120, defaultWidth: 150, hideOnMobile: true },
   { id: "linkedContacts", priority: "important" as const, minWidth: 120, defaultWidth: 140, hideOnMobile: true },
@@ -47,6 +47,7 @@ export const companyColumns: ColumnDef<Company>[] = [
     enableResizing: false,
   },
   {
+    id: "name",
     header: "Company Name",
     accessorKey: "name",
     size: 220,

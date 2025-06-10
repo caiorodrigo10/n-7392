@@ -83,7 +83,6 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
             onShowColumn={handleShowColumn}
             onHideColumn={handleHideColumn}
             availableColumns={availableColumns}
-            onAddColumn={handleAddColumn}
           />
 
           <div className="flex-1 flex flex-col">
@@ -97,6 +96,7 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
                 totalItems={totalItems}
                 onPageChange={setCurrentPage}
                 onPageSizeChange={handlePageSizeChange}
+                onAddColumn={handleAddColumn}
                 showPagination={true}
               />
             </TableContainer>

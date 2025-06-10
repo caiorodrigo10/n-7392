@@ -10,6 +10,7 @@ import {
   TableFooter,
 } from "@/components/ui/table";
 import { AddCalculationButton } from "./AddCalculationButton";
+import { AddColumnMenu } from "./AddColumnMenu";
 import { TablePagination } from "./table/TablePagination";
 import {
   ColumnDef,
@@ -27,6 +28,7 @@ interface DataTableProps<T> {
   columns: ColumnDef<T>[];
   data: T[];
   onRowSelectionChange?: (selection: Record<string, boolean>) => void;
+  onAddColumn?: (columnType: string) => void;
   // Pagination props
   currentPage?: number;
   totalPages?: number;
@@ -41,6 +43,7 @@ export function DataTable<T>({
   columns, 
   data, 
   onRowSelectionChange,
+  onAddColumn = () => {},
   currentPage = 1,
   totalPages = 1,
   pageSize = 20,
@@ -59,13 +62,31 @@ export function DataTable<T>({
     !hiddenColumns.includes(col.id || (col as any).accessorKey as string)
   );
 
+  // Add the "Add Column" column at the end
+  const columnsWithAddColumn = [
+    ...visibleColumns,
+    {
+      id: "add-column",
+      size: 60,
+      minSize: 60,
+      maxSize: 60,
+      header: "",
+      cell: () => null,
+      enableSorting: false,
+      enableResizing: false,
+    } as ColumnDef<T>
+  ];
+
   // Define default column widths based on ID/type
-  const columnsWithDefaultSize = visibleColumns.map(col => {
+  const columnsWithDefaultSize = columnsWithAddColumn.map(col => {
     let defaultSize = 200; // Default size for most columns
 
     // Special columns by ID
     if (col.id === 'select') {
       defaultSize = 40;
+    }
+    else if (col.id === 'add-column') {
+      defaultSize = 60;
     }
     // Special columns by accessorKey
     else if ((col as any).accessorKey === 'name') {
@@ -127,7 +148,9 @@ export function DataTable<T>({
                     key={header.id}
                     className={cn(
                       "relative select-none h-6 py-0 border-r border-b",
-                      header.id === "select" && "w-[40px] px-0 sticky left-0 z-20 bg-white border-l-0"
+                      header.id === "select" && "w-[40px] px-0 sticky left-0 z-20 bg-white border-l-0",
+                      header.id === "name" && "sticky left-[40px] z-10 bg-white",
+                      header.id === "add-column" && "w-[60px] px-0"
                     )}
                     style={{
                       width: header.getSize(),
@@ -138,6 +161,10 @@ export function DataTable<T>({
                     {header.isPlaceholder ? null : header.id === "select" ? (
                       <div className="flex items-center justify-center h-full">
                         {flexRender(header.column.columnDef.header, header.getContext())}
+                      </div>
+                    ) : header.id === "add-column" ? (
+                      <div className="flex items-center justify-center h-full">
+                        <AddColumnMenu onAddColumn={onAddColumn} />
                       </div>
                     ) : (
                       <ColumnHeaderMenu 
@@ -160,7 +187,7 @@ export function DataTable<T>({
                         }}
                       />
                     )}
-                    {header.column.getCanResize() && header.id !== "select" && (
+                    {header.column.getCanResize() && header.id !== "select" && header.id !== "add-column" && (
                       <div
                         onDoubleClick={() => header.column.resetSize()}
                         onMouseDown={header.getResizeHandler()}
@@ -186,7 +213,9 @@ export function DataTable<T>({
                       key={cell.id}
                       className={cn(
                         "truncate relative font-medium h-6 py-1 border-r",
-                        cell.column.id === "select" && "w-[40px] px-0 sticky left-0 z-20 bg-white border-l-0"
+                        cell.column.id === "select" && "w-[40px] px-0 sticky left-0 z-20 bg-white border-l-0",
+                        cell.column.id === "name" && "sticky left-[40px] z-10 bg-white",
+                        cell.column.id === "add-column" && "w-[60px] px-0"
                       )}
                       style={{ 
                         width: cell.column.getSize(),
@@ -198,6 +227,8 @@ export function DataTable<T>({
                         <div className="flex items-center justify-center h-full">
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </div>
+                      ) : cell.column.id === "add-column" ? (
+                        null
                       ) : (
                         flexRender(cell.column.columnDef.cell, cell.getContext())
                       )}
@@ -207,7 +238,7 @@ export function DataTable<T>({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={visibleColumns.length} className="h-24 text-center">
+                <TableCell colSpan={columnsWithAddColumn.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>
@@ -220,7 +251,9 @@ export function DataTable<T>({
                   key={header.id}
                   className={cn(
                     "py-1 text-xs text-muted-foreground font-normal relative h-6 border-r",
-                    header.id === "select" && "w-[40px] px-0 sticky left-0 z-20 bg-white border-l-0"
+                    header.id === "select" && "w-[40px] px-0 sticky left-0 z-20 bg-white border-l-0",
+                    header.id === "name" && "sticky left-[40px] z-10 bg-white",
+                    header.id === "add-column" && "w-[60px] px-0"
                   )}
                   style={{ 
                     width: header.getSize(),
@@ -228,7 +261,7 @@ export function DataTable<T>({
                     maxWidth: header.getSize(),
                   }}
                 >
-                  {header.id === "select" ? null : (
+                  {header.id === "select" || header.id === "add-column" ? null : (
                     <AddCalculationButton onClick={() => console.log(`Add calculation for ${header.id}`)} />
                   )}
                 </TableCell>
