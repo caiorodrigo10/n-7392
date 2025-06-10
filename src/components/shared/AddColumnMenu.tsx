@@ -34,7 +34,7 @@ export function AddColumnMenu({ onAddColumn }: AddColumnMenuProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-56">
         {columnTypes.map((type, index) => (
-          <React.Fragment key={type.id}>
+          <div key={type.id}>
             <DropdownMenuItem
               onClick={() => onAddColumn?.(type.id)}
               className="flex flex-col items-start py-2"
@@ -43,7 +43,7 @@ export function AddColumnMenu({ onAddColumn }: AddColumnMenuProps) {
               <span className="text-xs text-muted-foreground">{type.description}</span>
             </DropdownMenuItem>
             {index < columnTypes.length - 1 && <DropdownMenuSeparator />}
-          </React.Fragment>
+          </div>
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
