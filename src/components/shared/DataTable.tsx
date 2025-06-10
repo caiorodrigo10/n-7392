@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import {
@@ -65,14 +66,16 @@ export function DataTable<T>({
       maxSize: 1000,
       enableResizing: false,
       header: () => (
-        <div className="h-6 flex items-center gap-2 px-4 min-w-[200px] border-r">
+        <div className="h-6 flex items-center gap-2 px-4 min-w-[200px]">
           <AddColumnMenu onAddColumn={(type) => console.log(`Add ${type} column`)} />
         </div>
       ),
-      cell: ({ row }) => (
-        <div className="h-full min-w-[200px] border-r" />
+      cell: () => (
+        <div className="h-full min-w-[200px]" />
       ),
-      footer: () => null
+      footer: () => (
+        <div className="h-full min-w-[200px]" />
+      )
     }
   ];
 
@@ -144,10 +147,10 @@ export function DataTable<T>({
                     <TableHead
                       key={header.id}
                       className={cn(
-                        "relative select-none [&>.cursor-col-resize]:last:opacity-0 h-6 py-0",
-                        header.id === "select" && "w-[32px] px-0 sticky left-0 z-20 bg-white",
-                        header.id === "name" && "sticky left-[32px] z-20 bg-white",
-                        header.id !== "select" && "border-r border-b"
+                        "relative select-none [&>.cursor-col-resize]:last:opacity-0 h-6 py-0 border-r border-b",
+                        header.id === "select" && "w-[32px] px-0 sticky left-0 z-20 bg-white border-r",
+                        header.id === "name" && "sticky left-[32px] z-20 bg-white border-r",
+                        header.id === "addColumn" && "border-r"
                       )}
                       style={{
                         width: header.id === 'addColumn' ? '100%' : header.getSize(),
@@ -178,7 +181,7 @@ export function DataTable<T>({
                           }}
                         />
                       )}
-                      {header.column.getCanResize() && header.id !== "select" && (
+                      {header.column.getCanResize() && header.id !== "select" && header.id !== "addColumn" && (
                         <div
                           onDoubleClick={() => header.column.resetSize()}
                           onMouseDown={header.getResizeHandler()}
@@ -203,10 +206,10 @@ export function DataTable<T>({
                       <TableCell
                         key={cell.id}
                         className={cn(
-                          "truncate relative font-medium h-6 py-1",
-                          cell.column.id === "select" && "w-[32px] px-0 sticky left-0 z-20 bg-white",
-                          cell.column.id === "name" && "sticky left-[32px] z-20 bg-white",
-                          cell.column.id !== "select" && "border-r"
+                          "truncate relative font-medium h-6 py-1 border-r",
+                          cell.column.id === "select" && "w-[32px] px-0 sticky left-0 z-20 bg-white border-r",
+                          cell.column.id === "name" && "sticky left-[32px] z-20 bg-white border-r",
+                          cell.column.id === "addColumn" && "border-r"
                         )}
                         style={{ width: cell.column.getSize() }}
                       >
@@ -229,10 +232,10 @@ export function DataTable<T>({
                   <TableCell
                     key={header.id}
                     className={cn(
-                      "py-1 text-xs text-muted-foreground font-normal relative h-6",
-                      header.id === "select" && "w-[32px] px-0 sticky left-0 z-20 bg-white",
-                      header.id === "name" && "sticky left-[32px] z-20 bg-white",
-                      header.id !== "select" && "before:absolute before:right-0 before:top-0 before:h-full before:w-px before:bg-border"
+                      "py-1 text-xs text-muted-foreground font-normal relative h-6 border-r",
+                      header.id === "select" && "w-[32px] px-0 sticky left-0 z-20 bg-white border-r",
+                      header.id === "name" && "sticky left-[32px] z-20 bg-white border-r",
+                      header.id === "addColumn" && "border-r"
                     )}
                     style={{ width: header.getSize() }}
                   >
