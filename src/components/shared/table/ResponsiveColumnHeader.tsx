@@ -21,7 +21,7 @@ interface ResponsiveColumnHeaderProps<T> {
   header: Header<T, unknown>;
   onEditLabel?: () => void;
   onHideColumn?: () => void;
-  onShowColumn?: () => void;
+  onShowColumn?: (columnId: string) => void;
   hiddenColumns?: string[];
   fullLabel?: string;
   abbreviatedLabel?: string;
