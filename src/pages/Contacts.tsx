@@ -40,7 +40,7 @@ const Contacts = ({ isCollapsed, setIsCollapsed }: ContactsProps) => {
   });
 
   const availableColumns = contactColumnConfigs
-    .filter(config => config.id !== 'select' && config.id !== 'actions')
+    .filter(config => config.id !== 'select')
     .map(config => ({
       id: config.id,
       label: config.id === 'name' ? 'Full Name' :

@@ -40,7 +40,7 @@ const Companies = ({ isCollapsed, setIsCollapsed }: CompaniesProps) => {
   });
 
   const availableColumns = companyColumnConfigs
-    .filter(config => config.id !== 'select' && config.id !== 'actions')
+    .filter(config => config.id !== 'select')
     .map(config => ({
       id: config.id,
       label: config.id === 'name' ? 'Company Name' :

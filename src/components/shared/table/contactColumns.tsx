@@ -5,7 +5,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { StatusBadge } from "./cells/StatusBadge";
 import { CurrencyCell } from "./cells/CurrencyCell";
 import { DateCell } from "./cells/DateCell";
-import { ActionButtons } from "./cells/ActionButtons";
 import { ResponsiveColumnHeader } from "./ResponsiveColumnHeader";
 
 export const contactColumnConfigs = [
@@ -20,7 +19,6 @@ export const contactColumnConfigs = [
   { id: "joinDate", priority: "optional" as const, minWidth: 100, defaultWidth: 130, hideOnMobile: true, hideOnTablet: true },
   { id: "lastActive", priority: "important" as const, minWidth: 100, defaultWidth: 130, hideOnMobile: true },
   { id: "performance", priority: "optional" as const, minWidth: 100, defaultWidth: 130, hideOnMobile: true, hideOnTablet: true },
-  { id: "actions", priority: "essential" as const, minWidth: 60, defaultWidth: 60, hideOnMobile: false },
 ];
 
 export const contactColumns: ColumnDef<Contact>[] = [
@@ -160,23 +158,5 @@ export const contactColumns: ColumnDef<Contact>[] = [
         <StatusBadge status={row.getValue("performance")} />
       </div>
     ),
-  },
-  {
-    id: "actions",
-    size: 60,
-    minSize: 60,
-    maxSize: 60,
-    header: "",
-    cell: ({ row }) => (
-      <div className="px-1">
-        <ActionButtons
-          onView={() => console.log("View contact", row.original.id)}
-          onEdit={() => console.log("Edit contact", row.original.id)}
-          onDelete={() => console.log("Delete contact", row.original.id)}
-        />
-      </div>
-    ),
-    enableSorting: false,
-    enableResizing: false,
   },
 ];
