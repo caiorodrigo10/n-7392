@@ -6,17 +6,35 @@ import { StatusBadge } from "./cells/StatusBadge";
 import { CurrencyCell } from "./cells/CurrencyCell";
 import { DateCell } from "./cells/DateCell";
 import { ActionButtons } from "./cells/ActionButtons";
+import { ResponsiveColumnHeader } from "./ResponsiveColumnHeader";
+
+export const contactColumnConfigs = [
+  { id: "select", priority: "essential" as const, minWidth: 40, defaultWidth: 40, hideOnMobile: false },
+  { id: "name", priority: "essential" as const, minWidth: 180, defaultWidth: 220, hideOnMobile: false },
+  { id: "email", priority: "important" as const, minWidth: 200, defaultWidth: 240, hideOnMobile: true },
+  { id: "location", priority: "important" as const, minWidth: 150, defaultWidth: 180, hideOnMobile: true },
+  { id: "status", priority: "essential" as const, minWidth: 100, defaultWidth: 120, hideOnMobile: false },
+  { id: "balance", priority: "important" as const, minWidth: 100, defaultWidth: 130, hideOnMobile: true },
+  { id: "department", priority: "optional" as const, minWidth: 120, defaultWidth: 150, hideOnMobile: true, hideOnTablet: true },
+  { id: "role", priority: "optional" as const, minWidth: 120, defaultWidth: 150, hideOnMobile: true, hideOnTablet: true },
+  { id: "joinDate", priority: "optional" as const, minWidth: 100, defaultWidth: 130, hideOnMobile: true, hideOnTablet: true },
+  { id: "lastActive", priority: "important" as const, minWidth: 100, defaultWidth: 130, hideOnMobile: true },
+  { id: "performance", priority: "optional" as const, minWidth: 100, defaultWidth: 130, hideOnMobile: true, hideOnTablet: true },
+  { id: "actions", priority: "essential" as const, minWidth: 60, defaultWidth: 60, hideOnMobile: false },
+];
 
 export const contactColumns: ColumnDef<Contact>[] = [
   {
     id: "select",
     size: 40,
+    minSize: 40,
+    maxSize: 40,
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
-        className="translate-y-[2px] ml-[3px]"
+        className="translate-y-[2px] ml-[6px]"
       />
     ),
     cell: ({ row }) => (
@@ -24,105 +42,199 @@ export const contactColumns: ColumnDef<Contact>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
-        className="translate-y-[2px] ml-[3px]"
+        className="translate-y-[2px] ml-[6px]"
       />
     ),
     enableSorting: false,
     enableResizing: false,
   },
   {
-    header: "Name",
+    header: ({ header }) => (
+      <ResponsiveColumnHeader
+        header={header}
+        fullLabel="Full Name"
+        abbreviatedLabel="Name"
+      />
+    ),
     accessorKey: "name",
-    size: 250,
+    size: 220,
+    minSize: 180,
+    maxSize: 300,
     cell: ({ row }) => (
-      <div className="truncate font-medium">{row.getValue("name")}</div>
+      <div className="truncate font-medium px-3">{row.getValue("name")}</div>
     ),
   },
   {
-    header: "Email",
+    header: ({ header }) => (
+      <ResponsiveColumnHeader
+        header={header}
+        fullLabel="Email Address"
+        abbreviatedLabel="Email"
+      />
+    ),
     accessorKey: "email",
-    size: 250,
+    size: 240,
+    minSize: 200,
+    maxSize: 300,
     cell: ({ row }) => (
-      <div className="truncate text-sm">{row.getValue("email")}</div>
+      <div className="truncate text-sm px-3">{row.getValue("email")}</div>
     ),
   },
   {
-    header: "Location",
+    header: ({ header }) => (
+      <ResponsiveColumnHeader
+        header={header}
+        fullLabel="Location"
+        abbreviatedLabel="Location"
+      />
+    ),
     accessorKey: "location",
-    size: 200,
+    size: 180,
+    minSize: 150,
+    maxSize: 220,
     cell: ({ row }) => (
-      <div className="truncate">
+      <div className="truncate px-3">
         <span className="text-lg leading-none mr-2">{row.original.flag}</span>
         <span className="text-sm">{row.getValue("location")}</span>
       </div>
     ),
   },
   {
-    header: "Status",
+    header: ({ header }) => (
+      <ResponsiveColumnHeader
+        header={header}
+        fullLabel="Status"
+        abbreviatedLabel="Status"
+      />
+    ),
     accessorKey: "status",
     size: 120,
+    minSize: 100,
+    maxSize: 150,
     cell: ({ row }) => (
-      <StatusBadge status={row.getValue("status")} />
+      <div className="px-3">
+        <StatusBadge status={row.getValue("status")} />
+      </div>
     ),
   },
   {
-    header: "Balance",
+    header: ({ header }) => (
+      <ResponsiveColumnHeader
+        header={header}
+        fullLabel="Account Balance"
+        abbreviatedLabel="Balance"
+      />
+    ),
     accessorKey: "balance",
     size: 130,
+    minSize: 100,
+    maxSize: 160,
     cell: ({ row }) => (
-      <CurrencyCell amount={row.getValue("balance")} />
+      <div className="px-3">
+        <CurrencyCell amount={row.getValue("balance")} />
+      </div>
     ),
   },
   {
-    header: "Department",
+    header: ({ header }) => (
+      <ResponsiveColumnHeader
+        header={header}
+        fullLabel="Department"
+        abbreviatedLabel="Dept"
+      />
+    ),
     accessorKey: "department",
     size: 150,
+    minSize: 120,
+    maxSize: 180,
     cell: ({ row }) => (
-      <div className="truncate text-sm">{row.getValue("department")}</div>
+      <div className="truncate text-sm px-3">{row.getValue("department")}</div>
     ),
   },
   {
-    header: "Role",
+    header: ({ header }) => (
+      <ResponsiveColumnHeader
+        header={header}
+        fullLabel="Job Role"
+        abbreviatedLabel="Role"
+      />
+    ),
     accessorKey: "role",
     size: 150,
+    minSize: 120,
+    maxSize: 180,
     cell: ({ row }) => (
-      <div className="truncate text-sm">{row.getValue("role")}</div>
+      <div className="truncate text-sm px-3">{row.getValue("role")}</div>
     ),
   },
   {
-    header: "Join Date",
+    header: ({ header }) => (
+      <ResponsiveColumnHeader
+        header={header}
+        fullLabel="Join Date"
+        abbreviatedLabel="Joined"
+      />
+    ),
     accessorKey: "joinDate",
     size: 130,
+    minSize: 100,
+    maxSize: 150,
     cell: ({ row }) => (
-      <DateCell date={row.getValue("joinDate")} formatType="short" />
+      <div className="px-3">
+        <DateCell date={row.getValue("joinDate")} formatType="short" />
+      </div>
     ),
   },
   {
-    header: "Last Active",
+    header: ({ header }) => (
+      <ResponsiveColumnHeader
+        header={header}
+        fullLabel="Last Active"
+        abbreviatedLabel="Active"
+      />
+    ),
     accessorKey: "lastActive",
     size: 130,
+    minSize: 100,
+    maxSize: 150,
     cell: ({ row }) => (
-      <DateCell date={row.getValue("lastActive")} formatType="relative" />
+      <div className="px-3">
+        <DateCell date={row.getValue("lastActive")} formatType="relative" />
+      </div>
     ),
   },
   {
-    header: "Performance",
+    header: ({ header }) => (
+      <ResponsiveColumnHeader
+        header={header}
+        fullLabel="Performance Rating"
+        abbreviatedLabel="Performance"
+      />
+    ),
     accessorKey: "performance",
     size: 130,
+    minSize: 100,
+    maxSize: 160,
     cell: ({ row }) => (
-      <StatusBadge status={row.getValue("performance")} />
+      <div className="px-3">
+        <StatusBadge status={row.getValue("performance")} />
+      </div>
     ),
   },
   {
     id: "actions",
-    size: 50,
+    size: 60,
+    minSize: 60,
+    maxSize: 60,
     header: "",
     cell: ({ row }) => (
-      <ActionButtons
-        onView={() => console.log("View contact", row.original.id)}
-        onEdit={() => console.log("Edit contact", row.original.id)}
-        onDelete={() => console.log("Delete contact", row.original.id)}
-      />
+      <div className="px-2">
+        <ActionButtons
+          onView={() => console.log("View contact", row.original.id)}
+          onEdit={() => console.log("Edit contact", row.original.id)}
+          onDelete={() => console.log("Delete contact", row.original.id)}
+        />
+      </div>
     ),
     enableSorting: false,
     enableResizing: false,

@@ -2,6 +2,7 @@
 import React from 'react';
 import { SearchBar } from '../SearchBar';
 import { TableFilters, FilterGroup } from './TableFilters';
+import { ColumnVisibilityMenu } from './ColumnVisibilityMenu';
 
 interface TableToolbarProps {
   searchValue: string;
@@ -12,6 +13,10 @@ interface TableToolbarProps {
   onFilterChange?: (groupId: string, values: string[]) => void;
   onClearFilters?: () => void;
   rightContent?: React.ReactNode;
+  hiddenColumns?: string[];
+  onShowColumn?: (columnId: string) => void;
+  onHideColumn?: (columnId: string) => void;
+  availableColumns?: Array<{ id: string; label: string; }>;
 }
 
 export function TableToolbar({
@@ -23,6 +28,10 @@ export function TableToolbar({
   onFilterChange = () => {},
   onClearFilters = () => {},
   rightContent,
+  hiddenColumns = [],
+  onShowColumn = () => {},
+  onHideColumn = () => {},
+  availableColumns = [],
 }: TableToolbarProps) {
   return (
     <div className="flex items-center justify-between gap-4 mb-4">
@@ -40,6 +49,14 @@ export function TableToolbar({
             selectedFilters={selectedFilters}
             onFilterChange={onFilterChange}
             onClearFilters={onClearFilters}
+          />
+        )}
+        {availableColumns.length > 0 && (
+          <ColumnVisibilityMenu
+            availableColumns={availableColumns}
+            hiddenColumns={hiddenColumns}
+            onShowColumn={onShowColumn}
+            onHideColumn={onHideColumn}
           />
         )}
       </div>
