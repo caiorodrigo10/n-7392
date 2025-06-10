@@ -1,12 +1,16 @@
+
 import { ColumnDef } from "@tanstack/react-table";
 import { Contact } from "@/types/shared";
 import { Checkbox } from "@/components/ui/checkbox";
-import { cn } from "@/lib/utils";
+import { StatusBadge } from "./cells/StatusBadge";
+import { CurrencyCell } from "./cells/CurrencyCell";
+import { DateCell } from "./cells/DateCell";
+import { ActionButtons } from "./cells/ActionButtons";
 
 export const contactColumns: ColumnDef<Contact>[] = [
   {
     id: "select",
-    size: 40, // Definindo um tamanho menor para a coluna de checkbox
+    size: 40,
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllPageRowsSelected()}
@@ -29,80 +33,98 @@ export const contactColumns: ColumnDef<Contact>[] = [
   {
     header: "Name",
     accessorKey: "name",
-    cell: ({ row }) => <div className="truncate font-medium">{row.getValue("name")}</div>,
+    size: 250,
+    cell: ({ row }) => (
+      <div className="truncate font-medium">{row.getValue("name")}</div>
+    ),
   },
   {
     header: "Email",
     accessorKey: "email",
+    size: 250,
+    cell: ({ row }) => (
+      <div className="truncate text-sm">{row.getValue("email")}</div>
+    ),
   },
   {
     header: "Location",
     accessorKey: "location",
+    size: 200,
     cell: ({ row }) => (
       <div className="truncate">
-        <span className="text-lg leading-none">{row.original.flag}</span> {row.getValue("location")}
+        <span className="text-lg leading-none mr-2">{row.original.flag}</span>
+        <span className="text-sm">{row.getValue("location")}</span>
       </div>
     ),
   },
   {
     header: "Status",
     accessorKey: "status",
+    size: 120,
     cell: ({ row }) => (
-      <div className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-        row.getValue("status") === "Active" 
-          ? "bg-green-100 text-green-700" 
-          : row.getValue("status") === "Pending"
-          ? "bg-yellow-100 text-yellow-700"
-          : "bg-red-100 text-red-700"
-      )}>
-        {row.getValue("status")}
-      </div>
+      <StatusBadge status={row.getValue("status")} />
     ),
   },
   {
     header: "Balance",
     accessorKey: "balance",
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("balance"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-      return formatted;
-    },
+    size: 130,
+    cell: ({ row }) => (
+      <CurrencyCell amount={row.getValue("balance")} />
+    ),
   },
   {
     header: "Department",
     accessorKey: "department",
+    size: 150,
+    cell: ({ row }) => (
+      <div className="truncate text-sm">{row.getValue("department")}</div>
+    ),
   },
   {
     header: "Role",
     accessorKey: "role",
+    size: 150,
+    cell: ({ row }) => (
+      <div className="truncate text-sm">{row.getValue("role")}</div>
+    ),
   },
   {
     header: "Join Date",
     accessorKey: "joinDate",
+    size: 130,
+    cell: ({ row }) => (
+      <DateCell date={row.getValue("joinDate")} formatType="short" />
+    ),
   },
   {
     header: "Last Active",
     accessorKey: "lastActive",
+    size: 130,
+    cell: ({ row }) => (
+      <DateCell date={row.getValue("lastActive")} formatType="relative" />
+    ),
   },
   {
     header: "Performance",
     accessorKey: "performance",
+    size: 130,
     cell: ({ row }) => (
-      <div className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-        {
-          "bg-green-100 text-green-700": row.getValue("performance") === "Excellent",
-          "bg-blue-100 text-blue-700": row.getValue("performance") === "Good",
-          "bg-yellow-100 text-yellow-700": row.getValue("performance") === "Average",
-          "bg-red-100 text-red-700": row.getValue("performance") === "Poor",
-        }
-      )}>
-        {row.getValue("performance")}
-      </div>
+      <StatusBadge status={row.getValue("performance")} />
     ),
+  },
+  {
+    id: "actions",
+    size: 50,
+    header: "",
+    cell: ({ row }) => (
+      <ActionButtons
+        onView={() => console.log("View contact", row.original.id)}
+        onEdit={() => console.log("Edit contact", row.original.id)}
+        onDelete={() => console.log("Delete contact", row.original.id)}
+      />
+    ),
+    enableSorting: false,
+    enableResizing: false,
   },
 ];

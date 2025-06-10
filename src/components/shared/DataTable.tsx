@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import {
@@ -41,7 +42,7 @@ export function DataTable<T>({
 
   // Filtrar colunas ocultas
   const visibleColumns = [
-    ...columns.filter(col => !hiddenColumns.includes(col.id || col.accessorKey as string)),
+    ...columns.filter(col => !hiddenColumns.includes(col.id || (col as any).accessorKey as string)),
     {
       id: 'addColumn',
       size: 200,
@@ -69,16 +70,16 @@ export function DataTable<T>({
       defaultSize = 40;
     }
     // Special columns by accessorKey
-    else if (col.accessorKey === 'name') {
+    else if ((col as any).accessorKey === 'name') {
       defaultSize = 250; // Adjusted size for smaller avatar
     }
-    else if (col.accessorKey === 'email' || col.accessorKey === 'website') {
+    else if ((col as any).accessorKey === 'email' || (col as any).accessorKey === 'website') {
       defaultSize = 250;
     }
     // Columns with badges/tags
     else if (
-      col.accessorKey === 'status' || 
-      col.accessorKey === 'performance' ||
+      (col as any).accessorKey === 'status' || 
+      (col as any).accessorKey === 'performance' ||
       (typeof col.cell === 'function' && col.cell.toString().includes('rounded-full'))
     ) {
       defaultSize = 180;
@@ -145,7 +146,7 @@ export function DataTable<T>({
                   <ColumnHeaderMenu 
                     header={header}
                     onEditLabel={() => {
-                      const columnId = header.id || header.column.accessorKey as string;
+                      const columnId = header.id || (header.column as any).accessorKey as string;
                       const currentLabel = columnLabels[columnId] || header.column.columnDef.header;
                       const newLabel = window.prompt("Enter new column label:", currentLabel as string);
                       
@@ -157,7 +158,7 @@ export function DataTable<T>({
                       }
                     }}
                     onHideColumn={() => {
-                      const columnId = header.id || header.column.accessorKey as string;
+                      const columnId = header.id || (header.column as any).accessorKey as string;
                       setHiddenColumns(prev => [...prev, columnId]);
                     }}
                   />
